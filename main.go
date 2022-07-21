@@ -13,12 +13,14 @@ func main() {
 
 	router.LoadHTMLGlob("templates/**/*")
 
+	// Render the home page at the root of the website
 	router.GET("/", func(c *gin.Context) {
 		c.HTML(http.StatusOK, "home/index.tmpl", gin.H {
 			"title": "Home Page",
 		})
 	})
 
+	// Render the about page at the route "/about"
 	router.GET("/about", func(c *gin.Context) {
 		c.HTML(http.StatusOK, "about/index.tmpl", gin.H {
 			"title": "About Page",
@@ -46,7 +48,8 @@ func main() {
 	db.Model(&product).Updates(models.Product{Price: 200, Name: "Shampoo"}) // non-zero fields
 
 	// Delete - delete product
-	//db.Delete(&product, 1)
+	db.Delete(&product, 1)
 
-	router.Run(":8080") // listen and serve on localhost:8080
+	// listen and serve on localhost:8080
+	router.Run(":8080") 
 }
