@@ -5,7 +5,7 @@ import (
 
 	"github.com/gin-gonic/gin"
 
-	"gin-experiment/models"
+	"go-web-app-experiment/models"
 )
 
 func main() {

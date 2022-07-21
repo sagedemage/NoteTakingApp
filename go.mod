@@ -1,4 +1,4 @@
-module gin-experiment
+module go-web-app-experiment
 
 go 1.18
 
