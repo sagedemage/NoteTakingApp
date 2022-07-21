@@ -2,6 +2,10 @@ body {
 	/* top and buttom margins, 
 	 * left and right margins 
 	 */
-	margin: 10% 20%;
-	font-size: 200%;
+	margin: 2% 12%;
+	font-size: 1.2em;
+}
+
+#copyright {
+	font-size: 0.9em;
 }

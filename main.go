@@ -13,6 +13,8 @@ func main() {
 
 	router.LoadHTMLGlob("templates/**/*")
 
+	router.Static("/static", "./static/")
+
 	// Render the home page at the root of the website
 	router.GET("/", func(c *gin.Context) {
 		c.HTML(http.StatusOK, "home/index.tmpl", gin.H {
