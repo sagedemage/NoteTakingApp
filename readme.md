@@ -16,3 +16,6 @@ go run -v .
 * **gorm**
 	* [repository](https://github.com/go-gorm/gorm)
 	* [website](https://gorm.io/)
+
+## Resources
+* [Creating Reusable Templates](https://chenyitian.gitbooks.io/gin-tutorials/content/gin/8.html)
