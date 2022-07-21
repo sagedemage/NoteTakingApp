@@ -8,11 +8,11 @@ go run -v .
 ```
 
 ## Frameworks:
-* gin
+* **gin**
 	* [repository](https://github.com/gin-gonic/gin)
 	* [website](https://gin-gonic.com/)
 
 ## Libraries:
-* gorm
+* **gorm**
 	* [repository](https://github.com/go-gorm/gorm)
 	* [website](https://gorm.io/)
