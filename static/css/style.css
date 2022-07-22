@@ -1,0 +1,17 @@
+/* style css file */
+
+article, footer {
+	/* top and buttom margins, 
+	 * left and right margins 
+	 */
+	margin: 2% 12%;
+	font-size: 1.2em;
+}
+
+.navbar {
+	padding-left: 2%;
+}
+
+#copyright {
+	font-size: 0.9em;
+}
