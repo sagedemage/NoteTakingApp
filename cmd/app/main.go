@@ -5,15 +5,15 @@ import (
 
 	"github.com/gin-gonic/gin"
 
-	"go-web-app-experiment/models"
+	"go-web-app-experiment/cmd/app/models"
 )
 
 func main() {
 	router := gin.Default()
 
-	router.LoadHTMLGlob("templates/**/*")
+	router.LoadHTMLGlob("cmd/app/templates/**/*")
 
-	router.Static("/static", "./static/")
+	router.Static("/static", "cmd/app/static/")
 
 	// Render the home page at the root of the website
 	router.GET("/", func(c *gin.Context) {
