@@ -2,9 +2,9 @@
 
 Help() {
     echo "-h	help"
-    echo "-b	compile the project"
+    echo "-b	build the project"
 	echo "-e	execute the project binary"
-    echo "-r	compile and run the project"
+    echo "-r	build and run the project"
 }
 
 while getopts ":behr" arg; do
@@ -14,13 +14,13 @@ while getopts ":behr" arg; do
             Help
             exit;;
         b)
-			go build -o build/out cmd/app/*.go
+			go build -o build/out -v cmd/app/*.go
             exit;;
 		e)
 			./build/out
 			exit;;
 		r) 
-			go run cmd/app/*.go
+			go run -v cmd/app/*.go
 			exit;;
         \?)
             echo "Invalid option: pass -h for help"

@@ -2,9 +2,39 @@
 
 Lets go and have some fun learning about the go programming language while using the Gin web framework.
 
-## Run the Web Application
+## Building the Project
+
+Make the script executable
 ```
-go run -v .
+chmod +x build.sh
+```
+
+Pass -h flag to get help with this script
+```
+./build -h
+```
+
+Output:
+```
+-h	help
+-b	build the project
+-e	execute the project binary
+-r	build and run the project
+```
+
+To build the project, pass the -b flag
+```
+./build.sh -b
+```
+
+To execute the project binary, pass the -e flag
+```
+./build.sh -e
+```
+
+To build and run the project, pass the -r flag
+```
+./build.sh -r
 ```
 
 ## Frameworks:
