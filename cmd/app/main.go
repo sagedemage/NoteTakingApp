@@ -11,6 +11,8 @@ import (
 func main() {
 	router := gin.Default()
 
+	router.SetTrustedProxies(nil)
+
 	router.LoadHTMLGlob("cmd/app/templates/**/*")
 
 	router.Static("/static", "cmd/app/static/")
