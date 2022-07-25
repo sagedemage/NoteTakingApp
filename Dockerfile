@@ -22,7 +22,7 @@ RUN go get -u gorm.io/driver/sqlite
 
 COPY cmd/app/*.go ./
 
-RUN go build -o ./out
+RUN go build -o out
 
 EXPOSE 8080
 

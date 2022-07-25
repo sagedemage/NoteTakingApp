@@ -50,3 +50,5 @@ To build and run the project, pass the -r flag
 ## Resources
 * [Creating Reusable Templates](https://chenyitian.gitbooks.io/gin-tutorials/content/gin/8.html)
 * [Using CSS with Gin](https://universalglue.dev/posts/using-css-with-gin/)
+* [Building a Docker container for Golang code](https://golangshowcase.com/question/building-a-docker-container-for-golang-code-package-package_name-is-not-in-goroot)
+* [go-docker-compose](https://github.com/callicoder/go-docker-compose/blob/master/docker-compose.yml)
