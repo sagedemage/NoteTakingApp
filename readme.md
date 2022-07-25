@@ -3,39 +3,17 @@
 Lets go and have some fun learning about the go programming language while using the Gin web framework.
 
 ## Building the Project
-
-Make the script executable
+Build and Run Using Docker Compose (Option 1)
 ```
-chmod +x build.sh
-```
-
-Pass -h flag to get help with this script
-```
-./build -h
+docker-compose build
+docker-compose up
 ```
 
-Output:
+Quick Run (Option 2)
 ```
--h	help
--b	build the project
--e	execute the project binary
--r	build and run the project
+go run -v cmd/app/*
 ```
-
-To build the project, pass the -b flag
-```
-./build.sh -b
-```
-
-To execute the project binary, pass the -e flag
-```
-./build.sh -e
-```
-
-To build and run the project, pass the -r flag
-```
-./build.sh -r
-```
+***Note***: *Quick run is useful if you want to quickly run the project without docker*
 
 ## Frameworks:
 * **gin**
@@ -50,3 +28,5 @@ To build and run the project, pass the -r flag
 ## Resources
 * [Creating Reusable Templates](https://chenyitian.gitbooks.io/gin-tutorials/content/gin/8.html)
 * [Using CSS with Gin](https://universalglue.dev/posts/using-css-with-gin/)
+* [Building a Docker container for Golang code](https://golangshowcase.com/question/building-a-docker-container-for-golang-code-package-package_name-is-not-in-goroot)
+* [go-docker-compose](https://github.com/callicoder/go-docker-compose/blob/master/docker-compose.yml)
