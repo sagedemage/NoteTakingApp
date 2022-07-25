@@ -6,6 +6,8 @@ Lets go and have some fun learning about the go programming language while using
 Build and Run Using Docker Compose (Option 1)
 ```
 docker-compose build
+```
+```
 docker-compose up
 ```
 
@@ -13,7 +15,7 @@ Quick Run (Option 2)
 ```
 go run -v cmd/app/*
 ```
-***Note***: *Quick run is useful if you want to quickly run the project without docker*
+***Note***: *Quick run is useful if you want to quickly run the project without docker.*
 
 ## Frameworks:
 * **gin**
