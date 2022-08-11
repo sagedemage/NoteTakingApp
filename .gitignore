@@ -1,4 +1,5 @@
 build
-concept-idea
 *.db
+*.kra
+*~
 
