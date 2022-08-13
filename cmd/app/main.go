@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -65,14 +64,9 @@ func main() {
 
 	// Render the table at route "/table"
 	router.GET("/view-table", func(c *gin.Context) {
-		// View all entries of a table
-		var products []models.Product // list
-
-		db.Find(&products)
-		
-		for _, account := range products {
-			fmt.Println(account.Name, account.Price)
-		}
+		/* View all the database entries as a table */
+		// entries of the product database
+		products := models.GetDatabase(db)
 
 		c.HTML(http.StatusOK, "table/view.tmpl", gin.H {
 			"title": "Table",

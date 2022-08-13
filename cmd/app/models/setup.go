@@ -12,6 +12,7 @@ type Product struct {
 }
 
 func OpenDatabase(database_path string)(*gorm.DB) {
+	/* Open the Database */
 	db, err := gorm.Open(sqlite.Open(database_path), &gorm.Config{})
 	
 	if err != nil {
@@ -19,4 +20,12 @@ func OpenDatabase(database_path string)(*gorm.DB) {
 	}
 	
 	return db
+}
+
+func GetDatabase(db *gorm.DB)([]Product) {
+	/* Get all the entries of the Database */
+	var products []Product // products list
+	db.Find(&products) // find entries of products database
+
+	return products
 }
