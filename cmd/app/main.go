@@ -9,13 +9,20 @@ import (
 )
 
 func main() {
+	// create the router
 	router := gin.Default()
 
-	router.SetTrustedProxies(nil)
-
+	// Load HTML templates
 	router.LoadHTMLGlob("cmd/app/templates/**/*")
 
+	// Load static files (for css, and etc)
 	router.Static("/static", "cmd/app/static/")
+
+	// Open database
+	db := models.OpenDatabase("database/test.db")
+
+	// Migrate the schema
+	db.AutoMigrate(&models.Product{})
 
 	// Render the home page at the root of the website
 	router.GET("/", func(c *gin.Context) {
@@ -31,19 +38,17 @@ func main() {
 		})
 	})
 
-	// Open database
-	db := models.OpenDatabase("database/test.db")
-
-	// Migrate the schema
-	db.AutoMigrate(&models.Product{})
-
 	// Create 
 	db.Create(&models.Product{Name: "Shampoo", Price: 20})
 
-	// Read
+	// Product model
 	var product models.Product
-	db.First(&product, 1) // find product with integer primary key
-	db.First(&product, "code = ?", "Shampoo") // find product with name Shampoo
+	
+	/* Read single object from the database */
+	// find the product with integer primary key
+	db.First(&product, 1) 
+	// find product with name Shampoo
+	db.First(&product, "code = ?", "Shampoo") 
 
 	// Update - upgrade product's price to 200
 	db.Model(&product).Update("Price", 200)
