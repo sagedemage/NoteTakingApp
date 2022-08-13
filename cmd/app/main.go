@@ -74,7 +74,7 @@ func main() {
 			fmt.Println(account.Name, account.Price)
 		}
 
-		c.HTML(http.StatusOK, "table/index.tmpl", gin.H {
+		c.HTML(http.StatusOK, "table/view.tmpl", gin.H {
 			"title": "Table",
 			"list": products,
 		})
