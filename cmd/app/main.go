@@ -78,14 +78,23 @@ func main() {
 
 		// Parse Form Data
 		c.Request.ParseForm()
-		
-		/* Get Title and secription from the Post request */
-		var id, err = strconv.Atoi(c.Request.PostFormValue("id"))
-		if err != nil {
-			panic(err)
-		}
 
-		db.Delete(&models.Note{}, id)
+		if c.Request.PostFormValue("delete") != "" {
+			/* Get Title and secription from the Post request */
+			var id, err = strconv.Atoi(c.Request.PostFormValue("delete"))
+			if err != nil {
+				panic(err)
+			}
+			// delete entry
+			db.Delete(&models.Note{}, id)
+		} else if c.Request.PostFormValue("edit") != "" {
+			var id, err = strconv.Atoi(c.Request.PostFormValue("edit"))
+			if err != nil {
+				panic(err)
+			}
+			// delete entry
+			db.Delete(&models.Note{}, id)
+		}
 
 		// Redirect to the table view page
 		c.Redirect(http.StatusFound, "/view-notes")
