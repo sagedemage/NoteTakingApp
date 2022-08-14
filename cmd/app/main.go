@@ -2,6 +2,7 @@ package main
 
 import (
 	"net/http"
+	"strconv"
 
 	"github.com/gin-gonic/gin"
 
@@ -69,6 +70,25 @@ func main() {
 			"title": "Table",
 			"list": notes,
 		})
+	})
+
+	// Render the view table page at route "/table"
+	router.POST("/view-notes", func(c *gin.Context) {
+		/* View all the database entries as a table */
+
+		// Parse Form Data
+		c.Request.ParseForm()
+		
+		/* Get Title and secription from the Post request */
+		var id, err = strconv.Atoi(c.Request.PostFormValue("id"))
+		if err != nil {
+			panic(err)
+		}
+
+		db.Delete(&models.Note{}, id)
+
+		// Redirect to the table view page
+		c.Redirect(http.StatusFound, "/view-notes")
 	})
 
 	// Render the new entry page at route "/new-entry"
