@@ -85,8 +85,13 @@ func main() {
 	})
 
 	router.POST("/add-note", func(c *gin.Context) {
-		title := "title"
-		description := "description"
+		//title := "title"
+		//description := "description"
+
+		c.Request.ParseForm()
+
+		title := c.Request.PostFormValue("title")
+		description := c.Request.PostFormValue("description")
 
 		c.JSON(200, gin.H{
 			"title": title,
