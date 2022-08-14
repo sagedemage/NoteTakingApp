@@ -2,11 +2,12 @@ package main
 
 import (
 	"net/http"
-	"strconv"
 
 	"github.com/gin-gonic/gin"
 
 	"go-web-app-experiment/cmd/app/models"
+
+	"go-web-app-experiment/cmd/app/form"
 )
 
 func main() {
@@ -56,32 +57,31 @@ func main() {
 
 	// Render the view table page at route "/table"
 	router.POST("/view-notes", func(c *gin.Context) {
-		/* View all the database entries as a table */
+		/* Handle Delete and Edit Button POST Requests 
+		on the view notes page */
 
 		// Parse Form Data
 		c.Request.ParseForm()
 
-		var id int
-		var err error
+		if form.GetFormValue(c, "delete") != "" {
+			/* Delete Note Post request */
 
-		if c.Request.PostFormValue("delete") != "" {
-			/* Get Title and secription from the Post request */
-			id, err = strconv.Atoi(c.Request.PostFormValue("delete"))
-			if err != nil {
-				panic(err)
-			}
+			// get entry id for the deleting an entry
+			id := form.GetFormValue(c, "delete")
+
 			// delete entry
 			db.Delete(&models.Note{}, id)
 
 			// redirect to notes view page
 			c.Redirect(http.StatusFound, "/view-notes")
-		} else if c.Request.PostFormValue("edit") != "" {
-			id, err = strconv.Atoi(c.Request.PostFormValue("edit"))
-			if err != nil {
-				panic(err)
-			}
+		} else if form.GetFormValue(c, "edit") != "" {
+			/* Edit Note Post Request */
+
+			// get entry id for the editing an entry
+			id := form.GetFormValue(c, "edit")
+
 			// set id of entry to edit
-			c.SetCookie("id", c.Request.PostFormValue("edit"), 10, "/edit-note", c.Request.URL.Hostname(), false, true)
+			c.SetCookie("id", id, 10, "/edit-note", c.Request.URL.Hostname(), false, true)
 
 			// redirect to edit note
 			c.Redirect(http.StatusFound, "/edit-note")
@@ -103,9 +103,9 @@ func main() {
 		// Parse Form Data
 		c.Request.ParseForm()
 		
-		/* Get Title and secription from the Post request */
-		var title string = c.Request.PostFormValue("title")
-		var description string = c.Request.PostFormValue("description")
+		/* Get Title and description from the Post request */
+		var title string = form.GetFormValue(c, "title")
+		var description string = form.GetFormValue(c, "description")
 	
 		// Create entry // the issue
 		db.Create(&models.Note{Title: title, Description: description})
@@ -126,25 +126,16 @@ func main() {
 
 	// Get Form data from POST request
 	router.POST("/edit-note", func(c *gin.Context) {
+		/* Edit Note Post Request */
 		// Parse Form Data
 		c.Request.ParseForm()
 		
 		/* Get Title and secription from the Post request */
-		var title string = c.Request.PostFormValue("title")
-		var description string = c.Request.PostFormValue("description")
-
-		var cookie string // hold cookie data
-		var id int // id of entry
-		var err error
+		var title string = form.GetFormValue(c, "title")
+		var description string = form.GetFormValue(c, "description")
 
 		// Get cookie of the id value
-		cookie, err = c.Cookie("id")
-		if err != nil {
-			panic(err)
-		}
-
-		// Conert cookie id information as int
-		id, err = strconv.Atoi(cookie);
+		id, err := c.Cookie("id")
 		if err != nil {
 			panic(err)
 		}

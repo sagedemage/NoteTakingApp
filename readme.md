@@ -13,7 +13,7 @@ docker-compose up
 
 Quick Run (Option 2)
 ```
-go run -v cmd/app/*
+go run -v cmd/app/*.go
 ```
 ***Note***: *Quick run is useful if you want to quickly run the project without docker.*
 
