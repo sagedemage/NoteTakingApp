@@ -62,7 +62,7 @@ func main() {
 		})
 	})
 
-	// Render the table at route "/table"
+	// Render the view table page at route "/table"
 	router.GET("/view-table", func(c *gin.Context) {
 		/* View all the database entries as a table */
 		// entries of the product database
@@ -72,6 +72,27 @@ func main() {
 			"title": "Table",
 			"list": products,
 		})
+	})
+
+	// Render the new entry page at route "/new-entry"
+	router.GET("/add-new-entry", func(c *gin.Context) {
+		/* View all the database entries as a table */
+		// entries of the product database
+
+		c.HTML(http.StatusOK, "table/new-note.tmpl", gin.H {
+			"title": "New Note",
+		})
+	})
+
+	router.POST("/add-note", func(c *gin.Context) {
+		title := "title"
+		description := "description"
+
+		c.JSON(200, gin.H{
+			"title": title,
+			"description": description,
+		})
+		
 	})
 
 	// listen and serve on localhost:8080
