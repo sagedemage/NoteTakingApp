@@ -60,7 +60,7 @@ func main() {
 	})
 
 	// Render the view table page at route "/table"
-	router.GET("/view-table", func(c *gin.Context) {
+	router.GET("/table-view", func(c *gin.Context) {
 		/* View all the database entries as a table */
 		// entries of the product database
 		notes := models.GetDatabase(db)
@@ -94,7 +94,7 @@ func main() {
 		db.Create(&models.Note{Title: title, Description: description})
 
 		// Redirect to the table view page
-		c.Redirect(http.StatusFound, "/view-table")
+		c.Redirect(http.StatusFound, "/table-view")
 	})
 
 	// listen and serve on localhost:8080
