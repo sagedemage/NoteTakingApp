@@ -150,21 +150,26 @@ func main() {
 		/* Get Title and secription from the Post request */
 		var title string = c.Request.PostFormValue("title")
 		var description string = c.Request.PostFormValue("description")
-		var id, err1 = c.Cookie("id") // edit
-		if err1 != nil {
-			panic(err1)
-		}
 
-		var entry_id, err = strconv.Atoi(id);
+		var cookie string // hold cookie data
+		var id int // id of entry
+		var err error
 
+		// Get cookie of the id value
+		cookie, err = c.Cookie("id")
 		if err != nil {
 			panic(err)
 		}
 
+		// Conert cookie id information as int
+		id, err = strconv.Atoi(cookie);
+		if err != nil {
+			panic(err)
+		}
+
+		/* Update the entry title and description by id */
 		var note = &models.Note{}
-
-		db.First(&note, entry_id) 
-
+		db.First(&note, id) 
 		db.Model(&note).Update("Title", title)
 		db.Model(&note).Update("Description", description)
 
