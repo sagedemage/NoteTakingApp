@@ -79,25 +79,31 @@ func main() {
 		// Parse Form Data
 		c.Request.ParseForm()
 
+		var id int
+		var err error
+
 		if c.Request.PostFormValue("delete") != "" {
 			/* Get Title and secription from the Post request */
-			var id, err = strconv.Atoi(c.Request.PostFormValue("delete"))
+			id, err = strconv.Atoi(c.Request.PostFormValue("delete"))
 			if err != nil {
 				panic(err)
 			}
 			// delete entry
 			db.Delete(&models.Note{}, id)
-		} else if c.Request.PostFormValue("edit") != "" {
-			var id, err = strconv.Atoi(c.Request.PostFormValue("edit"))
-			if err != nil {
-				panic(err)
-			}
-			// delete entry
-			db.Delete(&models.Note{}, id)
-		}
 
-		// Redirect to the table view page
-		c.Redirect(http.StatusFound, "/view-notes")
+			// redirect to notes view page
+			c.Redirect(http.StatusFound, "/view-notes")
+		} else if c.Request.PostFormValue("edit") != "" {
+			id, err = strconv.Atoi(c.Request.PostFormValue("edit"))
+			if err != nil {
+				panic(err)
+			}
+			// delete entry
+			//db.Delete(&models.Note{}, id)
+
+			// redirect to edit note
+			c.Redirect(http.StatusFound, "/edit-note")
+		}
 	})
 
 	// Render the new entry page at route "/new-entry"
@@ -112,6 +118,32 @@ func main() {
 
 	// Get Form data from POST request
 	router.POST("/add-new-note", func(c *gin.Context) {
+		// Parse Form Data
+		c.Request.ParseForm()
+		
+		/* Get Title and secription from the Post request */
+		var title string = c.Request.PostFormValue("title")
+		var description string = c.Request.PostFormValue("description")
+	
+		// Create entry // the issue
+		db.Create(&models.Note{Title: title, Description: description})
+
+		// Redirect to the table view page
+		c.Redirect(http.StatusFound, "/view-notes")
+	})
+
+	// Render the new entry page at route "/new-entry"
+	router.GET("/edit-note", func(c *gin.Context) {
+		/* View all the database entries as a table */
+		// entries of the product database
+
+		c.HTML(http.StatusOK, "notes/edit-note.tmpl", gin.H {
+			"title": "Edit Note",
+		})
+	})
+
+	// Get Form data from POST request
+	router.POST("/edit-note", func(c *gin.Context) {
 		// Parse Form Data
 		c.Request.ParseForm()
 		
