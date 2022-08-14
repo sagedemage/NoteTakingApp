@@ -92,6 +92,9 @@ func main() {
 	
 		// Create entry // the issue
 		db.Create(&models.Note{Title: title, Description: description})
+
+		// Redirect to the table view page
+		c.Redirect(http.StatusFound, "/view-table")
 	})
 
 	// listen and serve on localhost:8080
