@@ -28,24 +28,6 @@ func main() {
 	// Migrate the schema
 	db.AutoMigrate(&models.Note{})
 
-	// Product model
-	//var note models.Note
-
-	/* Read single object from the database */
-	// find the product with integer primary key
-	//db.First(&note, 1) 
-	// find product with name Shampoo
-	//db.First(&note, "code = ?", "Shampoo") 
-
-	// Update - upgrade product's price to 200
-	//db.Model(&note).Update("Best Shampoo", "johnson")
-
-	// Update - update multiple fields
-	//db.Model(&note).Updates(models.Note{Title: "Best Shampoos", Description: "Johnson Dove"}) // non-zero fields
-
-	// Delete - delete product
-	//db.Delete(&product, 1)
-
 	// Render the home page at the root of the website
 	router.GET("/", func(c *gin.Context) {
 		c.HTML(http.StatusOK, "home/index.tmpl", gin.H {
