@@ -142,9 +142,12 @@ func main() {
 
 		/* Update the entry title and description by id */
 		var note = &models.Note{}
+
+		// Find the first record that matches the id
 		db.First(&note, id) 
-		db.Model(&note).Update("Title", title)
-		db.Model(&note).Update("Description", description)
+
+		// Update Title and Description text
+		db.Model(&note).Updates(models.Note{Title: title, Description: description})
 
 		// Redirect to the table view page
 		c.Redirect(http.StatusFound, "/view-notes")
