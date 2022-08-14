@@ -98,8 +98,8 @@ func main() {
 			if err != nil {
 				panic(err)
 			}
-			// delete entry
-			//db.Delete(&models.Note{}, id)
+			// set id of entry to edit
+			c.SetCookie("id", c.Request.PostFormValue("edit"), 10, "/edit-note", c.Request.URL.Hostname(), false, true)
 
 			// redirect to edit note
 			c.Redirect(http.StatusFound, "/edit-note")
@@ -150,9 +150,19 @@ func main() {
 		/* Get Title and secription from the Post request */
 		var title string = c.Request.PostFormValue("title")
 		var description string = c.Request.PostFormValue("description")
+		var id, err = c.Cookie("id") // edit
+		if err != nil {
+			panic(err)
+		}
+
+		c.JSON(http.StatusOK, gin.H{
+      		"id": id,
+			"title": title,
+			"description": description,
+    	})
 	
 		// Create entry // the issue
-		db.Create(&models.Note{Title: title, Description: description})
+		//db.Create(&models.Note{Title: title, Description: description})
 
 		// Redirect to the table view page
 		c.Redirect(http.StatusFound, "/view-notes")
