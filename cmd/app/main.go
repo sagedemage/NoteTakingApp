@@ -25,25 +25,22 @@ func main() {
 	db := models.OpenDatabase("database/test.db")
 
 	// Migrate the schema
-	db.AutoMigrate(&models.Product{})
+	db.AutoMigrate(&models.Note{})
 
 	// Product model
-	var product models.Product
+	//var note models.Note
 
-	// Create 
-	//db.Create(&models.Product{Name: "Shampoo", Price: 30})
-	
 	/* Read single object from the database */
 	// find the product with integer primary key
-	db.First(&product, 1) 
+	//db.First(&note, 1) 
 	// find product with name Shampoo
-	db.First(&product, "code = ?", "Shampoo") 
+	//db.First(&note, "code = ?", "Shampoo") 
 
 	// Update - upgrade product's price to 200
-	db.Model(&product).Update("Price", 200)
+	//db.Model(&note).Update("Best Shampoo", "johnson")
 
 	// Update - update multiple fields
-	db.Model(&product).Updates(models.Product{Price: 200, Name: "Shampoo"}) // non-zero fields
+	//db.Model(&note).Updates(models.Note{Title: "Best Shampoos", Description: "Johnson Dove"}) // non-zero fields
 
 	// Delete - delete product
 	//db.Delete(&product, 1)
@@ -66,16 +63,16 @@ func main() {
 	router.GET("/view-table", func(c *gin.Context) {
 		/* View all the database entries as a table */
 		// entries of the product database
-		products := models.GetDatabase(db)
+		notes := models.GetDatabase(db)
 
 		c.HTML(http.StatusOK, "table/view.tmpl", gin.H {
 			"title": "Table",
-			"list": products,
+			"list": notes,
 		})
 	})
 
 	// Render the new entry page at route "/new-entry"
-	router.GET("/add-new-entry", func(c *gin.Context) {
+	router.GET("/add-new-note", func(c *gin.Context) {
 		/* View all the database entries as a table */
 		// entries of the product database
 
@@ -84,20 +81,17 @@ func main() {
 		})
 	})
 
-	router.POST("/add-note", func(c *gin.Context) {
-		//title := "title"
-		//description := "description"
-
+	// Get Form data from POST request
+	router.POST("/add-new-note", func(c *gin.Context) {
+		// Parse Form Data
 		c.Request.ParseForm()
-
-		title := c.Request.PostFormValue("title")
-		description := c.Request.PostFormValue("description")
-
-		c.JSON(200, gin.H{
-			"title": title,
-			"description": description,
-		})
 		
+		/* Get Title and secription from the Post request */
+		var title string = c.Request.PostFormValue("title")
+		var description string = c.Request.PostFormValue("description")
+	
+		// Create entry // the issue
+		db.Create(&models.Note{Title: title, Description: description})
 	})
 
 	// listen and serve on localhost:8080

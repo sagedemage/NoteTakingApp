@@ -7,16 +7,16 @@
 	<thead>
 		<tr>
 			<th scope="col">#</th>
-      		<th scope="col">Product Name</th>
-      		<th scope="col">Price</th>
+      		<th scope="col">Title</th>
+      		<th scope="col">Description</th>
     	</tr>
   	</thead>
 	<tbody>
 	{{ range .list  }}
 		<tr>
 			<th scope="row">{{ .ID }}</th>
-			<td>{{ .Name }}</td>
-			<td>{{ .Price }}</td>
+			<td>{{ .Title }}</td>
+			<td>{{ .Description }}</td>
     	</tr>
 	{{ end }}
 	</tbody>

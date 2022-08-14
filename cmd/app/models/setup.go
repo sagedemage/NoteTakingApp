@@ -5,10 +5,10 @@ import (
 	"gorm.io/driver/sqlite"
 )
 
-type Product struct {
+type Note struct {
 	gorm.Model
-	Name string
-	Price uint
+	Title string
+	Description string
 }
 
 func OpenDatabase(database_path string)(*gorm.DB) {
@@ -22,10 +22,10 @@ func OpenDatabase(database_path string)(*gorm.DB) {
 	return db
 }
 
-func GetDatabase(db *gorm.DB)([]Product) {
+func GetDatabase(db *gorm.DB)([]Note) {
 	/* Get all the entries of the Database */
-	var products []Product // products list
-	db.Find(&products) // find entries of products database
+	var notes []Note // products list
+	db.Find(&notes) // find entries of products database
 
-	return products
+	return notes
 }
