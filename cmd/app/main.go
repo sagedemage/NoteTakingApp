@@ -150,19 +150,23 @@ func main() {
 		/* Get Title and secription from the Post request */
 		var title string = c.Request.PostFormValue("title")
 		var description string = c.Request.PostFormValue("description")
-		var id, err = c.Cookie("id") // edit
+		var id, err1 = c.Cookie("id") // edit
+		if err1 != nil {
+			panic(err1)
+		}
+
+		var entry_id, err = strconv.Atoi(id);
+
 		if err != nil {
 			panic(err)
 		}
 
-		c.JSON(http.StatusOK, gin.H{
-      		"id": id,
-			"title": title,
-			"description": description,
-    	})
-	
-		// Create entry // the issue
-		//db.Create(&models.Note{Title: title, Description: description})
+		var note = &models.Note{}
+
+		db.First(&note, entry_id) 
+
+		db.Model(&note).Update("Title", title)
+		db.Model(&note).Update("Description", description)
 
 		// Redirect to the table view page
 		c.Redirect(http.StatusFound, "/view-notes")
