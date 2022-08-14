@@ -29,3 +29,15 @@ func GetDatabase(db *gorm.DB)([]Note) {
 
 	return notes
 }
+
+func UpdateEntries(db *gorm.DB, id string, title string, description string) {
+	/* Update the entry's title and description by id */
+	var note = &Note{}
+
+	// Find the first record that matches the id
+	db.First(&note, id) 
+
+	// Update Title and Description text
+	db.Model(&note).Updates(Note{Title: title, Description: description})
+}
+
