@@ -1,4 +1,4 @@
-# Note Taking App
+# Notebook App
 This is a note taking app. I create notes when learning new technologies and 
 remembering what was in my mind lasted time. My goal is is to create a note taking web app 
 I can use on my home server. I use raspberry pi as my home server.
