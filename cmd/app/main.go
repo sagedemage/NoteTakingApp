@@ -49,8 +49,8 @@ func main() {
 		// entries of the product database
 		notes := models.GetDatabase(db)
 
-		c.HTML(http.StatusOK, "notes/view-notes.tmpl", gin.H {
-			"title": "Table",
+		c.HTML(http.StatusOK, "notes/index.tmpl", gin.H {
+			"title": "Notes",
 			"list": notes,
 		})
 	})
