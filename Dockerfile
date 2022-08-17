@@ -25,13 +25,13 @@ RUN go get -u github.com/gin-gonic/gin \
 	gorm.io/driver/sqlite
 
 # Build the Go app
-RUN go build -o out
+RUN go build -o build/ -v ./cmd/app/...
 
 # Expose port 8080 to the outside world
 EXPOSE 8080
 
 # Run the executable
-CMD [ "./out" ]
+CMD [ "./build/app" ]
 
 
 
