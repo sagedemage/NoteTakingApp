@@ -20,7 +20,19 @@ Quick Run (Option 2)
 ```
 mage -v run
 ```
-***Note***: *Quick run is useful if you want to quickly run the project without docker.*
+***Note***: *Look at Mage build system installation below to run the command*
+
+## Mage build system Installation
+Install Mage build system
+```
+git clone https://github.com/magefile/mage
+cd mage
+go run bootstrap.go
+```
+Export go bin direcotory
+```
+export PATH="$PATH:$HOME/go/bin/"
+```
 
 ## Frameworks:
 * **gin**
