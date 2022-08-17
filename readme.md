@@ -29,7 +29,7 @@ git clone https://github.com/magefile/mage
 cd mage
 go run bootstrap.go
 ```
-Export go bin direcotory
+If on Linux, export the go bin direcotory
 ```
 export PATH="$PATH:$HOME/go/bin/"
 ```
