@@ -20,7 +20,7 @@ Quick Run (Option 2)
 ```
 mage -v run
 ```
-***Note***: *Look at Mage build system installation below to run the command*
+***Note***: *Look at Mage build system installation below*
 
 ## Mage build system Installation
 Install Mage build system
