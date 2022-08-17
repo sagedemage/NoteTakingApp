@@ -1,7 +1,7 @@
 # syntax=docker/dockerfile:1
 
 # Use Debian as OS
-FROM golang:1.17-bullseye
+FROM golang:1.18-bullseye
 
 # Update and install gcc and make
 RUN apt update && \
