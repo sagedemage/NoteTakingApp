@@ -22,7 +22,6 @@ func main() {
 
 	// Load static files (for css, and etc)
 	router.Static("/static", "cmd/app/static")
-	//router.StaticFile("/style.css", "./cmd/app/static/css/style.css")
 
 	// Open database
 	db := models.OpenDatabase("database/test.db")
