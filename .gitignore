@@ -1,5 +1,7 @@
 build
 *.db
 *.kra
+*.png
+*.xcf
 *~
 
