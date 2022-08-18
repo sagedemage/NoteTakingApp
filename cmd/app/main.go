@@ -60,13 +60,11 @@ func main() {
 	router.POST("/view-notes", func(c *gin.Context) {
 		/* Handle Delete and Edit Button POST Requests 
 		on the view notes page */
-
 		// Parse Form Data
 		c.Request.ParseForm()
 
 		if form.GetFormValue(c, "delete") != "" {
 			/* Delete Note Post request */
-
 			// get entry id for the deleting an entry
 			id := form.GetFormValue(c, "delete")
 
@@ -76,8 +74,7 @@ func main() {
 			// redirect to notes view page
 			c.Redirect(http.StatusFound, "/view-notes")
 		} else if form.GetFormValue(c, "edit") != "" {
-			/* Edit Note Post Request */
-
+			/* Edit Note Post Request Redirect */
 			// get entry id for the editing an entry
 			id := form.GetFormValue(c, "edit")
 
