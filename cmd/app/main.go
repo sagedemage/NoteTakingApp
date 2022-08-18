@@ -13,7 +13,7 @@ import (
 func main() {
 	// create the router
 	router := gin.Default()
-	
+
 	// do not trust all proxies for security reasons
 	router.SetTrustedProxies(nil)
 
@@ -31,14 +31,14 @@ func main() {
 
 	// Render the home page at the root of the website
 	router.GET("/", func(c *gin.Context) {
-		c.HTML(http.StatusOK, "home/index.tmpl", gin.H {
+		c.HTML(http.StatusOK, "home/index.tmpl", gin.H{
 			"title": "Home Page",
 		})
 	})
 
 	// Render the about page at the route "/about"
 	router.GET("/about", func(c *gin.Context) {
-		c.HTML(http.StatusOK, "about/index.tmpl", gin.H {
+		c.HTML(http.StatusOK, "about/index.tmpl", gin.H{
 			"title": "About Page",
 		})
 	})
@@ -50,15 +50,15 @@ func main() {
 		notes := models.GetDatabase(db)
 
 		// Pass the list of notes to the web page
-		c.HTML(http.StatusOK, "notes/index.tmpl", gin.H {
+		c.HTML(http.StatusOK, "notes/index.tmpl", gin.H{
 			"title": "Notes",
-			"list": notes,
+			"list":  notes,
 		})
 	})
 
 	// Render the view table page at route "/table"
 	router.POST("/view-notes", func(c *gin.Context) {
-		/* Handle Delete and Edit Button POST Requests 
+		/* Handle Delete and Edit Button POST Requests
 		on the view notes page */
 		// Parse Form Data
 		c.Request.ParseForm()
@@ -91,7 +91,7 @@ func main() {
 		/* View all the database entries as a table */
 		// entries of the product database
 
-		c.HTML(http.StatusOK, "notes/new-note.tmpl", gin.H {
+		c.HTML(http.StatusOK, "notes/new-note.tmpl", gin.H{
 			"title": "New Note",
 		})
 	})
@@ -100,11 +100,11 @@ func main() {
 	router.POST("/add-new-note", func(c *gin.Context) {
 		// Parse Form Data
 		c.Request.ParseForm()
-		
+
 		/* Get Title and description from the Post request */
 		var title string = form.GetFormValue(c, "title")
 		var description string = form.GetFormValue(c, "description")
-	
+
 		// Create entry // the issue
 		db.Create(&models.Note{Title: title, Description: description})
 
@@ -126,9 +126,9 @@ func main() {
 		var note = models.GetEntry(db, id)
 
 		// pass the note's title and description to the form page
-		c.HTML(http.StatusOK, "notes/edit-note.tmpl", gin.H {
-			"page_title": "Edit Note",
-			"note_title": note.Title,
+		c.HTML(http.StatusOK, "notes/edit-note.tmpl", gin.H{
+			"page_title":       "Edit Note",
+			"note_title":       note.Title,
 			"note_description": note.Description,
 		})
 	})
@@ -138,7 +138,7 @@ func main() {
 		/* Edit Note Post Request */
 		// Parse Form Data
 		c.Request.ParseForm()
-		
+
 		/* Get Title and secription from the Post request */
 		var title string = form.GetFormValue(c, "title")
 		var description string = form.GetFormValue(c, "description")
@@ -157,5 +157,5 @@ func main() {
 	})
 
 	// listen and serve on localhost:8080
-	router.Run(":8080") 
+	router.Run(":8080")
 }
