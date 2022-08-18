@@ -46,9 +46,10 @@ func main() {
 	// Render the view table page at route "/table"
 	router.GET("/view-notes", func(c *gin.Context) {
 		/* View all the database entries as a table */
-		// entries of the product database
+		// entries of the notes database
 		notes := models.GetDatabase(db)
 
+		// Pass the list of notes to the web page
 		c.HTML(http.StatusOK, "notes/index.tmpl", gin.H {
 			"title": "Notes",
 			"list": notes,
@@ -116,11 +117,22 @@ func main() {
 
 	// Render the new entry page at route "/new-entry"
 	router.GET("/edit-note", func(c *gin.Context) {
-		/* View all the database entries as a table */
-		// entries of the product database
+		/* Render edit note form */
 
+		// Get cookie of the id value
+		id, err := c.Cookie("id")
+		if err != nil {
+			panic(err)
+		}
+
+		// get entry note values
+		var note = models.GetEntry(db, id)
+
+		// pass the note's title and description to the form page
 		c.HTML(http.StatusOK, "notes/edit-note.tmpl", gin.H {
-			"title": "Edit Note",
+			"page_title": "Edit Note",
+			"note_title": note.Title,
+			"note_description": note.Description,
 		})
 	})
 
@@ -141,7 +153,7 @@ func main() {
 		}
 
 		// Update the entry title and description by id
-		models.UpdateEntries(db, id, title, description)
+		models.UpdateEntry(db, id, title, description)
 
 		// Redirect to the table view page
 		c.Redirect(http.StatusFound, "/view-notes")

@@ -30,7 +30,14 @@ func GetDatabase(db *gorm.DB)([]Note) {
 	return notes
 }
 
-func UpdateEntries(db *gorm.DB, id string, title string, description string) {
+func GetEntry(db *gorm.DB, id string)(*Note) {
+	/* Get the entry by id */
+	var note = &Note{}
+	db.First(&note, id)
+	return note
+}
+
+func UpdateEntry(db *gorm.DB, id string, title string, description string) {
 	/* Update the entry's title and description by id */
 	var note = &Note{}
 
