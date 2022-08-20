@@ -2,11 +2,11 @@
 
 {{ template "header.tmpl" }}
 
-<h1> {{ .title }} </h1>
+<h1> {{ .page_title }} </h1>
 <form method="post">
 <button type="button" class="btn btn-primary" onclick="window.location.href='/add-new-note';">Add New Note</button>
 <p>
-	{{ range .list  }}
+	{{ range .note_list  }}
 		<!-- <p scope="row">{{ .ID }}</p> -->
 		<div class="container">
 			<h2 class="note-title">{{ .Title }}</h2>

@@ -5,76 +5,42 @@ import (
 
 	"github.com/gin-gonic/gin"
 
+	"gorm.io/gorm"
+
 	"go-web-app-experiment/cmd/app/models"
 
 	"go-web-app-experiment/cmd/app/form"
 )
 
-func main() {
-	// create the router
-	router := gin.Default()
+func render_web_page(template_page string, page_title string) gin.HandlerFunc {
+	fn := func(c *gin.Context) {
+		//var template_page string = "home/index.tmpl"
+		//var page_title string = "Home Page"
 
-	// do not trust all proxies for security reasons
-	router.SetTrustedProxies(nil)
-
-	// Load HTML templates
-	router.LoadHTMLGlob("cmd/app/templates/**/*")
-
-	// Load static files (for css, and etc)
-	router.Static("/static", "cmd/app/static")
-
-	// Open database
-	db := models.InitDB("database/test.db")
-
-	// Render the home page at the root of the website
-	router.GET("/", func(c *gin.Context) {
-		c.HTML(http.StatusOK, "home/index.tmpl", gin.H{
-			"title": "Home Page",
+		c.HTML(http.StatusOK, template_page, gin.H{
+			"page_title": page_title,
 		})
-	})
+	}
+	return gin.HandlerFunc(fn)
+}
 
-	// Render the about page at the route "/about"
-	router.GET("/about", func(c *gin.Context) {
-		c.HTML(http.StatusOK, "about/index.tmpl", gin.H{
-			"title": "About Page",
-		})
-	})
-
-	// Render the new registration page at route "/register"
-	router.GET("/register", func(c *gin.Context) {
-		/* View all the database entries as a table */
-		// entries of the product database
-
-		c.HTML(http.StatusOK, "auth/register.tmpl", gin.H{
-			"title": "Register",
-		})
-	})
-
-	// Render the login page at route "/login"
-	router.GET("/login", func(c *gin.Context) {
-		/* View all the database entries as a table */
-		// entries of the product database
-
-		c.HTML(http.StatusOK, "auth/login.tmpl", gin.H{
-			"title": "Login",
-		})
-	})
-
-	// Render the view table page at route "/table"
-	router.GET("/view-notes", func(c *gin.Context) {
+func view_notes_get_request(db *gorm.DB) gin.HandlerFunc {
+	fn := func(c *gin.Context) {
 		/* View all the database entries as a table */
 		// entries of the notes database
 		notes := models.GetNoteEntries(db)
 
 		// Pass the list of notes to the web page
 		c.HTML(http.StatusOK, "notes/index.tmpl", gin.H{
-			"title": "Notes",
-			"list":  notes,
+			"page_title": "Notes",
+			"note_list":  notes,
 		})
-	})
+	}
+	return gin.HandlerFunc(fn)
+}
 
-	// Render the view table page at route "/table"
-	router.POST("/view-notes", func(c *gin.Context) {
+func view_notes_post_request(db *gorm.DB) gin.HandlerFunc {
+	fn := func(c *gin.Context) {
 		/* Handle Delete and Edit Button POST Requests
 		on the view notes page */
 		// Parse Form Data
@@ -101,20 +67,12 @@ func main() {
 			// redirect to edit note
 			c.Redirect(http.StatusFound, "/edit-note")
 		}
-	})
+	}
+	return gin.HandlerFunc(fn)
+}
 
-	// Render the new entry page at route "/new-entry"
-	router.GET("/add-new-note", func(c *gin.Context) {
-		/* View all the database entries as a table */
-		// entries of the product database
-
-		c.HTML(http.StatusOK, "notes/new-note.tmpl", gin.H{
-			"title": "New Note",
-		})
-	})
-
-	// Get Form data from POST request
-	router.POST("/add-new-note", func(c *gin.Context) {
+func add_new_note_post_request(db *gorm.DB) gin.HandlerFunc {
+	fn := func(c *gin.Context) {
 		// Parse Form Data
 		c.Request.ParseForm()
 
@@ -127,31 +85,12 @@ func main() {
 
 		// Redirect to the table view page
 		c.Redirect(http.StatusFound, "/view-notes")
-	})
+	}
+	return gin.HandlerFunc(fn)
+}
 
-	// Render the new entry page at route "/new-entry"
-	router.GET("/edit-note", func(c *gin.Context) {
-		/* Render edit note form */
-
-		// Get cookie of the id value
-		id, err := c.Cookie("id")
-		if err != nil {
-			panic(err)
-		}
-
-		// get entry note values
-		var note = models.GetNoteEntry(db, id)
-
-		// pass the note's title and description to the form page
-		c.HTML(http.StatusOK, "notes/edit-note.tmpl", gin.H{
-			"page_title":       "Edit Note",
-			"note_title":       note.Title,
-			"note_description": note.Description,
-		})
-	})
-
-	// Get Form data from POST request
-	router.POST("/edit-note", func(c *gin.Context) {
+func edit_note_post_request(db *gorm.DB) gin.HandlerFunc {
+	fn := func(c *gin.Context) {
 		/* Edit Note Post Request */
 		// Parse Form Data
 		c.Request.ParseForm()
@@ -171,7 +110,80 @@ func main() {
 
 		// Redirect to the table view page
 		c.Redirect(http.StatusFound, "/view-notes")
-	})
+
+	}
+	return gin.HandlerFunc(fn)
+}
+
+func edit_note_get_request(db *gorm.DB) gin.HandlerFunc {
+	fn := func(c *gin.Context) {
+		/* Render edit note form */
+
+		// Get cookie of the id value
+		id, err := c.Cookie("id")
+		if err != nil {
+			panic(err)
+		}
+
+		// get entry note values
+		var note = models.GetNoteEntry(db, id)
+
+		// pass the note's title and description to the form page
+		c.HTML(http.StatusOK, "notes/edit-note.tmpl", gin.H{
+			"page_title":       "Edit Note",
+			"note_title":       note.Title,
+			"note_description": note.Description,
+		})
+
+	}
+	return gin.HandlerFunc(fn)
+}
+
+func main() {
+	// create the router
+	router := gin.Default()
+
+	// do not trust all proxies for security reasons
+	router.SetTrustedProxies(nil)
+
+	// Load HTML templates
+	router.LoadHTMLGlob("cmd/app/templates/**/*")
+
+	// Load static files (for css, and etc)
+	router.Static("/static", "cmd/app/static")
+
+	// Open database
+	db := models.InitDB("database/test.db")
+
+	// Render the home page at the root of the website
+	router.GET("/", render_web_page("home/index.tmpl", "Home"))
+
+	// Render the about page at the route "/about"
+	router.GET("/about", render_web_page("about/index.tmpl", "About"))
+
+	// Render the new registration page at route "/register"
+	router.GET("/register", render_web_page("auth/register.tmpl", "Register"))
+
+	// Render the login page at route "/login"
+	router.GET("/login", render_web_page("auth/login.tmpl", "Login"))
+
+	// Render the view table page at route "/table"
+	router.GET("/view-notes", view_notes_get_request(db))
+
+	// Render the view table page at route "/table"
+	router.POST("/view-notes", view_notes_post_request(db))
+
+	// Render the new entry page at route "/new-entry"
+	router.GET("/add-new-note", render_web_page("notes/new-note.tmpl", "New Note"))
+
+	// Get Form data from POST request
+	router.POST("/add-new-note", add_new_note_post_request(db))
+
+	// Render the new entry page at route "/new-entry"
+	router.GET("/edit-note", edit_note_get_request(db))
+
+	// Get Form data from POST request
+	router.POST("/edit-note", edit_note_post_request(db))
 
 	// listen and serve on localhost:8080
 	router.Run(":8080")
