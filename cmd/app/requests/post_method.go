@@ -155,7 +155,7 @@ func Register(db *gorm.DB) gin.HandlerFunc {
 		db.Create(&models.User{Email: email, Username: username, Password: password})
 
 		// Redirect to the table view page
-		c.Redirect(http.StatusFound, "/view-notes")
+		c.Redirect(http.StatusFound, "/login")
 	}
 	return gin.HandlerFunc(fn)
 }
