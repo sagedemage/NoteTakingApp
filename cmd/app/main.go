@@ -24,6 +24,7 @@ func main() {
 	// Open database
 	db := models.InitDB("database/test.db")
 
+	/* Get Requests */
 	// Render the home page at the root of the website
 	router.GET("/", requests.RenderWebPage("home/index.tmpl", "Home"))
 
@@ -39,20 +40,21 @@ func main() {
 	// Render the view table page at route "/table"
 	router.GET("/view-notes", requests.ViewNotes(db))
 
-	// Render the view table page at route "/table"
-	router.POST("/view-notes", requests.DeleteOrEditNote(db))
-
 	// Render the new entry page at route "/new-entry"
 	router.GET("/add-new-note", requests.RenderWebPage("notes/new-note.tmpl", "New Note"))
-
-	// Get Form data from POST request
-	router.POST("/add-new-note", requests.AddNewNote(db))
 
 	// Render the new entry page at route "/new-entry"
 	router.GET("/edit-note", requests.EditNoteForm(db))
 
+	/* Post Requests */
+	// Render the view table page at route "/table"
+	router.POST("/view-notes", requests.DeleteOrEditNote(db)) //
+
 	// Get Form data from POST request
-	router.POST("/edit-note", requests.EditNote(db))
+	router.POST("/add-new-note", requests.AddNewNote(db)) //
+
+	// Get Form data from POST request
+	router.POST("/edit-note", requests.EditNote(db)) //
 
 	// listen and serve on localhost:8080
 	router.Run(":8080")
