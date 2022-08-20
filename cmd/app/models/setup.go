@@ -5,13 +5,18 @@ import (
 	"gorm.io/gorm"
 )
 
-func OpenDatabase(database_path string) *gorm.DB {
-	/* Open the Database */
-	db, err := gorm.Open(sqlite.Open(database_path), &gorm.Config{})
+func InitDB(database_path string) *gorm.DB {
+	/* Setup the Database */
 
+	// Open database
+	db, err := gorm.Open(sqlite.Open(database_path), &gorm.Config{})
+	
 	if err != nil {
 		panic("failed to connect database")
 	}
+
+	// Generate notes table structure
+	db.AutoMigrate(&Note{})
 
 	return db
 }

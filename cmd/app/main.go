@@ -24,10 +24,7 @@ func main() {
 	router.Static("/static", "cmd/app/static")
 
 	// Open database
-	db := models.OpenDatabase("database/test.db")
-
-	// Migrate the schema
-	db.AutoMigrate(&models.Note{})
+	db := models.InitDB("database/test.db")
 
 	// Render the home page at the root of the website
 	router.GET("/", func(c *gin.Context) {
