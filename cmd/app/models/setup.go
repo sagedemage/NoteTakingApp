@@ -15,8 +15,9 @@ func InitDB(database_path string) *gorm.DB {
 		panic("failed to connect database")
 	}
 
-	// Generate notes table structure
-	db.AutoMigrate(&Note{})
+	// Generate table structure
+	db.AutoMigrate(&User{}) // user table
+	db.AutoMigrate(&Note{}) // notes table
 
 	return db
 }
