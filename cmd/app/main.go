@@ -40,6 +40,26 @@ func main() {
 		})
 	})
 
+	// Render the new registration page at route "/register"
+	router.GET("/register", func(c *gin.Context) {
+		/* View all the database entries as a table */
+		// entries of the product database
+
+		c.HTML(http.StatusOK, "auth/register.tmpl", gin.H{
+			"title": "Register",
+		})
+	})
+
+	// Render the login page at route "/login"
+	router.GET("/login", func(c *gin.Context) {
+		/* View all the database entries as a table */
+		// entries of the product database
+
+		c.HTML(http.StatusOK, "auth/login.tmpl", gin.H{
+			"title": "Login",
+		})
+	})
+
 	// Render the view table page at route "/table"
 	router.GET("/view-notes", func(c *gin.Context) {
 		/* View all the database entries as a table */
