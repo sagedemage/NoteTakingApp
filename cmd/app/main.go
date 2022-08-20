@@ -47,14 +47,17 @@ func main() {
 	router.GET("/edit-note", requests.EditNoteForm(db))
 
 	/* Post Requests */
+	// Register the user
+	router.POST("/register", requests.Register(db))
+
 	// Render the view table page at route "/table"
-	router.POST("/view-notes", requests.DeleteOrEditNote(db)) //
+	router.POST("/view-notes", requests.DeleteOrEditNote(db))
 
 	// Get Form data from POST request
-	router.POST("/add-new-note", requests.AddNewNote(db)) //
+	router.POST("/add-new-note", requests.AddNewNote(db))
 
 	// Get Form data from POST request
-	router.POST("/edit-note", requests.EditNote(db)) //
+	router.POST("/edit-note", requests.EditNote(db))
 
 	// listen and serve on localhost:8080
 	router.Run(":8080")
