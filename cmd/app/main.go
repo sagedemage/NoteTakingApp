@@ -12,6 +12,8 @@ import (
 	"go-web-app-experiment/cmd/app/form"
 )
 
+/* Get Requests */
+
 func render_web_page(template_page string, page_title string) gin.HandlerFunc {
 	fn := func(c *gin.Context) {
 		//var template_page string = "home/index.tmpl"
@@ -24,7 +26,7 @@ func render_web_page(template_page string, page_title string) gin.HandlerFunc {
 	return gin.HandlerFunc(fn)
 }
 
-func view_notes_get_request(db *gorm.DB) gin.HandlerFunc {
+func view_notes(db *gorm.DB) gin.HandlerFunc {
 	fn := func(c *gin.Context) {
 		/* View all the database entries as a table */
 		// entries of the notes database
@@ -39,7 +41,33 @@ func view_notes_get_request(db *gorm.DB) gin.HandlerFunc {
 	return gin.HandlerFunc(fn)
 }
 
-func view_notes_post_request(db *gorm.DB) gin.HandlerFunc {
+func edit_note_form(db *gorm.DB) gin.HandlerFunc {
+	fn := func(c *gin.Context) {
+		/* Render edit note form */
+
+		// Get cookie of the id value
+		id, err := c.Cookie("id")
+		if err != nil {
+			panic(err)
+		}
+
+		// get entry note values
+		note := models.GetNoteEntry(db, id)
+
+		// pass the note's title and description to the form page
+		c.HTML(http.StatusOK, "notes/edit-note.tmpl", gin.H{
+			"page_title":       "Edit Note",
+			"note_title":       note.Title,
+			"note_description": note.Description,
+		})
+
+	}
+	return gin.HandlerFunc(fn)
+}
+
+/* Post Requests */
+
+func delete_or_edit_note(db *gorm.DB) gin.HandlerFunc {
 	fn := func(c *gin.Context) {
 		/* Handle Delete and Edit Button POST Requests
 		on the view notes page */
@@ -71,7 +99,7 @@ func view_notes_post_request(db *gorm.DB) gin.HandlerFunc {
 	return gin.HandlerFunc(fn)
 }
 
-func add_new_note_post_request(db *gorm.DB) gin.HandlerFunc {
+func add_new_note(db *gorm.DB) gin.HandlerFunc {
 	fn := func(c *gin.Context) {
 		// Parse Form Data
 		c.Request.ParseForm()
@@ -89,7 +117,7 @@ func add_new_note_post_request(db *gorm.DB) gin.HandlerFunc {
 	return gin.HandlerFunc(fn)
 }
 
-func edit_note_post_request(db *gorm.DB) gin.HandlerFunc {
+func edit_note(db *gorm.DB) gin.HandlerFunc {
 	fn := func(c *gin.Context) {
 		/* Edit Note Post Request */
 		// Parse Form Data
@@ -115,29 +143,7 @@ func edit_note_post_request(db *gorm.DB) gin.HandlerFunc {
 	return gin.HandlerFunc(fn)
 }
 
-func edit_note_get_request(db *gorm.DB) gin.HandlerFunc {
-	fn := func(c *gin.Context) {
-		/* Render edit note form */
 
-		// Get cookie of the id value
-		id, err := c.Cookie("id")
-		if err != nil {
-			panic(err)
-		}
-
-		// get entry note values
-		var note = models.GetNoteEntry(db, id)
-
-		// pass the note's title and description to the form page
-		c.HTML(http.StatusOK, "notes/edit-note.tmpl", gin.H{
-			"page_title":       "Edit Note",
-			"note_title":       note.Title,
-			"note_description": note.Description,
-		})
-
-	}
-	return gin.HandlerFunc(fn)
-}
 
 func main() {
 	// create the router
@@ -168,22 +174,22 @@ func main() {
 	router.GET("/login", render_web_page("auth/login.tmpl", "Login"))
 
 	// Render the view table page at route "/table"
-	router.GET("/view-notes", view_notes_get_request(db))
+	router.GET("/view-notes", view_notes(db))
 
 	// Render the view table page at route "/table"
-	router.POST("/view-notes", view_notes_post_request(db))
+	router.POST("/view-notes", delete_or_edit_note(db))
 
 	// Render the new entry page at route "/new-entry"
 	router.GET("/add-new-note", render_web_page("notes/new-note.tmpl", "New Note"))
 
 	// Get Form data from POST request
-	router.POST("/add-new-note", add_new_note_post_request(db))
+	router.POST("/add-new-note", add_new_note(db))
 
 	// Render the new entry page at route "/new-entry"
-	router.GET("/edit-note", edit_note_get_request(db))
+	router.GET("/edit-note", edit_note_form(db))
 
 	// Get Form data from POST request
-	router.POST("/edit-note", edit_note_post_request(db))
+	router.POST("/edit-note", edit_note(db))
 
 	// listen and serve on localhost:8080
 	router.Run(":8080")
