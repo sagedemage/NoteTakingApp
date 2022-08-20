@@ -50,6 +50,9 @@ func main() {
 	// Register the user
 	router.POST("/register", requests.Register(db))
 
+	// Login the user
+	router.POST("/login", requests.Login(db))
+
 	// Render the view table page at route "/table"
 	router.POST("/view-notes", requests.DeleteOrEditNote(db))
 

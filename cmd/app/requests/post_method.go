@@ -96,7 +96,6 @@ func Register(db *gorm.DB) gin.HandlerFunc {
 		// Parse Form Data
 		c.Request.ParseForm()
 
-		/* Get Title and secription from the Post request */
 		// get email data
 		var email string = form.GetFormValue(c, "email") 
 		
@@ -114,7 +113,7 @@ func Register(db *gorm.DB) gin.HandlerFunc {
 
 		db.Where("email = ?", email).First(&user1)
 
-		if user1.Email == email {
+		if email == user1.Email {
 			c.JSON(http.StatusUnprocessableEntity, gin.H{
 				"MSG": "email already taken",
 				"Email": user1.Email,
@@ -127,7 +126,7 @@ func Register(db *gorm.DB) gin.HandlerFunc {
 
 		db.Where("username = ?", username).First(&user2)
 
-		if user2.Username == username {
+		if username == user2.Username {
 			c.JSON(http.StatusUnprocessableEntity, gin.H{
 				"MSG": "username already taken",
 				"Username": user2.Username,
@@ -160,4 +159,43 @@ func Register(db *gorm.DB) gin.HandlerFunc {
 	return gin.HandlerFunc(fn)
 }
 
+func Login(db *gorm.DB) gin.HandlerFunc {
+	fn := func(c *gin.Context) {
+		/* Login */
+		// Parse Form Data
+		c.Request.ParseForm()
 
+		// get username form data
+		var username string = form.GetFormValue(c, "username") 
+		
+		// get password form data
+		var password string = form.GetFormValue(c, "password") 
+
+		var user = &models.User{}
+
+		// Get entry with the specified email or username
+		db.Where("email = ? OR username = ?", username, username).First(&user)
+
+		if username == user.Email || username == user.Username {
+			// Check if the email or username exists 
+			if password != user.Password {
+				// Check if password is incorrect
+				c.JSON(http.StatusUnprocessableEntity, gin.H{
+					"MSG": "Password is incorrect",
+				})
+			return
+			}
+		} else if username != user.Email || username != user.Username {
+			// Check if the email or username does not exists 
+			c.JSON(http.StatusUnprocessableEntity, gin.H{
+				"MSG": "username does not exist",
+				"Email": username,
+			})
+			return
+		} 
+
+		// Redirect to the table view page
+		c.Redirect(http.StatusFound, "/view-notes")
+	}
+	return gin.HandlerFunc(fn)
+}
