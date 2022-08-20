@@ -47,7 +47,7 @@ func main() {
 	router.GET("/view-notes", func(c *gin.Context) {
 		/* View all the database entries as a table */
 		// entries of the notes database
-		notes := models.GetDatabase(db)
+		notes := models.GetNoteEntries(db)
 
 		// Pass the list of notes to the web page
 		c.HTML(http.StatusOK, "notes/index.tmpl", gin.H{
@@ -123,7 +123,7 @@ func main() {
 		}
 
 		// get entry note values
-		var note = models.GetEntry(db, id)
+		var note = models.GetNoteEntry(db, id)
 
 		// pass the note's title and description to the form page
 		c.HTML(http.StatusOK, "notes/edit-note.tmpl", gin.H{
@@ -150,7 +150,7 @@ func main() {
 		}
 
 		// Update the entry title and description by id
-		models.UpdateEntry(db, id, title, description)
+		models.UpdateNoteEntry(db, id, title, description)
 
 		// Redirect to the table view page
 		c.Redirect(http.StatusFound, "/view-notes")

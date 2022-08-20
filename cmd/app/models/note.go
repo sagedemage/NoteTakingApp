@@ -1,7 +1,6 @@
 package models
 
 import (
-	"gorm.io/driver/sqlite"
 	"gorm.io/gorm"
 )
 
@@ -11,33 +10,22 @@ type Note struct {
 	Description string
 }
 
-func OpenDatabase(database_path string) *gorm.DB {
-	/* Open the Database */
-	db, err := gorm.Open(sqlite.Open(database_path), &gorm.Config{})
-
-	if err != nil {
-		panic("failed to connect database")
-	}
-
-	return db
-}
-
-func GetDatabase(db *gorm.DB) []Note {
-	/* Get all the entries of the Database */
+func GetNoteEntries(db *gorm.DB) []Note {
+	/* Get all the entries of the notes table */
 	var notes []Note // products list
-	db.Find(&notes)  // find entries of products database
+	db.Find(&notes)  // find entries of notes table
 
 	return notes
 }
 
-func GetEntry(db *gorm.DB, id string) *Note {
+func GetNoteEntry(db *gorm.DB, id string) *Note {
 	/* Get the entry by id */
 	var note = &Note{}
 	db.First(&note, id)
 	return note
 }
 
-func UpdateEntry(db *gorm.DB, id string, title string, description string) {
+func UpdateNoteEntry(db *gorm.DB, id string, title string, description string) {
 	/* Update the entry's title and description by id */
 	var note = &Note{}
 
