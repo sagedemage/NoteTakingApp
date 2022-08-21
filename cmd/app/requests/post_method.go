@@ -104,14 +104,14 @@ func GenerateSessionToken() string {
 }
 
 // Not post
-func RegisterNewUser(db *gorm.DB, email string, username string, password string, confirm string) (*gorm.DB, error) {
+func RegisterNewUser(db *gorm.DB, email string, username string, password string, confirm string) error {
 	/* Check if email is already taken */
 		var user1 = &models.User{}
 
 		db.Where("email = ?", email).First(&user1)
 
 		if email == user1.Email {
-			return nil, errors.New("Email already taken")
+			return errors.New("Email already taken")
 		}
 
 		/* Check if username is already taken */
@@ -120,23 +120,23 @@ func RegisterNewUser(db *gorm.DB, email string, username string, password string
 		db.Where("username = ?", username).First(&user2)
 
 		if username == user2.Username {
-			return nil, errors.New("Username already taken")
+			return errors.New("Username already taken")
 		}
 
 		/* Check if the password is under 6 characters */
 		if len(password) < 6 {
-			return nil, errors.New("Password is less than 6 characters")
+			return errors.New("Password is less than 6 characters")
 		} 
 
 		/* Checks if the passwords match */
 		if password != confirm {
-			return nil, errors.New("Passwords do not match")
+			return errors.New("Passwords do not match")
 		}
 
 		// Create user account
 		db.Create(&models.User{Email: email, Username: username, Password: password})
 		
-		return db, nil
+		return nil
 }
 
 func Register(db *gorm.DB) gin.HandlerFunc {
@@ -158,7 +158,7 @@ func Register(db *gorm.DB) gin.HandlerFunc {
 		var confirm string = form.GetFormValue(c, "confirm") 
 
 		// Register new user
-		_, err := RegisterNewUser(db, email, username, password, confirm)
+		err := RegisterNewUser(db, email, username, password, confirm)
 
 		//var sameSiteCookie http.SameSite;
 
@@ -184,6 +184,8 @@ func Register(db *gorm.DB) gin.HandlerFunc {
 	}
 	return gin.HandlerFunc(fn)
 }
+
+// Not Post
 
 func IsUserValid(db *gorm.DB, username string, password string) error {
 	var user = &models.User{}
