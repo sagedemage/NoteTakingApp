@@ -3,6 +3,8 @@ package requests
 import (
 	"net/http"
 
+	"errors"
+
 	"github.com/gin-gonic/gin"
 
 	"gorm.io/gorm"
@@ -90,6 +92,41 @@ func EditNote(db *gorm.DB) gin.HandlerFunc {
 	return gin.HandlerFunc(fn)
 }
 
+func RegisterNewUser(db *gorm.DB, email string, username string, password string, confirm string) (*gorm.DB, error) {
+	/* Check if email is already taken */
+		var user1 = &models.User{}
+
+		db.Where("email = ?", email).First(&user1)
+
+		if email == user1.Email {
+			return nil, errors.New("Email already taken")
+		}
+
+		/* Check if username is already taken */
+		var user2 = &models.User{}
+
+		db.Where("username = ?", username).First(&user2)
+
+		if username == user2.Username {
+			return nil, errors.New("Username already taken")
+		}
+
+		/* Check if the password is under 6 characters */
+		if len(password) < 6 {
+			return nil, errors.New("Password is less than 6 characters")
+		} 
+
+		/* Checks if the passwords match */
+		if password != confirm {
+			return nil, errors.New("Passwords do not match")
+		}
+
+		// Create user account
+		db.Create(&models.User{Email: email, Username: username, Password: password})
+		
+		return db, nil
+}
+
 func Register(db *gorm.DB) gin.HandlerFunc {
 	fn := func(c *gin.Context) {
 		/* Register */
@@ -108,7 +145,9 @@ func Register(db *gorm.DB) gin.HandlerFunc {
 		// get confirm from data
 		var confirm string = form.GetFormValue(c, "confirm") 
 
-		/* Check if email is already taken */
+
+		/*
+		/ Check if email is already taken /
 		var user1 = &models.User{}
 
 		db.Where("email = ?", email).First(&user1)
@@ -121,7 +160,7 @@ func Register(db *gorm.DB) gin.HandlerFunc {
 			return
 		}
 
-		/* Check if username is already taken */
+		/ Check if username is already taken /
 		var user2 = &models.User{}
 
 		db.Where("username = ?", username).First(&user2)
@@ -134,7 +173,7 @@ func Register(db *gorm.DB) gin.HandlerFunc {
 			return
 		}
 
-		/* Check if the password is over 6 characters */
+		/ Check if the password is over 6 characters /
 		if len(password) < 6 {
 			c.JSON(http.StatusUnprocessableEntity, gin.H{
 				"MSG": "password must be greater than 6 characters",
@@ -142,7 +181,7 @@ func Register(db *gorm.DB) gin.HandlerFunc {
 			return
 		} 
 
-		/* Checks if the passwords is match */
+		/ Checks if the passwords is match /
 		if password != confirm {
 			c.JSON(http.StatusUnprocessableEntity, gin.H{
 				"MSG": "passwords do not match",
@@ -152,6 +191,20 @@ func Register(db *gorm.DB) gin.HandlerFunc {
 
 		// Create user account
 		db.Create(&models.User{Email: email, Username: username, Password: password})
+		*/
+
+		_, err := RegisterNewUser(db, email, username, password, confirm)
+
+		if err == nil {
+			c.JSON(http.StatusUnprocessableEntity, gin.H{
+				"MSG": "Successful Registration",
+			})
+		} else {
+			c.JSON(http.StatusUnprocessableEntity, gin.H{
+				"MSG": "Registration Failed",
+				"ErrorMessage": err.Error(),
+			})
+		}
 
 		// Redirect to the table view page
 		c.Redirect(http.StatusFound, "/login")
