@@ -145,56 +145,10 @@ func Register(db *gorm.DB) gin.HandlerFunc {
 		// get confirm from data
 		var confirm string = form.GetFormValue(c, "confirm") 
 
-
-		/*
-		/ Check if email is already taken /
-		var user1 = &models.User{}
-
-		db.Where("email = ?", email).First(&user1)
-
-		if email == user1.Email {
-			c.JSON(http.StatusUnprocessableEntity, gin.H{
-				"MSG": "email already taken",
-				"Email": user1.Email,
-			})
-			return
-		}
-
-		/ Check if username is already taken /
-		var user2 = &models.User{}
-
-		db.Where("username = ?", username).First(&user2)
-
-		if username == user2.Username {
-			c.JSON(http.StatusUnprocessableEntity, gin.H{
-				"MSG": "username already taken",
-				"Username": user2.Username,
-			})
-			return
-		}
-
-		/ Check if the password is over 6 characters /
-		if len(password) < 6 {
-			c.JSON(http.StatusUnprocessableEntity, gin.H{
-				"MSG": "password must be greater than 6 characters",
-			})
-			return
-		} 
-
-		/ Checks if the passwords is match /
-		if password != confirm {
-			c.JSON(http.StatusUnprocessableEntity, gin.H{
-				"MSG": "passwords do not match",
-			})
-			return
-		}
-
-		// Create user account
-		db.Create(&models.User{Email: email, Username: username, Password: password})
-		*/
-
+		// Register new user
 		_, err := RegisterNewUser(db, email, username, password, confirm)
 
+		/* Check if user registration is successful */
 		if err == nil {
 			c.JSON(http.StatusUnprocessableEntity, gin.H{
 				"MSG": "Successful Registration",
