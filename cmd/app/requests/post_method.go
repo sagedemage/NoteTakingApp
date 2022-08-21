@@ -5,6 +5,10 @@ import (
 
 	"errors"
 
+	"strconv"
+
+	"math/rand"
+
 	"github.com/gin-gonic/gin"
 
 	"gorm.io/gorm"
@@ -92,6 +96,14 @@ func EditNote(db *gorm.DB) gin.HandlerFunc {
 	return gin.HandlerFunc(fn)
 }
 
+
+// Not post
+func GenerateSessionToken() string {
+	// Warning: do not use in production
+	return strconv.FormatInt(rand.Int63(), 16)
+}
+
+// Not post
 func RegisterNewUser(db *gorm.DB, email string, username string, password string, confirm string) (*gorm.DB, error) {
 	/* Check if email is already taken */
 		var user1 = &models.User{}
@@ -148,8 +160,15 @@ func Register(db *gorm.DB) gin.HandlerFunc {
 		// Register new user
 		_, err := RegisterNewUser(db, email, username, password, confirm)
 
+		//var sameSiteCookie http.SameSite;
+
 		/* Check if user registration is successful */
 		if err == nil {
+			token := GenerateSessionToken()
+
+			c.SetCookie("token", token, 3600, "", c.Request.URL.Hostname(), false, true)
+			c.Set("is_logged_in", true)
+
 			c.JSON(http.StatusUnprocessableEntity, gin.H{
 				"MSG": "Successful Registration",
 			})
@@ -166,6 +185,25 @@ func Register(db *gorm.DB) gin.HandlerFunc {
 	return gin.HandlerFunc(fn)
 }
 
+func IsUserValid(db *gorm.DB, username string, password string) error {
+	var user = &models.User{}
+
+	// Get entry with the specified email or username
+	db.Where("email = ? OR username = ?", username, username).First(&user)
+
+	if username == user.Email || username == user.Username {
+		// Check if the email or username exists 
+		if password != user.Password {
+			// Check if password is incorrect
+			return errors.New("Password is incorrect")
+		}
+	} else if username != user.Email || username != user.Username {
+		// Check if the email or username does not exists 
+		return errors.New("Username does not exist")
+	}
+	return nil
+}
+
 func Login(db *gorm.DB) gin.HandlerFunc {
 	fn := func(c *gin.Context) {
 		/* Login */
@@ -178,28 +216,25 @@ func Login(db *gorm.DB) gin.HandlerFunc {
 		// get password form data
 		var password string = form.GetFormValue(c, "password") 
 
-		var user = &models.User{}
+		// Is User Valid
+		err := IsUserValid(db, username, password)
 
-		// Get entry with the specified email or username
-		db.Where("email = ? OR username = ?", username, username).First(&user)
+		/* Check if user registration is successful */
+		if err == nil {
+			token := GenerateSessionToken()
 
-		if username == user.Email || username == user.Username {
-			// Check if the email or username exists 
-			if password != user.Password {
-				// Check if password is incorrect
-				c.JSON(http.StatusUnprocessableEntity, gin.H{
-					"MSG": "Password is incorrect",
-				})
-			return
-			}
-		} else if username != user.Email || username != user.Username {
-			// Check if the email or username does not exists 
+			c.SetCookie("token", token, 3600, "", c.Request.URL.Hostname(), false, true)
+			c.Set("is_logged_in", true)
+
 			c.JSON(http.StatusUnprocessableEntity, gin.H{
-				"MSG": "username does not exist",
-				"Email": username,
+				"MSG": "Successful Login",
 			})
-			return
-		} 
+		} else {
+			c.JSON(http.StatusUnprocessableEntity, gin.H{
+				"MSG": "Login Failed",
+				"ErrorMessage": err.Error(),
+			})
+		}
 
 		// Redirect to the table view page
 		c.Redirect(http.StatusFound, "/view-notes")
