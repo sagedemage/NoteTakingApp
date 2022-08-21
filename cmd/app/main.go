@@ -5,7 +5,7 @@ import (
 
 	"github.com/gin-gonic/gin"
 
-	"github.com/gin-contrib/sessions"
+	//"github.com/gin-contrib/sessions"
 
 	"go-web-app-experiment/cmd/app/models"
 
@@ -14,14 +14,12 @@ import (
 
 // Middleware to check the user session
 func AuthRequired(c *gin.Context) {
-	session := sessions.Default(c)
-	user := session.Get("user")
-	if user == nil {
+	_, exists := c.Get("user")
+
+	if !exists {
 		c.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{"error": "unathorized"})
 		return
 	}
-	// Continue down the chain to handler
-	c.Next()
 }
 
 func main() {
