@@ -1,12 +1,28 @@
 package main
 
 import (
+	"net/http"
+
 	"github.com/gin-gonic/gin"
+
+	"github.com/gin-contrib/sessions"
 
 	"go-web-app-experiment/cmd/app/models"
 
 	"go-web-app-experiment/cmd/app/requests"
 )
+
+// Middleware to check the user session
+func AuthRequired(c *gin.Context) {
+	session := sessions.Default(c)
+	user := session.Get("user")
+	if user == nil {
+		c.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{"error": "unathorized"})
+		return
+	}
+	// Continue down the chain to handler
+	c.Next()
+}
 
 func main() {
 	// create the router
@@ -37,14 +53,16 @@ func main() {
 	// Render the login page at route "/login"
 	router.GET("/login", requests.RenderWebPage("auth/login.tmpl", "Login"))
 
+	auth_routes := router.Group("/").Use(AuthRequired)
+
 	// Render the view table page at route "/table"
-	router.GET("/view-notes", requests.ViewNotes(db))
+	auth_routes.GET("/view-notes", requests.ViewNotes(db))
 
 	// Render the new entry page at route "/new-entry"
-	router.GET("/add-new-note", requests.RenderWebPage("notes/new-note.tmpl", "New Note"))
+	auth_routes.GET("/add-new-note", requests.RenderWebPage("notes/new-note.tmpl", "New Note"))
 
 	// Render the new entry page at route "/new-entry"
-	router.GET("/edit-note", requests.EditNoteForm(db))
+	auth_routes.GET("/edit-note", requests.EditNoteForm(db))
 
 	/* Post Requests */
 	// Register the user
@@ -54,13 +72,13 @@ func main() {
 	router.POST("/login", requests.Login(db))
 
 	// Render the view table page at route "/table"
-	router.POST("/view-notes", requests.DeleteOrEditNote(db))
+	auth_routes.POST("/view-notes", requests.DeleteOrEditNote(db))
 
 	// Get Form data from POST request
-	router.POST("/add-new-note", requests.AddNewNote(db))
+	auth_routes.POST("/add-new-note", requests.AddNewNote(db))
 
 	// Get Form data from POST request
-	router.POST("/edit-note", requests.EditNote(db))
+	auth_routes.POST("/edit-note", requests.EditNote(db))
 
 	// listen and serve on localhost:8080
 	router.Run(":8080")
