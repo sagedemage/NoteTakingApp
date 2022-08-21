@@ -5,8 +5,6 @@ import (
 
 	"github.com/gin-gonic/gin"
 
-	//"github.com/gin-contrib/sessions"
-
 	"go-web-app-experiment/cmd/app/models"
 
 	"go-web-app-experiment/cmd/app/requests"
