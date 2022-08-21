@@ -14,11 +14,15 @@ import (
 
 // Middleware to check the user session
 func AuthRequired(c *gin.Context) {
-	_, exists := c.Get("user")
+	user, exists := c.Get("user")
 
 	if !exists {
 		c.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{"error": "unathorized"})
 		return
+	} else {
+		c.JSON(200, gin.H{
+			"username": user.(*models.User).Username,
+		})
 	}
 }
 
