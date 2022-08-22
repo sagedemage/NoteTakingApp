@@ -24,10 +24,24 @@
      	 				<div class="navbar-nav">
 							<a class="nav-link" href="/">Home</a>
         					<a class="nav-link" href="/about">About</a>
-        					<a class="nav-link" href="/view-notes">Notes</a>
-        					<a class="nav-link" href="/login">Login</a>
+						</div>
+						<div class="navbar-nav">
+							<a class="nav-link" id="right-nav" href="/login">Login</a>
         					<a class="nav-link" href="/register">Register</a>
-        					<a class="nav-link" href="/logout">Logout</a>
+							<li class="nav-item dropdown">
+          						<a class="nav-link dropdown-toggle" href="#" id="navbarDarkDropdownMenuLink" 
+								role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            						My Account
+          						</a>
+          						<ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDarkDropdownMenuLink">
+            						<li>
+										<a class="dropdown-item" href="/view-notes">Notes</a>
+									</li>
+    								<li>
+										<a class="dropdown-item" href="/logout">Logout</a>
+									</li>
+          						</ul>
+        					</li>
 						</div>
     				</div>
   				</div>

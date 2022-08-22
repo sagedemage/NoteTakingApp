@@ -17,6 +17,10 @@ article, footer {
 	padding-left: 2%;
 }
 
+#right-nav {
+	float: right;
+}
+
 .note-title {
 	border-bottom: 2px solid #DADADA;
 	padding-bottom: 5px;
