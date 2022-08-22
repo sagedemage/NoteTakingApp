@@ -61,8 +61,17 @@ func main() {
 	// Render the login page at route "/login"
 	router.GET("/login", requests.RenderWebPage("auth/login.tmpl", "Login"))
 
+	/* Post Requests */
+	// Register the user
+	router.POST("/register", requests.Register(db))
+
+	// Login the user
+	router.POST("/login", requests.Login(db))
+
+	/* Auhtorization Required */
 	auth_routes := router.Group("/").Use(AuthRequired)
 
+	/* Get Requets */
 	// Render the view table page at route "/table"
 	auth_routes.GET("/view-notes", requests.ViewNotes(db))
 
@@ -72,13 +81,10 @@ func main() {
 	// Render the new entry page at route "/new-entry"
 	auth_routes.GET("/edit-note", requests.EditNoteForm(db))
 
+	// Logout the user
+	auth_routes.GET("/logout", requests.Logout)
+
 	/* Post Requests */
-	// Register the user
-	router.POST("/register", requests.Register(db))
-
-	// Login the user
-	router.POST("/login", requests.Login(db))
-
 	// Render the view table page at route "/table"
 	auth_routes.POST("/view-notes", requests.DeleteOrEditNote(db))
 

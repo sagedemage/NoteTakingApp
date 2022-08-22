@@ -171,18 +171,14 @@ func Register(db *gorm.DB) gin.HandlerFunc {
 			c.SetCookie("token", token, 3600, "", c.Request.URL.Hostname(), false, true)
 			c.Set("is_logged_in", true)
 
-			c.JSON(http.StatusUnprocessableEntity, gin.H{
-				"MSG": "Successful Registration",
-			})
+			// Redirect to the login page
+			c.Redirect(http.StatusFound, "/login")
 		} else {
 			c.JSON(http.StatusUnprocessableEntity, gin.H{
 				"MSG": "Registration Failed",
 				"ErrorMessage": err.Error(),
 			})
 		}
-
-		// Redirect to the table view page
-		c.Redirect(http.StatusFound, "/login")
 	}
 	return gin.HandlerFunc(fn)
 }
@@ -249,3 +245,18 @@ func Login(db *gorm.DB) gin.HandlerFunc {
 	}
 	return gin.HandlerFunc(fn)
 }
+
+func Logout(c *gin.Context) {
+	/* Logout */
+	// user session
+	session := sessions.Default(c)
+
+	// delete the stored logged in variable
+	session.Delete("is_logged_in")
+	session.Save()
+
+	// Redirect to the table view page
+	c.Redirect(http.StatusTemporaryRedirect, "/")
+}
+
+
