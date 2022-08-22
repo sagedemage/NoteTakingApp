@@ -5,6 +5,10 @@ import (
 
 	"github.com/gin-gonic/gin"
 
+	"github.com/gin-contrib/sessions"
+
+	"github.com/gin-contrib/sessions/cookie"
+
 	"go-web-app-experiment/cmd/app/models"
 
 	"go-web-app-experiment/cmd/app/requests"
@@ -12,12 +16,13 @@ import (
 
 // Middleware to check the user session
 func AuthRequired(c *gin.Context) {
-	// Add user session data
-	//c.Set("username", "sage")
+	// Get user session data
+	session := sessions.Default(c)
 
-	user := c.GetString("username")
+	// Get loggin in value
+	user := session.Get("is_logged_in")
 
-	if user == "" {
+	if user == nil {
 		c.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{"error": "unathorized"})
 		return
 	} 
@@ -26,6 +31,10 @@ func AuthRequired(c *gin.Context) {
 func main() {
 	// create the router
 	router := gin.Default()
+
+	// session
+	store := cookie.NewStore([]byte("secret"))
+  	router.Use(sessions.Sessions("mysession", store))
 
 	// do not trust all proxies for security reasons
 	router.SetTrustedProxies(nil)

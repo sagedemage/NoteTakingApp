@@ -13,6 +13,8 @@ import (
 
 	"gorm.io/gorm"
 
+	"github.com/gin-contrib/sessions"
+
 	"go-web-app-experiment/cmd/app/models"
 
 	"go-web-app-experiment/cmd/app/form"
@@ -226,11 +228,16 @@ func Login(db *gorm.DB) gin.HandlerFunc {
 			token := GenerateSessionToken()
 
 			c.SetCookie("token", token, 3600, "", c.Request.URL.Hostname(), false, true)
-			c.Set("is_logged_in", true)
+			
+			// user session
+			session := sessions.Default(c)
 
-			c.JSON(http.StatusUnprocessableEntity, gin.H{
-				"MSG": "Successful Login",
-			})
+			// store that logged in is true
+			session.Set("is_logged_in", true)
+      		session.Save()
+
+			// Redirect to the table view page
+			c.Redirect(http.StatusFound, "/view-notes")
 		} else {
 			c.JSON(http.StatusUnprocessableEntity, gin.H{
 				"MSG": "Login Failed",
@@ -238,8 +245,7 @@ func Login(db *gorm.DB) gin.HandlerFunc {
 			})
 		}
 
-		// Redirect to the table view page
-		c.Redirect(http.StatusFound, "/view-notes")
+		
 	}
 	return gin.HandlerFunc(fn)
 }
