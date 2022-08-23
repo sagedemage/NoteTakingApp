@@ -24,22 +24,29 @@
         					<a class="nav-link" href="/about">About</a>
 						</div>
 						<div class="navbar-nav ms-auto">
-							<a class="nav-link" href="/login">Login</a>
-        					<a class="nav-link" href="/register">Register</a>
-							<li class="nav-item dropdown">
-          						<a class="nav-link dropdown-toggle" href="#" id="navbarDarkDropdownMenuLink" 
-								role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            						My Account
-          						</a>
-          						<ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDarkDropdownMenuLink">
-            						<li>
-										<a class="dropdown-item" href="/view-notes">Notes</a>
-									</li>
-    								<li>
-										<a class="dropdown-item" href="/logout">Logout</a>
-									</li>
-          						</ul>
-        					</li>
+							<!-- Show login and register links if the user did not log in -->
+							{{ if eq .user nil }}
+								<a class="nav-link" href="/login">Login</a>
+        						<a class="nav-link" href="/register">Register</a>
+							{{ end }}
+
+							<!-- Show the account dropdown menu if the user logged in -->
+							{{ if ne .user nil }}
+								<li class="nav-item dropdown">
+          							<a class="nav-link dropdown-toggle" id="navbarDarkDropdownMenuLink" 
+									role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            							My Account
+          							</a>
+          							<ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDarkDropdownMenuLink">
+            							<li>
+											<a class="dropdown-item" href="/view-notes">Notes</a>
+										</li>
+    									<li>
+											<a class="dropdown-item" href="/logout">Logout</a>
+										</li>
+          							</ul>
+        						</li>
+							{{ end }}
 						</div>
     				</div>
   				</div>
@@ -47,11 +54,8 @@
 		</header>
 		<article>
 		<h1> {{ .page_title }} </h1>
-		{{ if ne .user nil }}
-			<p> user: user exists </p>
-		{{ end }}
-		<!-- Insert content here -->
 
+		<!-- Insert content here -->
 		{{ template "content" . }}
 
 		</article>
