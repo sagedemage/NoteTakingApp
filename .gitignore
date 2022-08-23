@@ -1,5 +1,4 @@
 build
-templates-backup
 *.db
 *.kra
 *.png
