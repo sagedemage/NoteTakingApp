@@ -36,7 +36,7 @@ func ViewNotes(db *gorm.DB) gin.HandlerFunc {
 		notes := models.GetNoteEntries(db)
 
 		// Pass the list of notes to the web page
-		c.HTML(http.StatusOK, "notes/index.tmpl", gin.H{
+		c.HTML(http.StatusOK, "view-notes.tmpl", gin.H{
 			"title": title_name,
 			"page_title": title_name,
 			"note_list":  notes,

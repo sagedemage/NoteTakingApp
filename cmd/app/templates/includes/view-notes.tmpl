@@ -1,12 +1,5 @@
-{{ define "view-notes.tmpl" }}
+{{ define "content" }}
 
-{{ template "head.tmpl" }}
-<!--Use the `title` variable to set the title of the page-->
-<title> {{ .title }} </title>
-
-{{ template "body.tmpl" }}
-
-<h1> {{ .page_title }} </h1>
 <form method="post">
 <button type="button" class="btn btn-primary" onclick="window.location.href='/add-new-note';">Add New Note</button>
 <p>
@@ -36,7 +29,5 @@
 		</div>
 	{{ end }}
 </p>
-
-{{ template "footer.tmpl" }}
 
 {{ end }}
