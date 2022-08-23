@@ -22,6 +22,7 @@ RUN go mod download
 # Install the go external packages
 RUN go get -u github.com/gin-gonic/gin \ 
 	github.com/gin-contrib/sessions \
+	github.com/gin-contrib/multitemplate \
 	gorm.io/gorm \
 	gorm.io/driver/sqlite
 

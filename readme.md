@@ -37,12 +37,14 @@ export PATH="$PATH:$HOME/go/bin/"
 ```
 
 ## Frameworks:
-* **gin**
-	* [repository](https://github.com/gin-gonic/gin)
-	* [website](https://gin-gonic.com/)
+* [gin-gonic/gin](https://github.com/gin-gonic/gin)
+	* [gin-gonic.com](https://gin-gonic.com/)
 
 ## Libraries:
-* **gorm**
-	* [repository](https://github.com/go-gorm/gorm)
-	* [website](https://gorm.io/)
+* [go-gorm/gorm](https://github.com/go-gorm/gorm)
+	* [gorm.io](https://gorm.io/)
+
+## Gin Contrib
+* [gin-contrib/sessions](https://github.com/gin-contrib/sessions)
+* [gin-contrib/multitemplate](https://github.com/gin-contrib/multitemplate)
 
