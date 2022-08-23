@@ -1,12 +1,4 @@
-{{ define "auth/register.tmpl" }}
-
-{{ template "head.tmpl" }}
-<!--Use the `title` variable to set the title of the page-->
-<title> {{ .title }} </title>
-
-{{ template "body.tmpl" }}
-
-<h1> {{ .page_title }} </h1>
+{{ define "content" }}
 
 <form method="post">
 	<div class="form-group">
@@ -30,7 +22,5 @@
   	</div>
 	<button type="submit" class="btn btn-primary">Submit</button>
 </form>
-
-{{ template "footer.tmpl" }}
 
 {{ end }}

@@ -9,6 +9,7 @@ require (
 )
 
 require (
+	github.com/gin-contrib/multitemplate v0.0.0-20220705015713-e21a0ba39de3 // indirect
 	github.com/gin-contrib/sessions v0.0.5 // indirect
 	github.com/gin-contrib/sse v0.1.0 // indirect
 	github.com/go-playground/locales v0.14.0 // indirect

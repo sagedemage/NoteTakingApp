@@ -1,4 +1,4 @@
-{{ define "notes/new-note.tmpl" }}
+{{ define "edit-note.tmpl" }}
 
 {{ template "head.tmpl" }}
 <!--Use the `title` variable to set the title of the page-->
@@ -11,10 +11,11 @@
 <!--<form method="POST" action="add-new-note">-->
 <form method="post">
   	<div class="form-group">
-   		<input class="form-control" id="exampleFormControlInput1" name="title" placeholder="Title" required>
+   		<input class="form-control" id="exampleFormControlInput1" name="title" placeholder="Title" value={{ .note_title }} required>
   	</div>
   	<div class="form-group">
-    	<textarea class="form-control" id="exampleFormControlTextarea1" name="description" rows="3" placeholder="Description" required></textarea>
+    	<textarea class="form-control" id="exampleFormControlTextarea1" name="description" rows="3" placeholder="Description" required>{{ .note_description }}
+		</textarea>
   	</div>
 	<button type="submit" class="btn btn-primary">Submit</button>
 </form>

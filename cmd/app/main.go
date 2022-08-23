@@ -3,11 +3,15 @@ package main
 import (
 	"net/http"
 
+	"path/filepath"
+
 	"github.com/gin-gonic/gin"
 
 	"github.com/gin-contrib/sessions"
 
 	"github.com/gin-contrib/sessions/cookie"
+
+	"github.com/gin-contrib/multitemplate"
 
 	"go-web-app-experiment/cmd/app/models"
 
@@ -28,9 +32,45 @@ func AuthRequired(c *gin.Context) {
 	} 
 }
 
+
+/*func createMyRender() multitemplate.Renderer {
+	r := multitemplate.NewRenderer()
+  	r.AddFromFiles("home", "templates/base/base.tmpl", "templates/home/index.tmpl")
+  	r.AddFromFiles("about", "templates/base/base.tmpl", "templates/about/index.tmpl")
+  	r.AddFromFiles("register", "templates/base/base.tmpl", "templates/auth/register.tmpl")
+  	r.AddFromFiles("login", "templates/base/base.tmpl", "templates/auth/login.tmpl")
+	return r
+}*/
+
+func loadTemplates(templatesDir string) multitemplate.Renderer {
+	r := multitemplate.NewRenderer()
+
+	layouts, err := filepath.Glob(templatesDir + "/layouts/*.tmpl")
+	if err != nil {
+		panic(err.Error())
+	}
+
+	includes, err := filepath.Glob(templatesDir + "/includes/*.tmpl")
+	if err != nil {
+		panic(err.Error())
+	}
+
+	// Generate our templates map from our layouts/ and includes/ directories
+	for _, include := range includes {
+		layoutCopy := make([]string, len(layouts))
+		copy(layoutCopy, layouts)
+		files := append(layoutCopy, include)
+		r.AddFromFiles(filepath.Base(include), files...)
+	}
+	return r
+}
+
 func main() {
 	// create the router
 	router := gin.Default()
+
+	// html renderer
+	router.HTMLRender = loadTemplates("cmd/app/templates")
 
 	// session
 	store := cookie.NewStore([]byte("secret"))
@@ -40,7 +80,7 @@ func main() {
 	router.SetTrustedProxies(nil)
 
 	// Load HTML templates
-	router.LoadHTMLGlob("cmd/app/templates/**/*")
+	//router.LoadHTMLGlob("cmd/app/templates/**/*")
 
 	// Load static files (for css, and etc)
 	router.Static("/static", "cmd/app/static")
@@ -50,16 +90,16 @@ func main() {
 
 	/* Get Requests */
 	// Render the home page at the root of the website
-	router.GET("/", requests.RenderWebPage("home/index.tmpl", "Home"))
+	router.GET("/", requests.RenderWebPage("home.tmpl", "Home")) // home.tmpl does not exist
 
 	// Render the about page at the route "/about"
-	router.GET("/about", requests.RenderWebPage("about/index.tmpl", "About"))
+	router.GET("/about", requests.RenderWebPage("about.tmpl", "About"))
 
 	// Render the new registration page at route "/register"
-	router.GET("/register", requests.RenderWebPage("auth/register.tmpl", "Register"))
+	router.GET("/register", requests.RenderWebPage("register.tmpl", "Register"))
 
 	// Render the login page at route "/login"
-	router.GET("/login", requests.RenderWebPage("auth/login.tmpl", "Login"))
+	router.GET("/login", requests.RenderWebPage("login.tmpl", "Login"))
 
 	/* Post Requests */
 	// Register the user
