@@ -47,6 +47,9 @@
 		</header>
 		<article>
 		<h1> {{ .page_title }} </h1>
+		{{ if ne .user nil }}
+			<p> user: user exists </p>
+		{{ end }}
 		<!-- Insert content here -->
 
 		{{ template "content" . }}

@@ -16,31 +16,20 @@ import (
 	"go-web-app-experiment/cmd/app/models"
 
 	"go-web-app-experiment/cmd/app/requests"
+
+	"go-web-app-experiment/cmd/app/user_session"
 )
 
 // Middleware to check the user session
 func AuthRequired(c *gin.Context) {
-	// Get user session data
-	session := sessions.Default(c)
-
-	// Get loggin in value
-	user := session.Get("is_logged_in")
+	// Get user logged_in session data
+	user := user_session.GetUserSessionData(c, "is_logged_in")
 
 	if user == nil {
 		c.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{"error": "unathorized"})
 		return
 	} 
 }
-
-
-/*func createMyRender() multitemplate.Renderer {
-	r := multitemplate.NewRenderer()
-  	r.AddFromFiles("home", "templates/base/base.tmpl", "templates/home/index.tmpl")
-  	r.AddFromFiles("about", "templates/base/base.tmpl", "templates/about/index.tmpl")
-  	r.AddFromFiles("register", "templates/base/base.tmpl", "templates/auth/register.tmpl")
-  	r.AddFromFiles("login", "templates/base/base.tmpl", "templates/auth/login.tmpl")
-	return r
-}*/
 
 func loadTemplates(templatesDir string) multitemplate.Renderer {
 	r := multitemplate.NewRenderer()
@@ -116,7 +105,7 @@ func main() {
 	auth_routes.GET("/view-notes", requests.ViewNotes(db))
 
 	// Render the new entry page at route "/new-entry"
-	auth_routes.GET("/add-new-note", requests.RenderWebPage("notes/new-note.tmpl", "New Note"))
+	auth_routes.GET("/add-new-note", requests.RenderWebPage("new-note.tmpl", "New Note"))
 
 	// Render the new entry page at route "/new-entry"
 	auth_routes.GET("/edit-note", requests.EditNoteForm(db))
