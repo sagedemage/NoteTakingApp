@@ -18,6 +18,7 @@ func RenderWebPage(template_page string, page_title string) gin.HandlerFunc {
 		//var page_title string = "Home Page"
 
 		c.HTML(http.StatusOK, template_page, gin.H{
+			"title": page_title,
 			"page_title": page_title,
 		})
 	}
@@ -27,12 +28,17 @@ func RenderWebPage(template_page string, page_title string) gin.HandlerFunc {
 func ViewNotes(db *gorm.DB) gin.HandlerFunc {
 	fn := func(c *gin.Context) {
 		/* View all the database entries as a table */
+
+		// Set title name for the page
+		var title_name = "Notes"
+
 		// entries of the notes database
 		notes := models.GetNoteEntries(db)
 
 		// Pass the list of notes to the web page
 		c.HTML(http.StatusOK, "notes/index.tmpl", gin.H{
-			"page_title": "Notes",
+			"title": title_name,
+			"page_title": title_name,
 			"note_list":  notes,
 		})
 	}
@@ -42,6 +48,9 @@ func ViewNotes(db *gorm.DB) gin.HandlerFunc {
 func EditNoteForm(db *gorm.DB) gin.HandlerFunc {
 	fn := func(c *gin.Context) {
 		/* Render edit note form */
+
+		// Set title name for the page
+		var title_name = "Edit Note"
 
 		// Get cookie of the id value
 		id, err := c.Cookie("id")
@@ -54,7 +63,8 @@ func EditNoteForm(db *gorm.DB) gin.HandlerFunc {
 
 		// pass the note's title and description to the form page
 		c.HTML(http.StatusOK, "notes/edit-note.tmpl", gin.H{
-			"page_title":       "Edit Note",
+			"title":			title_name,
+			"page_title":       title_name,
 			"note_title":       note.Title,
 			"note_description": note.Description,
 		})
