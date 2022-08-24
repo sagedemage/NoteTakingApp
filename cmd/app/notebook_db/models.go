@@ -4,18 +4,28 @@ import (
 	"gorm.io/gorm"
 )
 
-type Note struct {
-	gorm.Model
-	Title       string
-	Description string
-}
-
 type User struct {
 	gorm.Model
 	Email		string
 	Username	string
 	Password	string
+	Note		[]Note
 }
+
+type Note struct {
+	gorm.Model
+	Title       string
+	Description string
+	UserID		uint
+}
+
+/* User functions */
+
+func CreateNewUser(db *gorm.DB, email string, username string, password string) {
+	db.Create(&User{Email: email, Username: username, Password: password})
+}
+
+/* Note functions */
 
 func GetNoteEntries(db *gorm.DB) []Note {
 	/* Get all the entries of the notes table */
@@ -23,6 +33,11 @@ func GetNoteEntries(db *gorm.DB) []Note {
 	db.Find(&notes)  // find entries of notes table
 
 	return notes
+}
+
+func CreateNewNoteEntry(db *gorm.DB, title string, description string) {
+	/* Create new note entry */
+	db.Create(&Note{Title: title, Description: description})
 }
 
 func GetNoteEntry(db *gorm.DB, id string) *Note {

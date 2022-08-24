@@ -63,8 +63,8 @@ func AddNewNote(db *gorm.DB) gin.HandlerFunc {
 		var title string = form.GetFormValue(c, "title")
 		var description string = form.GetFormValue(c, "description")
 
-		// Create entry
-		db.Create(&notebook_db.Note{Title: title, Description: description})
+		// Create new note entry
+		notebook_db.CreateNewNoteEntry(db, title, description)
 
 		// Redirect to the table view page
 		c.Redirect(http.StatusFound, "/view-notes")
@@ -108,37 +108,37 @@ func GenerateSessionToken() string {
 // Not post
 func RegisterNewUser(db *gorm.DB, email string, username string, password string, confirm string) error {
 	/* Check if email is already taken */
-		var user1 = &notebook_db.User{}
+	var user1 = &notebook_db.User{}
 
-		db.Where("email = ?", email).First(&user1)
+	db.Where("email = ?", email).First(&user1)
 
-		if email == user1.Email {
-			return errors.New("Email already taken")
-		}
+	if email == user1.Email {
+		return errors.New("Email already taken")
+	}
 
-		/* Check if username is already taken */
-		var user2 = &notebook_db.User{}
+	/* Check if username is already taken */
+	var user2 = &notebook_db.User{}
 
-		db.Where("username = ?", username).First(&user2)
+	db.Where("username = ?", username).First(&user2)
 
-		if username == user2.Username {
-			return errors.New("Username already taken")
-		}
+	if username == user2.Username {
+		return errors.New("Username already taken")
+	}
 
-		/* Check if the password is under 6 characters */
-		if len(password) < 6 {
-			return errors.New("Password is less than 6 characters")
-		} 
+	/* Check if the password is under 6 characters */
+	if len(password) < 6 {
+		return errors.New("Password is less than 6 characters")
+	} 
 
-		/* Checks if the passwords match */
-		if password != confirm {
-			return errors.New("Passwords do not match")
-		}
+	/* Checks if the passwords match */
+	if password != confirm {
+		return errors.New("Passwords do not match")
+	}
 		
-		// Create user account
-		db.Create(&notebook_db.User{Email: email, Username: username, Password: password})
+	// Create user account
+	notebook_db.CreateNewUser(db, email, username, password)
 		
-		return nil
+	return nil
 }
 
 func Register(db *gorm.DB) gin.HandlerFunc {
