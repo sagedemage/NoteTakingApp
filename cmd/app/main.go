@@ -13,7 +13,7 @@ import (
 
 	"github.com/gin-contrib/multitemplate"
 
-	"go-web-app-experiment/cmd/app/models"
+	"go-web-app-experiment/cmd/app/notebook_db"
 
 	"go-web-app-experiment/cmd/app/requests"
 
@@ -75,7 +75,7 @@ func main() {
 	router.Static("/static", "cmd/app/static")
 
 	// Open database
-	db := models.InitDB("database/test.db")
+	db := notebook_db.InitDB("database/test.db")
 
 	/* Get Requests */
 	// Render the home page at the root of the website

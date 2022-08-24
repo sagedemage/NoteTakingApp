@@ -7,7 +7,7 @@ import (
 
 	"gorm.io/gorm"
 
-	"go-web-app-experiment/cmd/app/models"
+	"go-web-app-experiment/cmd/app/notebook_db"
 
 	"github.com/gin-contrib/sessions"
 
@@ -40,7 +40,7 @@ func ViewNotes(db *gorm.DB) gin.HandlerFunc {
 		var title_name = "Notes"
 
 		// entries of the notes database
-		notes := models.GetNoteEntries(db)
+		notes := notebook_db.GetNoteEntries(db)
 
 		// Get user logged_in session data
 		user := user_session.GetUserSessionData(c, "is_logged_in")
@@ -56,7 +56,7 @@ func ViewNotes(db *gorm.DB) gin.HandlerFunc {
 	return gin.HandlerFunc(fn)
 }
 
-func EditNoteForm(db *gorm.DB) gin.HandlerFunc {
+func EditNoteForm(orm_db *gorm.DB) gin.HandlerFunc {
 	fn := func(c *gin.Context) {
 		/* Render edit note form */
 
@@ -70,7 +70,7 @@ func EditNoteForm(db *gorm.DB) gin.HandlerFunc {
 		}
 
 		// get entry note values
-		note := models.GetNoteEntry(db, id)
+		note := notebook_db.GetNoteEntry(orm_db, id)
 
 		// Get user logged_in session data
 		user := user_session.GetUserSessionData(c, "is_logged_in")

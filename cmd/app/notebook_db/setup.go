@@ -1,4 +1,4 @@
-package models
+package notebook_db
 
 import (
 	"gorm.io/driver/sqlite"

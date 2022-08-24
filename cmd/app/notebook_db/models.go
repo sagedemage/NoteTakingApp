@@ -1,4 +1,4 @@
-package models
+package notebook_db
 
 import (
 	"gorm.io/gorm"
@@ -8,6 +8,13 @@ type Note struct {
 	gorm.Model
 	Title       string
 	Description string
+}
+
+type User struct {
+	gorm.Model
+	Email		string
+	Username	string
+	Password	string
 }
 
 func GetNoteEntries(db *gorm.DB) []Note {

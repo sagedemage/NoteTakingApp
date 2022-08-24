@@ -15,7 +15,7 @@ import (
 
 	"github.com/gin-contrib/sessions"
 
-	"go-web-app-experiment/cmd/app/models"
+	"go-web-app-experiment/cmd/app/notebook_db"
 
 	"go-web-app-experiment/cmd/app/form"
 )
@@ -35,7 +35,7 @@ func DeleteOrEditNote(db *gorm.DB) gin.HandlerFunc {
 			id := form.GetFormValue(c, "delete")
 
 			// delete entry
-			db.Delete(&models.Note{}, id)
+			db.Delete(&notebook_db.Note{}, id)
 
 			// redirect to notes view page
 			c.Redirect(http.StatusFound, "/view-notes")
@@ -64,7 +64,7 @@ func AddNewNote(db *gorm.DB) gin.HandlerFunc {
 		var description string = form.GetFormValue(c, "description")
 
 		// Create entry
-		db.Create(&models.Note{Title: title, Description: description})
+		db.Create(&notebook_db.Note{Title: title, Description: description})
 
 		// Redirect to the table view page
 		c.Redirect(http.StatusFound, "/view-notes")
@@ -89,7 +89,7 @@ func EditNote(db *gorm.DB) gin.HandlerFunc {
 		}
 
 		// Update the entry title and description by id
-		models.UpdateNoteEntry(db, id, title, description)
+		notebook_db.UpdateNoteEntry(db, id, title, description)
 
 		// Redirect to the table view page
 		c.Redirect(http.StatusFound, "/view-notes")
@@ -108,7 +108,7 @@ func GenerateSessionToken() string {
 // Not post
 func RegisterNewUser(db *gorm.DB, email string, username string, password string, confirm string) error {
 	/* Check if email is already taken */
-		var user1 = &models.User{}
+		var user1 = &notebook_db.User{}
 
 		db.Where("email = ?", email).First(&user1)
 
@@ -117,7 +117,7 @@ func RegisterNewUser(db *gorm.DB, email string, username string, password string
 		}
 
 		/* Check if username is already taken */
-		var user2 = &models.User{}
+		var user2 = &notebook_db.User{}
 
 		db.Where("username = ?", username).First(&user2)
 
@@ -134,9 +134,9 @@ func RegisterNewUser(db *gorm.DB, email string, username string, password string
 		if password != confirm {
 			return errors.New("Passwords do not match")
 		}
-
+		
 		// Create user account
-		db.Create(&models.User{Email: email, Username: username, Password: password})
+		db.Create(&notebook_db.User{Email: email, Username: username, Password: password})
 		
 		return nil
 }
@@ -162,8 +162,6 @@ func Register(db *gorm.DB) gin.HandlerFunc {
 		// Register new user
 		err := RegisterNewUser(db, email, username, password, confirm)
 
-		//var sameSiteCookie http.SameSite;
-
 		/* Check if user registration is successful */
 		if err == nil {
 			token := GenerateSessionToken()
@@ -186,7 +184,7 @@ func Register(db *gorm.DB) gin.HandlerFunc {
 // Not Post
 
 func IsUserValid(db *gorm.DB, username string, password string) error {
-	var user = &models.User{}
+	var user = &notebook_db.User{}
 
 	// Get entry with the specified email or username
 	db.Where("email = ? OR username = ?", username, username).First(&user)
