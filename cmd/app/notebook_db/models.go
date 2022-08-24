@@ -27,10 +27,13 @@ func CreateNewUser(db *gorm.DB, email string, username string, password string) 
 
 /* Note functions */
 
-func GetNoteEntries(db *gorm.DB) []Note {
+func GetNoteEntries(db *gorm.DB, user_id uint) []Note {
 	/* Get all the entries of the notes table */
 	var notes []Note // products list
-	db.Find(&notes)  // find entries of notes table
+
+	db.Where("user_id = ?", user_id).Find(&notes)
+
+	//db.Find(&notes)  // find entries of notes table
 
 	return notes
 }

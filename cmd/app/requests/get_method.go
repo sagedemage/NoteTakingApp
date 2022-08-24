@@ -39,8 +39,11 @@ func ViewNotes(db *gorm.DB) gin.HandlerFunc {
 		// Set title name for the page
 		var title_name = "Notes"
 
+		// Get User ID Data
+		user_id := user_session.GetUserSessionData(c, "user_id").(uint)
+
 		// entries of the notes database
-		notes := notebook_db.GetNoteEntries(db)
+		notes := notebook_db.GetNoteEntries(db, user_id)
 
 		// Get user logged_in session data
 		user := user_session.GetUserSessionData(c, "is_logged_in")

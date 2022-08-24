@@ -65,6 +65,7 @@ func AddNewNote(db *gorm.DB) gin.HandlerFunc {
 		var title string = form.GetFormValue(c, "title")
 		var description string = form.GetFormValue(c, "description")
 
+		// Get User ID Data
 		user_id := user_session.GetUserSessionData(c, "user_id").(uint)
 
 		// Create new note entry
