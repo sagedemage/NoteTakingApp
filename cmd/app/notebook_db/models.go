@@ -35,9 +35,9 @@ func GetNoteEntries(db *gorm.DB) []Note {
 	return notes
 }
 
-func CreateNewNoteEntry(db *gorm.DB, title string, description string) {
+func CreateNewNoteEntry(db *gorm.DB, title string, description string, user_id uint) {
 	/* Create new note entry */
-	db.Create(&Note{Title: title, Description: description})
+	db.Create(&Note{Title: title, Description: description, UserID: user_id})
 }
 
 func GetNoteEntry(db *gorm.DB, id string) *Note {

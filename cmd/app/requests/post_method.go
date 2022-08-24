@@ -17,6 +17,8 @@ import (
 
 	"go-web-app-experiment/cmd/app/notebook_db"
 
+	"go-web-app-experiment/cmd/app/user_session"
+
 	"go-web-app-experiment/cmd/app/form"
 )
 
@@ -63,8 +65,10 @@ func AddNewNote(db *gorm.DB) gin.HandlerFunc {
 		var title string = form.GetFormValue(c, "title")
 		var description string = form.GetFormValue(c, "description")
 
+		user_id := user_session.GetUserSessionData(c, "user_id").(uint)
+
 		// Create new note entry
-		notebook_db.CreateNewNoteEntry(db, title, description)
+		notebook_db.CreateNewNoteEntry(db, title, description, user_id)
 
 		// Redirect to the table view page
 		c.Redirect(http.StatusFound, "/view-notes")
@@ -183,7 +187,7 @@ func Register(db *gorm.DB) gin.HandlerFunc {
 
 // Not Post
 
-func IsUserValid(db *gorm.DB, username string, password string) error {
+func IsUserValid(db *gorm.DB, username string, password string) (uint, error) {
 	var user = &notebook_db.User{}
 
 	// Get entry with the specified email or username
@@ -193,13 +197,14 @@ func IsUserValid(db *gorm.DB, username string, password string) error {
 		// Check if the email or username exists 
 		if password != user.Password {
 			// Check if password is incorrect
-			return errors.New("Password is incorrect")
+			return 0, errors.New("Password is incorrect")
 		}
 	} else if username != user.Email || username != user.Username {
 		// Check if the email or username does not exists 
-		return errors.New("Username does not exist")
+		return 0, errors.New("Username does not exist")
 	}
-	return nil
+
+	return user.ID, nil
 }
 
 func Login(db *gorm.DB) gin.HandlerFunc {
@@ -215,7 +220,7 @@ func Login(db *gorm.DB) gin.HandlerFunc {
 		var password string = form.GetFormValue(c, "password") 
 
 		// Is User Valid
-		err := IsUserValid(db, username, password)
+		user_id, err := IsUserValid(db, username, password)
 
 		/* Check if user registration is successful */
 		if err == nil {
@@ -228,6 +233,7 @@ func Login(db *gorm.DB) gin.HandlerFunc {
 
 			// store that logged in is true
 			session.Set("is_logged_in", true)
+			session.Set("user_id", user_id)
       		session.Save()
 
 			// Redirect to the table view page
@@ -251,6 +257,7 @@ func Logout(c *gin.Context) {
 
 	// delete the stored logged in variable
 	session.Delete("is_logged_in")
+	session.Delete("user_id")
 	session.Save()
 
 	// Redirect to the table view page
