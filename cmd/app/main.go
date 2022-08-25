@@ -1,65 +1,29 @@
 package main
 
 import (
-	"net/http"
-
-	"path/filepath"
-
 	"github.com/gin-gonic/gin"
 
 	"github.com/gin-contrib/sessions"
 
 	"github.com/gin-contrib/sessions/cookie"
 
-	"github.com/gin-contrib/multitemplate"
-
 	"go-web-app-experiment/cmd/app/notebook_db"
 
-	"go-web-app-experiment/cmd/app/requests"
+	"go-web-app-experiment/cmd/app/notes"
 
-	"go-web-app-experiment/cmd/app/user_session"
+	"go-web-app-experiment/cmd/app/template_loader"
+
+	"go-web-app-experiment/cmd/app/page_renderer"
+
+	"go-web-app-experiment/cmd/app/auth"
 )
-
-// Middleware to check the user session
-func AuthRequired(c *gin.Context) {
-	// Get user logged_in session data
-	user := user_session.GetUserSessionData(c, "is_logged_in")
-
-	if user == nil {
-		c.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{"error": "unathorized"})
-		return
-	} 
-}
-
-func loadTemplates(templatesDir string) multitemplate.Renderer {
-	r := multitemplate.NewRenderer()
-
-	layouts, err := filepath.Glob(templatesDir + "/layouts/*.tmpl")
-	if err != nil {
-		panic(err.Error())
-	}
-
-	includes, err := filepath.Glob(templatesDir + "/includes/*.tmpl")
-	if err != nil {
-		panic(err.Error())
-	}
-
-	// Generate our templates map from our layouts/ and includes/ directories
-	for _, include := range includes {
-		layoutCopy := make([]string, len(layouts))
-		copy(layoutCopy, layouts)
-		files := append(layoutCopy, include)
-		r.AddFromFiles(filepath.Base(include), files...)
-	}
-	return r
-}
 
 func main() {
 	// create the router
 	router := gin.Default()
 
 	// html renderer
-	router.HTMLRender = loadTemplates("cmd/app/templates")
+	router.HTMLRender = template_loader.LoadTemplates("cmd/app/templates")
 
 	// session
 	store := cookie.NewStore([]byte("secret"))
@@ -67,9 +31,6 @@ func main() {
 
 	// do not trust all proxies for security reasons
 	router.SetTrustedProxies(nil)
-
-	// Load HTML templates
-	//router.LoadHTMLGlob("cmd/app/templates/**/*")
 
 	// Load static files (for css, and etc)
 	router.Static("/static", "cmd/app/static")
@@ -79,49 +40,49 @@ func main() {
 
 	/* Get Requests */
 	// Render the home page at the root of the website
-	router.GET("/", requests.RenderWebPage("home.tmpl", "Home")) // home.tmpl does not exist
+	router.GET("/", page_renderer.RenderWebPage("home.tmpl", "Home")) // home.tmpl does not exist
 
 	// Render the about page at the route "/about"
-	router.GET("/about", requests.RenderWebPage("about.tmpl", "About"))
+	router.GET("/about", page_renderer.RenderWebPage("about.tmpl", "About"))
 
 	// Render the new registration page at route "/register"
-	router.GET("/register", requests.RenderWebPage("register.tmpl", "Register"))
+	router.GET("/register", page_renderer.RenderWebPage("register.tmpl", "Register"))
 
 	// Render the login page at route "/login"
-	router.GET("/login", requests.RenderWebPage("login.tmpl", "Login"))
+	router.GET("/login", page_renderer.RenderWebPage("login.tmpl", "Login"))
 
 	/* Post Requests */
 	// Register the user
-	router.POST("/register", requests.Register(db))
+	router.POST("/register", auth.Register(db))
 
 	// Login the user
-	router.POST("/login", requests.Login(db))
+	router.POST("/login", auth.Login(db))
 
 	/* Auhtorization Required */
-	auth_routes := router.Group("/").Use(AuthRequired)
+	auth_routes := router.Group("/").Use(auth.AuthRequired)
 
 	/* Get Requets */
 	// Render the view table page at route "/table"
-	auth_routes.GET("/view-notes", requests.ViewNotes(db))
+	auth_routes.GET("/view-notes", notes.ViewNotes(db))
 
 	// Render the new entry page at route "/new-entry"
-	auth_routes.GET("/add-new-note", requests.RenderWebPage("new-note.tmpl", "New Note"))
+	auth_routes.GET("/add-new-note", page_renderer.RenderWebPage("new-note.tmpl", "New Note"))
 
 	// Render the new entry page at route "/new-entry"
-	auth_routes.GET("/edit-note", requests.EditNoteForm(db))
+	auth_routes.GET("/edit-note", notes.EditNoteForm(db))
 
 	// Logout the user
-	auth_routes.GET("/logout", requests.Logout)
+	auth_routes.GET("/logout", auth.Logout)
 
 	/* Post Requests */
 	// Render the view table page at route "/table"
-	auth_routes.POST("/view-notes", requests.DeleteOrEditNote(db))
+	auth_routes.POST("/view-notes", notes.DeleteOrEditNote(db))
 
 	// Get Form data from POST request
-	auth_routes.POST("/add-new-note", requests.AddNewNote(db))
+	auth_routes.POST("/add-new-note", notes.AddNewNote(db))
 
 	// Get Form data from POST request
-	auth_routes.POST("/edit-note", requests.EditNote(db))
+	auth_routes.POST("/edit-note", notes.EditNote(db))
 
 	// listen and serve on localhost:8080
 	router.Run(":8080")
