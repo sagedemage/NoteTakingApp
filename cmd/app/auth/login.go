@@ -11,12 +11,15 @@ import (
 
 	"github.com/gin-contrib/sessions"
 
+	"golang.org/x/crypto/bcrypt"
+
 	"go-web-app-experiment/cmd/app/notebook_db"
 
 	"go-web-app-experiment/cmd/app/form"
 )
 
 func IsUserValid(db *gorm.DB, username string, password string) (uint, error) {
+	/* Check if the User is Valid */
 	var user = &notebook_db.User{}
 
 	// Get entry with the specified email or username
@@ -24,9 +27,12 @@ func IsUserValid(db *gorm.DB, username string, password string) (uint, error) {
 
 	if username == user.Email || username == user.Username {
 		// Check if the email or username exists 
-		if password != user.Password {
-			// Check if password is incorrect
-			return 0, errors.New("Password is incorrect")
+		// compare the password to the password hash
+		err := bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(password))
+
+		if err != nil {
+			// Check if the password is incorrect
+			return 0, errors.New("Password is incorrect") 
 		}
 	} else if username != user.Email || username != user.Username {
 		// Check if the email or username does not exists 
