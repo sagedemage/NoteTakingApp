@@ -36,7 +36,7 @@ func main() {
 	router.Static("/static", "cmd/app/static")
 
 	// Open database
-	db := notebook_db.InitDB("database/test.db")
+	db := notebook_db.InitDB("database/notebook.db")
 
 	/* Get Requests */
 	// Render the home page at the root of the website
