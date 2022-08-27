@@ -32,11 +32,11 @@ func IsUserValid(db *gorm.DB, username string, password string) (uint, error) {
 
 		if err != nil {
 			// Check if the password is incorrect
-			return 0, errors.New("Password is incorrect") 
+			return 0, errors.New("password is incorrect") 
 		}
 	} else if username != user.Email || username != user.Username {
 		// Check if the email or username does not exists 
-		return 0, errors.New("Username does not exist")
+		return 0, errors.New("username does not exist")
 	}
 
 	return user.ID, nil

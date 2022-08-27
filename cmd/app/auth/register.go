@@ -21,7 +21,7 @@ func RegisterNewUser(db *gorm.DB, email string, username string, password string
 	db.Where("email = ?", email).First(&user1)
 
 	if email == user1.Email {
-		return errors.New("Email already taken")
+		return errors.New("email already taken")
 	}
 
 	/* Check if username is already taken */
@@ -30,17 +30,17 @@ func RegisterNewUser(db *gorm.DB, email string, username string, password string
 	db.Where("username = ?", username).First(&user2)
 
 	if username == user2.Username {
-		return errors.New("Username already taken")
+		return errors.New("username already taken")
 	}
 
 	/* Check if the password is under 6 characters */
 	if len(password) < 6 {
-		return errors.New("Password is less than 6 characters")
+		return errors.New("password is less than 6 characters")
 	} 
 
 	/* Checks if the passwords match */
 	if password != confirm {
-		return errors.New("Passwords do not match")
+		return errors.New("passwords do not match")
 	}
 		
 	// Create user account

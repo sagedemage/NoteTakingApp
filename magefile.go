@@ -22,10 +22,10 @@ func Run() error {
 }
 
 func Test() error {
-	//go test cmd/app/...
 	if err := sh.Run("go", "mod", "download"); err != nil {
 		return err
 	}
 
 	return sh.Run("go", "test", "-v", "./cmd/app/tests/...")
 }
+
