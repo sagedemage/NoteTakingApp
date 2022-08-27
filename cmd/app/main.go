@@ -5,6 +5,9 @@ import (
 )
 
 func main() {
+	// Open database
+	//db := notebook_db.InitDB("database/notebook.db")
+
 	// Initialize the router
 	r := router_setup.InitializeRouter()
 

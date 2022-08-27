@@ -12,7 +12,7 @@ func InitDB(database_path string) *gorm.DB {
 	db, err := gorm.Open(sqlite.Open(database_path), &gorm.Config{})
 	
 	if err != nil {
-		panic("failed to connect database")
+		panic(err)
 	}
 
 	// Generate table structure

@@ -22,6 +22,9 @@ func InitializeRouter() *gin.Engine {
 	// create the router
 	router := gin.Default()
 
+	// Open database
+	db := notebook_db.InitDB("database/notebook.db")
+
 	// html renderer
 	router.HTMLRender = template_loader.LoadTemplates("cmd/app/templates")
 
@@ -34,9 +37,6 @@ func InitializeRouter() *gin.Engine {
 
 	// Load static files (for css, and etc)
 	router.Static("/static", "cmd/app/static")
-
-	// Open database
-	db := notebook_db.InitDB("database/notebook.db")
 
 	/* Get Requests */
 	// Render the home page at the root of the website

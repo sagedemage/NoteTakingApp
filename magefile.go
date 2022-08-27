@@ -20,3 +20,12 @@ func Run() error {
 	}
 	return sh.Run("go", "run", "-v", "./cmd/app/...")
 }
+
+func Test() error {
+	//go test cmd/app/...
+	if err := sh.Run("go", "mod", "download"); err != nil {
+		return err
+	}
+
+	return sh.Run("go", "test", "-v", "./cmd/app/tests/...")
+}
