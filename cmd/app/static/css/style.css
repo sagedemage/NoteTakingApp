@@ -8,10 +8,25 @@ article, footer {
 	font-size: 1.2em;
 }
 
+.container {
+	margin-top: 20px;
+	margin-bottom: 20px;
+}
+
 .navbar {
 	padding-left: 2%;
 }
 
+#right-nav {
+	float: right;
+}
+
+.note-title {
+	border-bottom: 2px solid #DADADA;
+	padding-bottom: 5px;
+}
+
 #copyright {
 	font-size: 0.9em;
+	text-align: center;
 }

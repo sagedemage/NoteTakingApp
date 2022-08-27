@@ -1,7 +1,7 @@
 # syntax=docker/dockerfile:1
 
 # Use Debian as OS
-FROM golang:1.16-bullseye
+FROM golang:1.18-bullseye
 
 # Update and install gcc and make
 RUN apt update && \
@@ -21,17 +21,19 @@ RUN go mod download
 
 # Install the go external packages
 RUN go get -u github.com/gin-gonic/gin \ 
+	github.com/gin-contrib/sessions \
+	github.com/gin-contrib/multitemplate \
 	gorm.io/gorm \
 	gorm.io/driver/sqlite
 
 # Build the Go app
-RUN go build -o out
+RUN go build -o build/ -v ./cmd/app/...
 
 # Expose port 8080 to the outside world
 EXPOSE 8080
 
 # Run the executable
-CMD [ "./out" ]
+CMD [ "./build/app" ]
 
 
 

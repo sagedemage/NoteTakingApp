@@ -1,10 +1,5 @@
-{{ define "notes/new-note.tmpl" }}
+{{ define "content" }}
 
-{{ template "header.tmpl" }}
-
-<h1> {{ .title }} </h1>
-
-<!--<form method="POST" action="add-new-note">-->
 <form method="post">
   	<div class="form-group">
    		<input class="form-control" id="exampleFormControlInput1" name="title" placeholder="Title" required>
@@ -14,7 +9,5 @@
   	</div>
 	<button type="submit" class="btn btn-primary">Submit</button>
 </form>
-
-{{ template "footer.tmpl" }}
 
 {{ end }}
