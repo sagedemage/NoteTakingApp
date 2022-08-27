@@ -1,4 +1,7 @@
 # Notebook App
+[![Production Workflow](https://github.com/sagedemage/NotebookApp/actions/workflows/development.yml/badge.svg
+)](https://github.com/sagedemage/NotebookApp/actions/workflows/development.yml)
+
 This is a note taking app. I create notes when learning new technologies and 
 remembering what was in my mind lasted time. My goal is is to create a note taking web app 
 I can use on my home server. I use raspberry pi as my home server.
