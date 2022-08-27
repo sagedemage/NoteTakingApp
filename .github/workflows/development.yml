@@ -1,19 +1,18 @@
-name: Audit
+name: Development Workflow
 
 on:
   push:
-    branches: [ $default-branch ] # default branch should be main
+    branches: [ 'main' ]
   pull_request:
-    branches: [ $default-branch ]
+    branches: [ 'main' ]
 
 jobs:
-
-  audit:
+  run_go_test:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
 
-    - name: Set up Go
+    - name: Set up Go with its verison number
       uses: actions/setup-go@v3
       with:
         go-version: 1.18
@@ -31,7 +30,7 @@ jobs:
       run: go vet ./cmd/app/...
 
     - name: Lint
-      run: staticcheck ./...
+      run: staticcheck ./cmd/app/...
 
     - name: Test
       run: go test -v ./cmd/app/tests/...

@@ -6,3 +6,6 @@ staticcheck ./cmd/app/...
 
 # Building
 go build -o build/ -v ./cmd/app/...
+
+# Test
+test github workflows
