@@ -20,7 +20,7 @@ func ViewNotes(db *gorm.DB) gin.HandlerFunc {
 	fn := func(c *gin.Context) {
 		/* View all the database entries as a table */
 		// Set title name for the page
-		var title_name = "Notes"
+		var page_title = "Notes"
 
 		// Get User ID Data
 		user_id := user_session.GetUserSessionData(c, "user_id").(uint)
@@ -33,8 +33,7 @@ func ViewNotes(db *gorm.DB) gin.HandlerFunc {
 
 		// Pass the list of notes to the web page
 		c.HTML(http.StatusOK, "view-notes.tmpl", gin.H{
-			"title": title_name,
-			"page_title": title_name,
+			"page_title": page_title,
 			"note_list":  notes,
 			"user": user,
 		})
