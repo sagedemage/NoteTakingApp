@@ -1,12 +1,9 @@
 package tests
 
 import (
-	//"net/http"
 	"testing"
 
-	//"github.com/stretchr/testify/assert"
-
-	//"notebook_app/cmd/app/auth"
+	"notebook_app/cmd/app/auth"
 )
 
 func TestRegistration(t *testing.T) {
@@ -14,15 +11,45 @@ func TestRegistration(t *testing.T) {
 	ChangetoRepoRootDirectory()
 
 	// Setup App
-	//var r, db = RunApp()
+	var _, db = RunApp()
 
-	//auth.RegisterNewUser()
-	
+	// get email data
+	var email string = "test1000@gmail.com"
+		
+	// get username form data
+	var username string = "test1000"
+		
+	// get password form data
+	var password string = "test1000"
 
-	// test home page
-	//request, _ := http.NewRequest("GET", "/register", nil)
-	//r.ServeHTTP(write, request)
-	//assert.Equal(t, 200, write.Code)
+	// get confirm from data
+	var confirm string = "test1000"
+
+	err := auth.RegisterNewUser(db, email, username, password, confirm)
+
+	if err != nil {
+		t.Fatalf("registration failed")
+	}
+}
+
+func TestLogin(t *testing.T) {
+	// Change directory
+	ChangetoRepoRootDirectory()
+
+	// Setup App
+	var _, db = RunApp()
+
+	// get username form data
+	var username string = "test1000"
+		
+	// get password form data
+	var password string = "test1000"
+
+	_, err := auth.IsUserValid(db, username, password)
+
+	if err != nil {
+		t.Fatalf("login failed")
+	}
 }
 
 
