@@ -84,3 +84,19 @@ func TestAuthRoutes(t *testing.T) {
 	r.ServeHTTP(write, request)
 	assert.Equal(t, 401, write.Code)
 }
+
+func TestPageNotFoundRoutes(t *testing.T) {
+	// Change directory
+	ChangetoRepoRootDirectory()
+
+	// setup routerr
+	r := router_setup.InitializeRouter()
+	
+	// setup http recorder for testing
+	write := httptest.NewRecorder()
+
+	// test page not found
+	request, _ := http.NewRequest("GET", "/welcome", nil)
+	r.ServeHTTP(write, request)
+	assert.Equal(t, 404, write.Code)
+}
