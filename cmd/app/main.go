@@ -10,7 +10,4 @@ func main() {
 
 	// listen and serve on localhost:8080
 	r.Run(":8080")
-
-	// test
-	print("Help")
 }

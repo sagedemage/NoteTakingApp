@@ -61,8 +61,6 @@ func InitializeRouter() *gin.Engine {
 	// Page Not Found
 	router.NoRoute(page_renderer.RenderPageNotFoundWebPage("404.html", "404 Page - Page Not Found"))
 
-	//page_renderer.RenderWebPage("404.html", "404 Page")
-
 	/* Auhtorization Required */
 	auth_routes := router.Group("/").Use(auth.AuthRequired)
 
