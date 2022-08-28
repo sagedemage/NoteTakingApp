@@ -6,15 +6,13 @@ import (
 	"github.com/gin-contrib/multitemplate"
 )
 
-func LoadTemplates(templatesDir string) multitemplate.Renderer {
-	r := multitemplate.NewRenderer()
-
-	layouts, err := filepath.Glob(templatesDir + "/layouts/*.tmpl")
+func generate_templates(r multitemplate.Renderer, templatesDir string, layoutFile string, pagesDir string) multitemplate.Renderer {
+	layouts, err := filepath.Glob(templatesDir + layoutFile)
 	if err != nil {
 		panic(err.Error())
 	}
 
-	includes, err := filepath.Glob(templatesDir + "/includes/*.tmpl")
+	includes, err := filepath.Glob(templatesDir + pagesDir)
 	if err != nil {
 		panic(err.Error())
 	}
@@ -26,16 +24,15 @@ func LoadTemplates(templatesDir string) multitemplate.Renderer {
 		files := append(layoutCopy, include)
 		r.AddFromFiles(filepath.Base(include), files...)
 	}
+	return r
+}
 
-	base_error_path := filepath.Join(templatesDir, "errors/base.html")
+func LoadTemplates(templatesDir string) multitemplate.Renderer {
+	r := multitemplate.NewRenderer()
 
-	page_not_found_path := filepath.Join(templatesDir, "errors/404.html")
+	r = generate_templates(r, templatesDir, "/layouts/base.tmpl", "/includes/*.tmpl")
 
-	r.AddFromFiles("404.html", base_error_path, page_not_found_path)
-
-	unathorized_page_path := filepath.Join(templatesDir, "errors/401.html")
-
-	r.AddFromFiles("401.html", base_error_path, unathorized_page_path)
+	r = generate_templates(r, templatesDir, "/layouts/error-base.html", "/errors/*.html")
 
 	return r
 }
