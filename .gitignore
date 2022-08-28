@@ -3,4 +3,5 @@ build
 *.png
 *.xcf
 *~
+database/notebook.db
 
