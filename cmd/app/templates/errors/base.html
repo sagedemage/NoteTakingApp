@@ -8,15 +8,14 @@
 		<!-- Custom CSS -->
 		<link href="/static/css/style.css" rel="stylesheet">
 		<!--Use the `title` variable to set the title of the page-->
-		<title> {{ .title }} </title>
+		<title> {{ .page_title }} </title>
 	</head> 
 	<body>
 		<article>
-		<h1> {{ .title }} </h1>
-		<p>
-			<a class="nav-link" href="/">click here</a>
-			to be redirected to the home page. 
-		</p>
+		<h1> {{ .page_title }} </h1>
+
+		<!-- Insert content here -->
+		{{ template "content" . }}
 
 		</article>
 		<!-- JavaScript Bundle with Popper -->

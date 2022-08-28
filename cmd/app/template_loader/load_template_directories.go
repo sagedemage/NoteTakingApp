@@ -27,13 +27,15 @@ func LoadTemplates(templatesDir string) multitemplate.Renderer {
 		r.AddFromFiles(filepath.Base(include), files...)
 	}
 
+	base_error_path := filepath.Join(templatesDir, "errors/base.html")
+
 	page_not_found_path := filepath.Join(templatesDir, "errors/404.html")
 
-	r.AddFromFiles("404.html", page_not_found_path)
+	r.AddFromFiles("404.html", base_error_path, page_not_found_path)
 
 	unathorized_page_path := filepath.Join(templatesDir, "errors/401.html")
 
-	r.AddFromFiles("401.html", unathorized_page_path)
+	r.AddFromFiles("401.html", base_error_path, unathorized_page_path)
 
 	return r
 }

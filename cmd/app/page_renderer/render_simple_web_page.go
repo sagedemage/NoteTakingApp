@@ -23,3 +23,23 @@ func RenderWebPage(template_page string, page_title string) gin.HandlerFunc {
 	}
 	return gin.HandlerFunc(fn)
 }
+
+func RenderPageNotFoundWebPage(template_page string, page_title string) gin.HandlerFunc {
+	fn := func(c *gin.Context) {
+		/* Render 404 web page */
+		c.HTML(http.StatusNotFound, template_page, gin.H{
+			"page_title": page_title,
+		})
+	}
+	return gin.HandlerFunc(fn)
+}
+
+func RenderUnauthorizedWebPage(template_page string, page_title string) gin.HandlerFunc {
+	fn := func(c *gin.Context) {
+		/* Render 401 web page */
+		c.HTML(http.StatusUnauthorized, template_page, gin.H{
+			"page_title": page_title,
+		})
+	}
+	return gin.HandlerFunc(fn)
+}

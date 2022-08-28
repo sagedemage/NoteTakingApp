@@ -1,11 +1,13 @@
 package auth
 
 import (
-	"net/http"
+	//"net/http"
 
 	"github.com/gin-gonic/gin"
 
 	"go-web-app-experiment/cmd/app/user_session"
+
+	"go-web-app-experiment/cmd/app/page_renderer"
 )
 
 
@@ -15,8 +17,9 @@ func AuthRequired(c *gin.Context) {
 	user := user_session.GetUserSessionData(c, "is_logged_in")
 
 	if user == nil {
-		c.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{"error": "unathorized"})
-		return
+		page_renderer.RenderUnauthorizedWebPage("401.html", "401 Page - Unauthorized")
+		//c.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{"error": "unathorized"})
+		//return
 	} 
 }
 
