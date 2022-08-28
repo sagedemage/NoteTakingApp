@@ -1,34 +1,19 @@
 package tests
 
 import (
-	"os"
-  	"path"
-  	"runtime"
-
 	"net/http"
 	"net/http/httptest"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
-	"go-web-app-experiment/cmd/app/router_setup"
 )
-
-func ChangetoRepoRootDirectory() {
-	_, filename, _, _ := runtime.Caller(0)
-
-  	dir := path.Join(path.Dir(filename), "../../..")
-  	err := os.Chdir(dir)
-  	if err != nil {
-  	  panic(err)
-  	}
-}
 
 func TestRoutes(t *testing.T) {
 	// Change directory
 	ChangetoRepoRootDirectory()
 
-	// setup routerr
-	r := router_setup.InitializeRouter()
+	// Setup App
+	var r, _ = RunApp()
 	
 	// setup http recorder for testing
 	write := httptest.NewRecorder()
@@ -58,9 +43,9 @@ func TestAuthRoutes(t *testing.T) {
 	// Change directory
 	ChangetoRepoRootDirectory()
 
-	// setup routerr
-	r := router_setup.InitializeRouter()
-	
+	// Setup App
+	var r, _ = RunApp()
+
 	// setup http recorder for testing
 	write := httptest.NewRecorder()
 
@@ -89,9 +74,9 @@ func TestPageNotFoundRoutes(t *testing.T) {
 	// Change directory
 	ChangetoRepoRootDirectory()
 
-	// setup routerr
-	r := router_setup.InitializeRouter()
-	
+	// Setup App
+	var r, _ = RunApp()
+
 	// setup http recorder for testing
 	write := httptest.NewRecorder()
 

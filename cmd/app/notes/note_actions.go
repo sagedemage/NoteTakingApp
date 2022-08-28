@@ -7,11 +7,11 @@ import (
 
 	"gorm.io/gorm"
 
-	"go-web-app-experiment/cmd/app/notebook_db"
+	"notebook_app/cmd/app/notebook_db"
 
-	"go-web-app-experiment/cmd/app/user_session"
+	"notebook_app/cmd/app/user_session"
 
-	"go-web-app-experiment/cmd/app/form"
+	"notebook_app/cmd/app/form"
 )
 
 /* Post Requests */

@@ -13,9 +13,9 @@ import (
 
 	"golang.org/x/crypto/bcrypt"
 
-	"go-web-app-experiment/cmd/app/notebook_db"
+	"notebook_app/cmd/app/notebook_db"
 
-	"go-web-app-experiment/cmd/app/form"
+	"notebook_app/cmd/app/form"
 )
 
 func is_user_valid(db *gorm.DB, username string, password string) (uint, error) {

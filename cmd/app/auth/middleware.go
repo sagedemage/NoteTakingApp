@@ -1,15 +1,11 @@
 package auth
 
 import (
-	//"net/http"
-
-	//"errors"
-
 	"github.com/gin-gonic/gin"
 
-	"go-web-app-experiment/cmd/app/user_session"
+	"notebook_app/cmd/app/user_session"
 
-	"go-web-app-experiment/cmd/app/page_renderer"
+	"notebook_app/cmd/app/page_renderer"
 )
 
 

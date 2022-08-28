@@ -7,23 +7,20 @@ import (
 
 	"github.com/gin-contrib/sessions/cookie"
 
-	"go-web-app-experiment/cmd/app/notebook_db"
+	"gorm.io/gorm"
 
-	"go-web-app-experiment/cmd/app/notes"
+	"notebook_app/cmd/app/notes"
 
-	"go-web-app-experiment/cmd/app/template_loader"
+	"notebook_app/cmd/app/template_loader"
 
-	"go-web-app-experiment/cmd/app/page_renderer"
+	"notebook_app/cmd/app/page_renderer"
 
-	"go-web-app-experiment/cmd/app/auth"
+	"notebook_app/cmd/app/auth"
 )
 
-func InitializeRouter() *gin.Engine {
+func InitializeRouter(db *gorm.DB) *gin.Engine {
 	// create the router
 	router := gin.Default()
-
-	// Open database
-	db := notebook_db.InitDB("database/notebook.db")
 
 	// html renderer
 	router.HTMLRender = template_loader.LoadTemplates("cmd/app/templates")
