@@ -29,10 +29,14 @@ func DeleteOrEditNote(db *gorm.DB) gin.HandlerFunc {
 			id := form.GetFormValue(c, "delete")
 
 			// delete entry
-			db.Delete(&notebook_db.Note{}, id)
+			//db.Delete(&notebook_db.Note{}, id)
+
+			// set id of entry to edit
+			c.SetCookie("id", id, 10, "/delete-note", c.Request.URL.Hostname(), false, true)
 
 			// redirect to notes view page
-			c.Redirect(http.StatusFound, "/view-notes")
+			c.Redirect(http.StatusFound, "/delete-note")
+
 		} else if form.GetFormValue(c, "edit") != "" {
 			/* Edit Note Post Request Redirect */
 			// get entry id for the editing an entry
@@ -87,6 +91,28 @@ func EditNote(db *gorm.DB) gin.HandlerFunc {
 
 		// Update the entry title and description by id
 		notebook_db.UpdateNoteEntry(db, id, title, description)
+
+		// Redirect to the table view page
+		c.Redirect(http.StatusFound, "/view-notes")
+
+	}
+	return gin.HandlerFunc(fn)
+}
+
+func DeleteNote(db *gorm.DB) gin.HandlerFunc {
+	fn := func(c *gin.Context) {
+		/* Edit Note Post Request */
+		// Parse Form Data
+		c.Request.ParseForm()
+
+		// Get cookie of the id value
+		id, err := c.Cookie("id")
+		if err != nil {
+			panic(err)
+		}
+
+		// delete entry
+		db.Delete(&notebook_db.Note{}, id)
 
 		// Redirect to the table view page
 		c.Redirect(http.StatusFound, "/view-notes")

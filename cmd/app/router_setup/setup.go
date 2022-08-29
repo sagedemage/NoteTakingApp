@@ -65,24 +65,30 @@ func InitializeRouter(db *gorm.DB) *gin.Engine {
 	// Render the view table page at route "/table"
 	auth_routes.GET("/view-notes", notes.ViewNotes(db))
 
-	// Render the new entry page at route "/new-entry"
+	// Render the new entry page at route "/add-new-note"
 	auth_routes.GET("/add-new-note", page_renderer.RenderWebPage("new-note.tmpl", "New Note"))
 
-	// Render the new entry page at route "/new-entry"
+	// Render the new entry page at route "/edit-note"
 	auth_routes.GET("/edit-note", notes.EditNoteForm(db))
+
+	// Render the new entry page at route "/delete-entry"
+	auth_routes.GET("/delete-note", notes.DeleteNoteForm)
 
 	// Logout the user
 	auth_routes.GET("/logout", auth.Logout)
 
 	/* Post Requests */
-	// Render the view table page at route "/table"
+	// Handle Delete and Edit post requets
 	auth_routes.POST("/view-notes", notes.DeleteOrEditNote(db))
 
-	// Get Form data from POST request
+	// Add Note from POST request
 	auth_routes.POST("/add-new-note", notes.AddNewNote(db))
 
-	// Get Form data from POST request
+	// Edit Note from POST request
 	auth_routes.POST("/edit-note", notes.EditNote(db))
+
+	// Delete Note from POST request
+	auth_routes.POST("/delete-note", notes.DeleteNote(db))
 
 	return router
 }
