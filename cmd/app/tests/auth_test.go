@@ -36,6 +36,8 @@ func TestRegistration(t *testing.T) {
 	r.ServeHTTP(write, request)
 
 	assert.Equal(t, 302, write.Code)
+
+	assert.Equal(t, "/login", write.HeaderMap.Get("Location"))
 }
 
 func TestLogin(t *testing.T) {
@@ -61,6 +63,8 @@ func TestLogin(t *testing.T) {
 	r.ServeHTTP(write, request)
 
 	assert.Equal(t, 302, write.Code)
+
+	assert.Equal(t, "/view-notes", write.HeaderMap.Get("Location"))
 }
 
 
