@@ -1,9 +1,14 @@
 package tests
 
 import (
+	"net/http"
+	"net/url"
+
+	"net/http/httptest"
+
 	"testing"
 
-	"notebook_app/cmd/app/auth"
+	"github.com/stretchr/testify/assert"
 )
 
 func TestRegistration(t *testing.T) {
@@ -11,25 +16,26 @@ func TestRegistration(t *testing.T) {
 	ChangetoRepoRootDirectory()
 
 	// Setup App
-	var _, db = RunApp()
+	var r, _ = RunApp()
 
-	// get email data
-	var email string = "test1000@gmail.com"
-		
-	// get username form data
-	var username string = "test1000"
-		
-	// get password form data
-	var password string = "test1000"
+	// setup http recorder for testing
+	write := httptest.NewRecorder()
 
-	// get confirm from data
-	var confirm string = "test1000"
+	// test home page
+	request, _ := http.NewRequest("POST", "/register", nil)
+	
+	v := url.Values{}
 
-	err := auth.RegisterNewUser(db, email, username, password, confirm)
+	v.Set("email", "test1000@gmail.com")
+	v.Add("username", "test1000")
+	v.Add("password", "test1000")
+	v.Add("confirm", "test1000")
 
-	if err != nil {
-		t.Fatalf("registration failed")
-	}
+	request.PostForm = v
+
+	r.ServeHTTP(write, request)
+
+	assert.Equal(t, 302, write.Code)
 }
 
 func TestLogin(t *testing.T) {
@@ -37,19 +43,24 @@ func TestLogin(t *testing.T) {
 	ChangetoRepoRootDirectory()
 
 	// Setup App
-	var _, db = RunApp()
+	var r, _ = RunApp()
 
-	// get username form data
-	var username string = "test1000"
-		
-	// get password form data
-	var password string = "test1000"
+	// setup http recorder for testing
+	write := httptest.NewRecorder()
 
-	_, err := auth.IsUserValid(db, username, password)
+	// test home page
+	request, _ := http.NewRequest("POST", "/login", nil)
+	
+	v := url.Values{}
 
-	if err != nil {
-		t.Fatalf("login failed")
-	}
+	v.Set("username", "test1000@gmail.com")
+	v.Add("password", "test1000")
+
+	request.PostForm = v
+
+	r.ServeHTTP(write, request)
+
+	assert.Equal(t, 302, write.Code)
 }
 
 

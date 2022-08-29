@@ -13,29 +13,29 @@ func TestRoutes(t *testing.T) {
 	ChangetoRepoRootDirectory()
 
 	// Setup App
-	var r, _ = RunApp()
+	var router, _ = RunApp()
 	
 	// setup http recorder for testing
 	write := httptest.NewRecorder()
 
 	// test home page
 	request, _ := http.NewRequest("GET", "/", nil)
-	r.ServeHTTP(write, request)
+	router.ServeHTTP(write, request)
 	assert.Equal(t, 200, write.Code)
 
 	// test about page
 	request, _ = http.NewRequest("GET", "/about", nil)
-	r.ServeHTTP(write, request)
+	router.ServeHTTP(write, request)
 	assert.Equal(t, 200, write.Code)
 
 	// test login page
 	request, _ = http.NewRequest("GET", "/login", nil)
-	r.ServeHTTP(write, request)
+	router.ServeHTTP(write, request)
 	assert.Equal(t, 200, write.Code)
 
 	// test register page
 	request, _ = http.NewRequest("GET", "/register", nil)
-	r.ServeHTTP(write, request)
+	router.ServeHTTP(write, request)
 	assert.Equal(t, 200, write.Code)
 }
 
