@@ -66,7 +66,7 @@ func InitializeRouter(db *gorm.DB) *gin.Engine {
 	auth_routes.GET("/view-notes", notes.ViewNotes(db))
 
 	// Render the new entry page at route "/add-new-note"
-	auth_routes.GET("/add-new-note", page_renderer.RenderWebPage("new-note.tmpl", "New Note"))
+	auth_routes.GET("/add-new-note", page_renderer.RenderWebPage("add-note.tmpl", "New Note"))
 
 	// Render the new entry page at route "/edit-note"
 	auth_routes.GET("/edit-note", notes.EditNoteForm(db))
