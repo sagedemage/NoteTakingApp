@@ -72,7 +72,7 @@ func InitializeRouter(db *gorm.DB) *gin.Engine {
 	auth_routes.GET("/edit-note", notes.EditNoteForm(db))
 
 	// Render the new entry page at route "/delete-entry"
-	auth_routes.GET("/delete-note", notes.DeleteNoteForm)
+	auth_routes.GET("/delete-note", page_renderer.RenderWebPage("delete-note.tmpl", "Delete Note"))
 
 	// Logout the user
 	auth_routes.GET("/logout", auth.Logout)

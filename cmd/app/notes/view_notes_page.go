@@ -10,11 +10,9 @@ import (
 	"notebook_app/cmd/app/notebook_db"
 
 	"notebook_app/cmd/app/user_session"
+
+	"notebook_app/cmd/app/form"
 )
-
-/* Get Requests */
-
-/* Notes */
 
 func ViewNotes(db *gorm.DB) gin.HandlerFunc {
 	fn := func(c *gin.Context) {
@@ -37,6 +35,42 @@ func ViewNotes(db *gorm.DB) gin.HandlerFunc {
 			"note_list":  notes,
 			"user": user,
 		})
+	}
+	return gin.HandlerFunc(fn)
+}
+
+func DeleteOrEditNote(db *gorm.DB) gin.HandlerFunc {
+	fn := func(c *gin.Context) {
+		/* Handle Delete and Edit Button POST Requests
+		on the view notes page */
+		// Parse Form Data
+		c.Request.ParseForm()
+
+		if form.GetFormValue(c, "delete") != "" {
+			/* Delete Note Post request */
+			// get entry id for the deleting an entry
+			id := form.GetFormValue(c, "delete")
+
+			// delete entry
+			//db.Delete(&notebook_db.Note{}, id)
+
+			// set id of entry to edit
+			c.SetCookie("id", id, 10, "/delete-note", c.Request.URL.Hostname(), false, true)
+
+			// redirect to notes view page
+			c.Redirect(http.StatusFound, "/delete-note")
+
+		} else if form.GetFormValue(c, "edit") != "" {
+			/* Edit Note Post Request Redirect */
+			// get entry id for the editing an entry
+			id := form.GetFormValue(c, "edit")
+
+			// set id of entry to edit
+			c.SetCookie("id", id, 10, "/edit-note", c.Request.URL.Hostname(), false, true)
+
+			// redirect to edit note
+			c.Redirect(http.StatusFound, "/edit-note")
+		}
 	}
 	return gin.HandlerFunc(fn)
 }
