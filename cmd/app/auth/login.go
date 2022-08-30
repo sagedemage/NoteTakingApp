@@ -2,6 +2,8 @@ package auth
 
 import (
 	"net/http"
+
+	"net/url"
 	
 	"gorm.io/gorm"
 	
@@ -18,12 +20,50 @@ import (
 	"notebook_app/cmd/app/form"
 )
 
+func LoginPage(c *gin.Context) {
+	/* Login Page */
+	var page_title = "Login"
+
+	var error_status, success_status = false, false
+
+	// query msg_error
+	msg_error := c.Query("msg_error")
+
+	// query msg_success
+	msg_success := c.Query("msg_success")
+
+	// Get user session data
+	session := sessions.Default(c)
+
+	// Get loggin in value
+	user := session.Get("is_logged_in")
+
+	var http_status = http.StatusOK
+
+	if msg_error != "" {
+		http_status = http.StatusUnprocessableEntity
+		error_status = true
+	} else if msg_success != "" {
+		success_status = true
+	}
+	c.HTML(http_status, "login.tmpl", gin.H{
+		"page_title": page_title,
+		"user": user,
+		"error_status": error_status,
+		"msg_error": msg_error,
+		"success_status": success_status,
+		"msg_success": msg_success,
+	})
+}
+
 func is_user_valid(db *gorm.DB, username string, password string) (uint, error) {
 	/* Check if the User is Valid */
 	var user = &notebook_db.User{}
 
 	// Get entry with the specified email or username
 	db.Where("email = ? OR username = ?", username, username).First(&user)
+
+	// Incorrect username or password (Reddit, GitHub)
 
 	if username == user.Email || username == user.Username {
 		// Check if the email or username exists 
@@ -32,11 +72,11 @@ func is_user_valid(db *gorm.DB, username string, password string) (uint, error) 
 
 		if err != nil {
 			// Check if the password is incorrect
-			return 0, errors.New("password is incorrect") 
+			return 0, errors.New("Incorrect username or password") 
 		}
 	} else if username != user.Email || username != user.Username {
 		// Check if the email or username does not exists 
-		return 0, errors.New("username does not exist")
+		return 0, errors.New("Incorrect username or password")
 	}
 
 	return user.ID, nil
@@ -70,15 +110,25 @@ func Login(db *gorm.DB) gin.HandlerFunc {
 			// Redirect to the table view page
 			c.Redirect(http.StatusFound, "/view-notes")
 		} else {
-			c.JSON(http.StatusUnprocessableEntity, gin.H{
-				"MSG": "Login Failed",
-				"ErrorMessage": err.Error(),
-			})
+			// send login error message
+			login_error_message(c, err)
 		}
-
-		
 	}
 	return gin.HandlerFunc(fn)
+}
+
+func login_error_message(c *gin.Context, err error) {
+	// initialize query values
+	q := url.Values{}
+
+	// set note_id query value
+	q.Set("msg_error", err.Error())
+
+	// pass query value to the delete note route
+	location := url.URL{Path: "/login", RawQuery: q.Encode()}
+
+	// redirect to edit note
+	c.Redirect(http.StatusFound, location.RequestURI())
 }
 
 func Logout(c *gin.Context) {

@@ -43,10 +43,10 @@ func InitializeRouter(db *gorm.DB) *gin.Engine {
 	router.GET("/about", page_renderer.RenderWebPage("about.tmpl", "About"))
 
 	// Render the new registration page at route "/register"
-	router.GET("/register", page_renderer.RenderWebPage("register.tmpl", "Register"))
+	router.GET("/register", auth.RegisterPage)
 
 	// Render the login page at route "/login"
-	router.GET("/login", page_renderer.RenderWebPage("login.tmpl", "Login"))
+	router.GET("/login", auth.LoginPage)
 
 	/* Post Requests */
 	// Register the user
