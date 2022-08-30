@@ -47,13 +47,14 @@ func DeleteOrEditNote(db *gorm.DB) gin.HandlerFunc {
 		// Parse Form Data
 		c.Request.ParseForm()
 
+		// initialize query values
+		q := url.Values{}
+
 		if form.GetFormValue(c, "delete") != "" {
 			/* Delete Note Post request */
 			// get entry id for the deleting an entry
 			note_id := form.GetFormValue(c, "delete")
 
-			q := url.Values{}
-			
 			// set note_id query value
 			q.Set("note_id", note_id)
 
@@ -67,8 +68,6 @@ func DeleteOrEditNote(db *gorm.DB) gin.HandlerFunc {
 			/* Edit Note Post Request Redirect */
 			// get entry id for the editing an entry
 			note_id := form.GetFormValue(c, "edit")
-
-			q := url.Values{}
 
 			// set note_id query value
 			q.Set("note_id", note_id)
