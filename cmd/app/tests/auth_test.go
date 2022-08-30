@@ -39,8 +39,10 @@ func TestRegistration(t *testing.T) {
 	// check if redirection is successful
 	assert.Equal(t, 302, writer.Code)
 
+	var route_path = "/login?msg_success=Registered+Successfully"
+
 	// check if the request redirects to the /login route
-	assert.Equal(t, "/login", writer.HeaderMap.Get("Location"))
+	assert.Equal(t, route_path, writer.HeaderMap.Get("Location"))
 }
 
 func TestLogin(t *testing.T) {
