@@ -12,96 +12,108 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func Login(r *gin.Engine) *httptest.ResponseRecorder {
-	write := httptest.NewRecorder()
+func Login(router *gin.Engine) *httptest.ResponseRecorder {
+	/* Login user for tests */
+	// setup reponse writer
+	writer := httptest.NewRecorder()
 
 	// request login page
 	request, _ := http.NewRequest("POST", "/login", nil)
 	
+	// initialize query values for the post form  
 	v := url.Values{}
 
+	// set post form data
 	v.Set("username", "test1000@gmail.com")
 	v.Add("password", "test1000")
 
+	// post form request
 	request.PostForm = v
 
-	r.ServeHTTP(write, request)
+	// reponse to an http request
+	router.ServeHTTP(writer, request)
 
-	return write
+	return writer
 }
 
 func TestAddNote(t *testing.T) {
-	// Change directory
-	ChangetoRepoRootDirectory()
-
-	// Setup App
-	var r, _ = RunApp()
+	// setup
+	var router = Setup()
 
 	// Login User
-	write := Login(r)
+	writer := Login(router)
 
 	// test home page
 	request, _ := http.NewRequest("POST", "/add-new-note", nil)
 	
+	// initialize query values for the post form  
 	v := url.Values{}
 
+	// set post form data
 	v.Set("title", "title")
 	v.Add("description", "description")
 
+	// post form request
 	request.PostForm = v
 
-	r.ServeHTTP(write, request)
+	// reponse to an http request
+	router.ServeHTTP(writer, request)
 
-	assert.Equal(t, 302, write.Code)
+	// check if redirection is successful
+	assert.Equal(t, 302, writer.Code)
 
-	assert.Equal(t, "/view-notes", write.HeaderMap.Get("Location"))
+	// check if the request redirects to the /view-notes route
+	assert.Equal(t, "/view-notes", writer.HeaderMap.Get("Location"))
 }
 
 func TestEditNote(t *testing.T) {
-	// Change directory
-	ChangetoRepoRootDirectory()
-
-	// Setup App
-	var r, _ = RunApp()
+	// setup
+	var router = Setup()
 
 	// Login User
-	write := Login(r)
+	writer := Login(router)
 
 	// test home page
 	request, _ := http.NewRequest("POST", "/edit-note", nil)
 	
+	// initialize query values for the post form  
 	v := url.Values{}
 
+	// set post form data
 	v.Set("title", "Number One")
 	v.Add("description", "You are number one")
 
+	// post form request
 	request.PostForm = v
 
-	r.ServeHTTP(write, request)
+	// reponse to an http request
+	router.ServeHTTP(writer, request)
 
-	assert.Equal(t, 302, write.Code)
+	// check if redirection is successful
+	assert.Equal(t, 302, writer.Code)
 
-	assert.Equal(t, "/view-notes", write.HeaderMap.Get("Location"))
+	// check if the request redirects to the /view-notes route
+	assert.Equal(t, "/view-notes", writer.HeaderMap.Get("Location"))
 }
 
 func TestDeleteNote(t *testing.T) {
-	// Change directory
-	ChangetoRepoRootDirectory()
-
-	// Setup App
-	var r, _ = RunApp()
+	// setup
+	var router = Setup()
 
 	// Login User
-	write := Login(r)
+	writer := Login(router)
 
 	// test home page
 	request, _ := http.NewRequest("POST", "/delete-note", nil)
 	
-	r.ServeHTTP(write, request)
+	// reponse to an http request
+	router.ServeHTTP(writer, request)
 
-	assert.Equal(t, 302, write.Code)
+	// check if redirection is successful
+	assert.Equal(t, 302, writer.Code)
 
-	assert.Equal(t, "/view-notes", write.HeaderMap.Get("Location"))
+	// check if the request redirects to the /view-notes route
+	assert.Equal(t, "/view-notes", writer.HeaderMap.Get("Location"))
 }
 
 
