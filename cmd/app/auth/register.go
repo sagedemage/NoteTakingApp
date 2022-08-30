@@ -14,7 +14,7 @@ import (
 	"notebook_app/cmd/app/form"
 )
 
-func RegisterNewUser(db *gorm.DB, email string, username string, password string, confirm string) error {
+func register_new_user(db *gorm.DB, email string, username string, password string, confirm string) error {
 	/* Check if email is already taken */
 	var user1 = &notebook_db.User{}
 
@@ -68,15 +68,10 @@ func Register(db *gorm.DB) gin.HandlerFunc {
 		var confirm string = form.GetFormValue(c, "confirm") 
 
 		// Register new user
-		err := RegisterNewUser(db, email, username, password, confirm)
+		err := register_new_user(db, email, username, password, confirm)
 
 		/* Check if user registration is successful */
 		if err == nil {
-			token := GenerateSessionToken()
-
-			c.SetCookie("token", token, 3600, "", c.Request.URL.Hostname(), false, true)
-			c.Set("is_logged_in", true)
-
 			// Redirect to the login page
 			c.Redirect(http.StatusFound, "/login")
 		} else {

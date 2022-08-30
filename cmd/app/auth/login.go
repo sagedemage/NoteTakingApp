@@ -18,7 +18,7 @@ import (
 	"notebook_app/cmd/app/form"
 )
 
-func IsUserValid(db *gorm.DB, username string, password string) (uint, error) {
+func is_user_valid(db *gorm.DB, username string, password string) (uint, error) {
 	/* Check if the User is Valid */
 	var user = &notebook_db.User{}
 
@@ -55,14 +55,10 @@ func Login(db *gorm.DB) gin.HandlerFunc {
 		var password string = form.GetFormValue(c, "password") 
 
 		// Is User Valid
-		user_id, err := IsUserValid(db, username, password)
+		user_id, err := is_user_valid(db, username, password)
 
 		/* Check if user registration is successful */
 		if err == nil {
-			token := GenerateSessionToken()
-
-			c.SetCookie("token", token, 3600, "", c.Request.URL.Hostname(), false, true)
-			
 			// user session
 			session := sessions.Default(c)
 
