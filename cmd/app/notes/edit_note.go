@@ -21,14 +21,11 @@ func EditNoteForm(db *gorm.DB) gin.HandlerFunc {
 		// Set title name for the page
 		var page_title = "Edit Note"
 
-		// Get cookie of the id value
-		id, err := c.Cookie("id")
-		if err != nil {
-			panic(err)
-		}
+		// query note id
+		note_id := c.Query("note_id")
 
 		// get entry note values
-		note := notebook_db.GetNoteEntry(db, id)
+		note := notebook_db.GetNoteEntry(db, note_id)
 
 		// Get user logged_in session data
 		user := user_session.GetUserSessionData(c, "is_logged_in")
@@ -55,14 +52,11 @@ func EditNote(db *gorm.DB) gin.HandlerFunc {
 		var title string = form.GetFormValue(c, "title")
 		var description string = form.GetFormValue(c, "description")
 
-		// Get cookie of the id value
-		id, err := c.Cookie("id")
-		if err != nil {
-			panic(err)
-		}
+		// query note id
+		note_id := c.Query("note_id")
 
 		// Update the entry title and description by id
-		notebook_db.UpdateNoteEntry(db, id, title, description)
+		notebook_db.UpdateNoteEntry(db, note_id, title, description)
 
 		// Redirect to the table view page
 		c.Redirect(http.StatusFound, "/view-notes")

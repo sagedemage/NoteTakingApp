@@ -16,14 +16,11 @@ func DeleteNote(db *gorm.DB) gin.HandlerFunc {
 		// Parse Form Data
 		c.Request.ParseForm()
 
-		// Get cookie of the id value
-		id, err := c.Cookie("id")
-		if err != nil {
-			panic(err)
-		}
+		// query note id
+		note_id := c.Query("note_id")
 
 		// delete entry
-		db.Delete(&notebook_db.Note{}, id)
+		db.Delete(&notebook_db.Note{}, note_id)
 
 		// Redirect to the table view page
 		c.Redirect(http.StatusFound, "/view-notes")

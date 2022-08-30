@@ -2,6 +2,7 @@ package notes
 
 import (
 	"net/http"
+	"net/url"
 
 	"github.com/gin-gonic/gin"
 
@@ -49,27 +50,34 @@ func DeleteOrEditNote(db *gorm.DB) gin.HandlerFunc {
 		if form.GetFormValue(c, "delete") != "" {
 			/* Delete Note Post request */
 			// get entry id for the deleting an entry
-			id := form.GetFormValue(c, "delete")
+			note_id := form.GetFormValue(c, "delete")
 
-			// delete entry
-			//db.Delete(&notebook_db.Note{}, id)
+			q := url.Values{}
+			
+			// set note_id query value
+			q.Set("note_id", note_id)
 
-			// set id of entry to edit
-			c.SetCookie("id", id, 10, "/delete-note", c.Request.URL.Hostname(), false, true)
+			// pass query value to the delete note route
+			location := url.URL{Path: "/delete-note", RawQuery: q.Encode()}
 
-			// redirect to notes view page
-			c.Redirect(http.StatusFound, "/delete-note")
+			// redirect to th delete note page
+			c.Redirect(http.StatusFound, location.RequestURI())
 
 		} else if form.GetFormValue(c, "edit") != "" {
 			/* Edit Note Post Request Redirect */
 			// get entry id for the editing an entry
-			id := form.GetFormValue(c, "edit")
+			note_id := form.GetFormValue(c, "edit")
 
-			// set id of entry to edit
-			c.SetCookie("id", id, 10, "/edit-note", c.Request.URL.Hostname(), false, true)
+			q := url.Values{}
+
+			// set note_id query value
+			q.Set("note_id", note_id)
+
+			// pass query value to the delete note route
+			location := url.URL{Path: "/edit-note", RawQuery: q.Encode()}
 
 			// redirect to edit note
-			c.Redirect(http.StatusFound, "/edit-note")
+			c.Redirect(http.StatusFound, location.RequestURI())
 		}
 	}
 	return gin.HandlerFunc(fn)
