@@ -84,4 +84,24 @@ func TestEditNote(t *testing.T) {
 	assert.Equal(t, "/view-notes", write.HeaderMap.Get("Location"))
 }
 
+func TestDeleteNote(t *testing.T) {
+	// Change directory
+	ChangetoRepoRootDirectory()
+
+	// Setup App
+	var r, _ = RunApp()
+
+	// Login User
+	write := Login(r)
+
+	// test home page
+	request, _ := http.NewRequest("POST", "/delete-note", nil)
+	
+	r.ServeHTTP(write, request)
+
+	assert.Equal(t, 302, write.Code)
+
+	assert.Equal(t, "/view-notes", write.HeaderMap.Get("Location"))
+}
+
 
