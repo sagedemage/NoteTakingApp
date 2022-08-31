@@ -141,7 +141,8 @@ func TestRegistrationPasswordMustMatchFailure(t *testing.T) {
 }
 
 /* Login */
-func TestLoginSuccess(t *testing.T) {
+func TestLoginSuccessWithEmail(t *testing.T) {
+	/* Login with email */
 	var router = Setup() // setup
 
 	// initialize response writer
@@ -166,6 +167,118 @@ func TestLoginSuccess(t *testing.T) {
 
 	// check if the request redirects to the /view-notes route
 	assert.Equal(t, "/view-notes", writer.HeaderMap.Get("Location"))
+}
+
+func TestLoginSuccessWithUsername(t *testing.T) {
+	/* Login with username */
+	var router = Setup() // setup
+
+	// initialize response writer
+	writer := httptest.NewRecorder()
+
+	// test home page
+	request, _ := http.NewRequest("POST", "/login", nil)
+	
+	v := url.Values{} // initialize url values
+
+	// set post form data
+	v.Set("username", "test1000")
+	v.Add("password", "test1000")
+
+	request.PostForm = v // post form request
+
+	// reponse to an http request
+	router.ServeHTTP(writer, request)
+
+	// check if redirection is successful
+	assert.Equal(t, 302, writer.Code)
+
+	// check if the request redirects to the /view-notes route
+	assert.Equal(t, "/view-notes", writer.HeaderMap.Get("Location"))
+}
+
+func TestLoginEmailDoesNotExistFailure(t *testing.T) {
+	/* Email does not exist failure */
+	var router = Setup() // setup
+
+	// initialize response writer
+	writer := httptest.NewRecorder()
+
+	// test home page
+	request, _ := http.NewRequest("POST", "/login", nil)
+	
+	v := url.Values{} // initialize url values
+
+	// set post form data
+	v.Set("username", "test1001@gmail.com")
+	v.Add("password", "test1000")
+
+	request.PostForm = v // post form request
+
+	// reponse to an http request
+	router.ServeHTTP(writer, request)
+
+	// check if redirection is successful
+	assert.Equal(t, 302, writer.Code)
+
+	// check if the request redirects to the /view-notes route
+	assert.Equal(t, "/login?msg_error=Incorrect+username+or+password", writer.HeaderMap.Get("Location"))
+}
+
+func TestLoginUsernameDoesNotExistFailure(t *testing.T) {
+	/* Username does not exist failure */
+	var router = Setup() // setup
+
+	// initialize response writer
+	writer := httptest.NewRecorder()
+
+	// test home page
+	request, _ := http.NewRequest("POST", "/login", nil)
+	
+	v := url.Values{} // initialize url values
+
+	// set post form data
+	v.Set("username", "test1001")
+	v.Add("password", "test1000")
+
+	request.PostForm = v // post form request
+
+	// reponse to an http request
+	router.ServeHTTP(writer, request)
+
+	// check if redirection is successful
+	assert.Equal(t, 302, writer.Code)
+
+	// check if the request redirects to the /view-notes route
+	assert.Equal(t, "/login?msg_error=Incorrect+username+or+password", writer.HeaderMap.Get("Location"))
+}
+
+func TestLoginPasswordIncorrectFailure(t *testing.T) {
+	/* Password is incorrect failure */
+	var router = Setup() // setup
+
+	// initialize response writer
+	writer := httptest.NewRecorder()
+
+	// test home page
+	request, _ := http.NewRequest("POST", "/login", nil)
+	
+	v := url.Values{} // initialize url values
+
+	// set post form data
+	v.Set("username", "test1000@gmail.com")
+	v.Add("password", "test1001")
+
+	request.PostForm = v // post form request
+
+	// reponse to an http request
+	router.ServeHTTP(writer, request)
+
+	// check if redirection is successful
+	assert.Equal(t, 302, writer.Code)
+
+	// check if the request redirects to the /view-notes route
+	assert.Equal(t, "/login?msg_error=Incorrect+username+or+password", writer.HeaderMap.Get("Location"))
 }
 
 
