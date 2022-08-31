@@ -2,6 +2,7 @@ package tests
 
 import (
 	"net/http"
+
 	"net/url"
 
 	"net/http/httptest"
@@ -11,18 +12,17 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func TestRegistration(t *testing.T) {
-	// setup
-	var router = Setup()
+/* Registration */
+func TestRegistrationSuccess(t *testing.T) {
+	var router = Setup() // setup
 
-	// setup reponse writer
-	writer := httptest.NewRecorder()
+	// initialize reponse writer
+	writer := httptest.NewRecorder() 
 
 	// test home page
 	request, _ := http.NewRequest("POST", "/register", nil)
-	
-	// initialize query values for the post form  
-	v := url.Values{}
+	  
+	v := url.Values{} // initialize url values
 
 	// set post form data
 	v.Set("email", "test1000@gmail.com")
@@ -30,11 +30,10 @@ func TestRegistration(t *testing.T) {
 	v.Add("password", "test1000")
 	v.Add("confirm", "test1000")
 
-	// post form request
-	request.PostForm = v
+	request.PostForm = v // post form request
 	
 	// reponse to an http request
-	router.ServeHTTP(writer, request)
+	router.ServeHTTP(writer, request) 
 
 	// check if redirection is successful
 	assert.Equal(t, 302, writer.Code)
@@ -45,25 +44,119 @@ func TestRegistration(t *testing.T) {
 	assert.Equal(t, route_path, writer.HeaderMap.Get("Location"))
 }
 
-func TestLogin(t *testing.T) {
-	// setup
-	var router = Setup()
+func TestRegistrationEmailAlreadyExistsFailure(t *testing.T) {
+	/* Test email already exists */
+	var router = Setup() // setup
 
-	// setup response writer
+	// initialize reponse writer
+	writer := httptest.NewRecorder() 
+
+	// test home page
+	request, _ := http.NewRequest("POST", "/register", nil)
+	  
+	v := url.Values{} // initialize url values
+	
+	// set post form data
+	v.Set("email", "test1000@gmail.com")
+	v.Add("username", "test1001")
+	v.Add("password", "test1001")
+	v.Add("confirm", "test1001")
+
+	request.PostForm = v // post form request
+	
+	// reponse to an http request
+	router.ServeHTTP(writer, request) 
+
+	// check if redirection is successful
+	assert.Equal(t, 302, writer.Code)
+
+	var route_path = "/register?msg_error=email+already+taken"
+
+	// check if the request redirects to the /login route
+	assert.Equal(t, route_path, writer.HeaderMap.Get("Location"))
+}
+
+func TestRegistrationUsernameAlreadyExistsFailure(t *testing.T) {
+	/* Test username already exists */
+	var router = Setup() // setup
+
+	// initialize reponse writer
+	writer := httptest.NewRecorder() 
+
+	// test home page
+	request, _ := http.NewRequest("POST", "/register", nil)
+	  
+	v := url.Values{} // initialize url values
+	
+	// set post form data
+	v.Set("email", "test1001@gmail.com")
+	v.Add("username", "test1000")
+	v.Add("password", "test1001")
+	v.Add("confirm", "test1001")
+
+	request.PostForm = v // post form request
+	
+	// reponse to an http request
+	router.ServeHTTP(writer, request) 
+
+	// check if redirection is successful
+	assert.Equal(t, 302, writer.Code)
+
+	var route_path = "/register?msg_error=username+already+taken"
+
+	// check if the request redirects to the /login route
+	assert.Equal(t, route_path, writer.HeaderMap.Get("Location"))
+}
+
+func TestRegistrationPasswordMustMatchFailure(t *testing.T) {
+	/* Test passwords do not match */
+	var router = Setup() // setup
+
+	// initialize reponse writer
+	writer := httptest.NewRecorder() 
+
+	// test home page
+	request, _ := http.NewRequest("POST", "/register", nil)
+	  
+	v := url.Values{} // initialize url values
+	
+	// set post form data
+	v.Set("email", "test1001@gmail.com")
+	v.Add("username", "test1001")
+	v.Add("password", "test1001")
+	v.Add("confirm", "test1000")
+
+	request.PostForm = v // post form request
+	
+	// reponse to an http request
+	router.ServeHTTP(writer, request) 
+
+	// check if redirection is successful
+	assert.Equal(t, 302, writer.Code)
+
+	var route_path = "/register?msg_error=passwords+do+not+match"
+
+	// check if the request redirects to the /login route
+	assert.Equal(t, route_path, writer.HeaderMap.Get("Location"))
+}
+
+/* Login */
+func TestLoginSuccess(t *testing.T) {
+	var router = Setup() // setup
+
+	// initialize response writer
 	writer := httptest.NewRecorder()
 
 	// test home page
 	request, _ := http.NewRequest("POST", "/login", nil)
 	
-	// initialize query values for the post form  
-	v := url.Values{}
+	v := url.Values{} // initialize url values
 
 	// set post form data
 	v.Set("username", "test1000@gmail.com")
 	v.Add("password", "test1000")
 
-	// post form request
-	request.PostForm = v
+	request.PostForm = v // post form request
 
 	// reponse to an http request
 	router.ServeHTTP(writer, request)

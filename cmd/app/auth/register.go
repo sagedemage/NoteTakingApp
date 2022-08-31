@@ -123,7 +123,7 @@ func register_error_message(c *gin.Context, err error) {
 	// pass query value to the delete note route
 	location := url.URL{Path: "/register", RawQuery: q.Encode()}
 
-	// redirect to edit note
+	// redirect back to register page
 	c.Redirect(http.StatusFound, location.RequestURI())
 }
 
