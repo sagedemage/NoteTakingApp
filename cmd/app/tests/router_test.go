@@ -59,8 +59,8 @@ func TestAuthRoutes(t *testing.T) {
 	// setup reponse writer
 	writer := httptest.NewRecorder()
 
-	// test view notes page
-	request, _ := http.NewRequest("GET", "/view-notes", nil)
+	// test the dashboard page
+	request, _ := http.NewRequest("GET", "/dashboard", nil)
 	
 	// reponse to an http request
 	router.ServeHTTP(writer, request)

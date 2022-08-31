@@ -29,8 +29,8 @@ func AddNewNote(db *gorm.DB) gin.HandlerFunc {
 		// Create new note entry
 		notebook_db.CreateNewNoteEntry(db, title, description, user_id)
 
-		// Redirect to the table view page
-		c.Redirect(http.StatusFound, "/view-notes")
+		// Redirect to the dashboard
+		c.Redirect(http.StatusFound, "/dashboard")
 	}
 	return gin.HandlerFunc(fn)
 }

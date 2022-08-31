@@ -63,7 +63,7 @@ func InitializeRouter(db *gorm.DB) *gin.Engine {
 
 	/* Get Requets */
 	// Render the view table page at route "/table"
-	auth_routes.GET("/view-notes", notes.ViewNotes(db))
+	auth_routes.GET("/dashboard", notes.ViewNotes(db))
 
 	// Render the new entry page at route "/add-new-note"
 	auth_routes.GET("/add-new-note", page_renderer.RenderWebPage("add-note.tmpl", "New Note"))
@@ -79,7 +79,7 @@ func InitializeRouter(db *gorm.DB) *gin.Engine {
 
 	/* Post Requests */
 	// Handle Delete and Edit post requets
-	auth_routes.POST("/view-notes", notes.DeleteOrEditNote(db))
+	auth_routes.POST("/dashboard", notes.DeleteOrEditNote(db))
 
 	// Add Note from POST request
 	auth_routes.POST("/add-new-note", notes.AddNewNote(db))

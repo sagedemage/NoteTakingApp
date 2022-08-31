@@ -107,8 +107,8 @@ func Login(db *gorm.DB) gin.HandlerFunc {
 			session.Set("user_id", user_id)
       		session.Save()
 
-			// Redirect to the table view page
-			c.Redirect(http.StatusFound, "/view-notes")
+			// Redirect to the dashboard
+			c.Redirect(http.StatusFound, "/dashboard")
 		} else {
 			// send login error message
 			login_error_message(c, err)

@@ -22,8 +22,8 @@ func DeleteNote(db *gorm.DB) gin.HandlerFunc {
 		// delete entry
 		db.Delete(&notebook_db.Note{}, note_id)
 
-		// Redirect to the table view page
-		c.Redirect(http.StatusFound, "/view-notes")
+		// Redirect to the dashboard
+		c.Redirect(http.StatusFound, "/dashboard")
 
 	}
 	return gin.HandlerFunc(fn)

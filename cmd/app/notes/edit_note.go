@@ -58,8 +58,8 @@ func EditNote(db *gorm.DB) gin.HandlerFunc {
 		// Update the entry title and description by id
 		notebook_db.UpdateNoteEntry(db, note_id, title, description)
 
-		// Redirect to the table view page
-		c.Redirect(http.StatusFound, "/view-notes")
+		// Redirect to the dashboard
+		c.Redirect(http.StatusFound, "/dashboard")
 
 	}
 	return gin.HandlerFunc(fn)

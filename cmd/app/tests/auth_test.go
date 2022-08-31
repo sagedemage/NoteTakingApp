@@ -165,8 +165,8 @@ func TestLoginSuccessWithEmail(t *testing.T) {
 	// check if redirection is successful
 	assert.Equal(t, 302, writer.Code)
 
-	// check if the request redirects to the /view-notes route
-	assert.Equal(t, "/view-notes", writer.HeaderMap.Get("Location"))
+	// check if the request redirects to the /dashboard route
+	assert.Equal(t, "/dashboard", writer.HeaderMap.Get("Location"))
 }
 
 func TestLoginSuccessWithUsername(t *testing.T) {
@@ -193,8 +193,8 @@ func TestLoginSuccessWithUsername(t *testing.T) {
 	// check if redirection is successful
 	assert.Equal(t, 302, writer.Code)
 
-	// check if the request redirects to the /view-notes route
-	assert.Equal(t, "/view-notes", writer.HeaderMap.Get("Location"))
+	// check if the request redirects to the /dashboard route
+	assert.Equal(t, "/dashboard", writer.HeaderMap.Get("Location"))
 }
 
 func TestLoginEmailDoesNotExistFailure(t *testing.T) {
