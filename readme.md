@@ -7,7 +7,7 @@ This is a note taking app. I create notes when learning new technologies and
 remembering what was in my mind lasted time. My goal is is to create a note taking web app 
 I can use on my home server. I use raspberry pi as my home server.
 
-![](images/view-notes-page.webp)
+![](images/dashboard-page.webp)
 
 ## Missing Functionality
 It is expected that this app is not ready for production. It is missing important features for it to be complete.
