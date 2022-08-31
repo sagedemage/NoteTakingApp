@@ -74,7 +74,7 @@ func TestEditNote(t *testing.T) {
 	writer := Login(router)
 
 	// test home page
-	request, _ := http.NewRequest("POST", "/edit-note", nil)
+	request, _ := http.NewRequest("POST", "/edit-note?note_id=1", nil)
 	
 	// initialize query values for the post form  
 	v := url.Values{}
@@ -104,7 +104,7 @@ func TestDeleteNote(t *testing.T) {
 	writer := Login(router)
 
 	// test home page
-	request, _ := http.NewRequest("POST", "/delete-note", nil)
+	request, _ := http.NewRequest("POST", "/delete-note?note_id=1", nil)
 	
 	// reponse to an http request
 	router.ServeHTTP(writer, request)
