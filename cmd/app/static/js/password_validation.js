@@ -1,42 +1,11 @@
 
-function ModifyProgressBar(current_width) {
-    /* Increase or Decrease the progress bar */
-    let width_string_new_value = current_width.toString();
-    let new_width_value = width_string_new_value.concat("%");
-    progress_bar.style.width = new_width_value;
-}
-
-function IncreaseProgressBarOnce(switch_object, inc_value, width_current_value) {
-    /* Increase progress bar if the password condition is met */
-    if (switch_object.get_switch() === 0) {
-        width_current_value += inc_value;
-        switch_object.set_switch(1);
-    }
-    return width_current_value;
-}
-
-function IncraeseProgressAction() {
-    let p_bar_width_string = progress_bar.style.width;
-    let width_current_value = parseInt(p_bar_width_string.substring(0, p_bar_width_string.length - 1));
-	width_current_value = IncreaseProgressBarOnce(upperCase, 33, width_current_value);
-    ModifyProgressBar(width_current_value);
-}
-
-function DecreaseProgressBarOnce(switch_object, inc_value, width_current_value) {
-    /* Decrease progress bar after removing the character that meet the condition */
-    if (switch_object.get_switch() === 1) {
-        width_current_value -= inc_value;
-        switch_object.set_switch(0);
-    }
-    return width_current_value;
-}
-
-class Switch {
+class ProgressBar {
     /* Class for turning on or off the switch */
-    switch_status = 0;
+	switch_status;
 
-    constructor() {
-    }
+	constructor(switch_status) {
+		this.switch_status = switch_status;
+	}
 
     set_switch(value) {
         /* set the switch state */
@@ -49,12 +18,9 @@ class Switch {
     }
 }
 
-let passwordField = document.getElementById("password");
-let letter = document.getElementById("letter");
-let lowerCase = new Switch();
-let upperCase = new Switch();
-let num = new Switch();
+
 let progress_bar = document.getElementById("p-bar");
+let upperCase = new ProgressBar(false);
 
 function ModifyProgressBar(current_width) {
     /* Increase or Decrease the progress bar */
@@ -65,31 +31,51 @@ function ModifyProgressBar(current_width) {
 
 function IncreaseProgressBarOnce(switch_object, inc_value, width_current_value) {
     /* Increase progress bar if the password condition is met */
-    if (switch_object.get_switch() === 0) {
+    if (switch_object.get_switch() === false) {
         width_current_value += inc_value;
-        switch_object.set_switch(1);
+        switch_object.set_switch(true);
     }
     return width_current_value;
+}
+
+function IncreaseProgressAction() {
+    let p_bar_width_string = progress_bar.style.width;
+    let width_current_value = parseInt(p_bar_width_string.substring(0, p_bar_width_string.length - 1));
+	width_current_value = IncreaseProgressBarOnce(upperCase, 33, width_current_value);
+    ModifyProgressBar(width_current_value);
 }
 
 function DecreaseProgressBarOnce(switch_object, inc_value, width_current_value) {
     /* Decrease progress bar after removing the character that meet the condition */
-    if (switch_object.get_switch() === 1) {
+    if (switch_object.get_switch() === true) {
         width_current_value -= inc_value;
-        switch_object.set_switch(0);
+        switch_object.set_switch(false);
     }
     return width_current_value;
 }
 
+
+
+// ---
+
+/*
+
+let passwordField = document.getElementById("password");
+let letter = document.getElementById("letter");
+let lowerCase = new Switch();
+let upperCase = new Switch();
+let num = new Switch();
+let progress_bar = document.getElementById("p-bar");
+
 passwordField.onfocus = function () {
-    /* Add effect on the password field when it is on focus */
+    / Add effect on the password field when it is on focus /
     let message = document.getElementById("message");
     message.style.display = "block";
     message.style.border = "1px solid";
 }
 
 passwordField.onkeyup = function () {
-    /* Validate the password on key up */
+    // Validate the password on key up //
     // Validate lowercase letters
     let lowerCaseLetters = /[a-z]/g;
     let upperCaseLetters = /[A-Z]/g;
@@ -129,4 +115,7 @@ passwordField.onkeyup = function () {
         width_current_value = DecreaseProgressBarOnce(num, 34, width_current_value);
         ModifyProgressBar(width_current_value);
     }
-}
+} 
+*/
+
+
