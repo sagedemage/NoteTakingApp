@@ -30,3 +30,20 @@ article, footer {
 	font-size: 0.9em;
 	text-align: center;
 }
+
+#has_lowercase {
+	display: none;
+}
+
+#has_uppercase {
+	display: none;
+}
+
+#has_number {
+	display: none;
+}
+
+#good_password_length {
+	display: none;
+}
+

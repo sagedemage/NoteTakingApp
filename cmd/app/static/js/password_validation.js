@@ -51,44 +51,68 @@ passwordField.onkeyup = function() {
     if (passwordField.value.match(lowerCaseLetters)) {
 		// Increase the progress bar if there is a lowercase letter
 		lowerCase = progress_bar.increase_bar(25, lowerCase);
+		
+		document.getElementById("has_lowercase").style.color="green";
+		document.getElementById("has_lowercase").style.display="block";
     }
 
 	else {
     	// Decrease the progress bar if there is no lowercase letter
 		lowerCase = progress_bar.decrease_bar(25, lowerCase);
+		
+		document.getElementById("has_lowercase").style.color="red";
+		document.getElementById("has_lowercase").style.display="block";
     }
 
 	// contains uppercase letter
     if (passwordField.value.match(upperCaseLetters)) {
 		// Increase the progress bar if there is a uppercase letter
 		upperCase = progress_bar.increase_bar(25, upperCase);
+
+		document.getElementById("has_uppercase").style.color="green";
+		document.getElementById("has_uppercase").style.display="block";
     }
 
 	else {
     	// Decrease the progress bar if there is no uppercase letter
 		upperCase = progress_bar.decrease_bar(25, upperCase);
+		
+		document.getElementById("has_uppercase").style.color="red";
+		document.getElementById("has_uppercase").style.display="block";
     }
 
 	// contains number
     if (passwordField.value.match(numbers)) {
 		// Increase the progress bar if there is a number
 		num = progress_bar.increase_bar(25, num);
+		
+		document.getElementById("has_number").style.color="green";
+		document.getElementById("has_number").style.display="block";
     }
 
 	else {
     	// Decrease the progress bar if there is no number
 		num = progress_bar.decrease_bar(25, num);
+
+		document.getElementById("has_number").style.color="red";
+		document.getElementById("has_number").style.display="block";
     }
 
 	// password lenth is 6 more characters
     if (passwordField.value.length >= 6) {
 		// Increase the progress bar if there is a number
 		password_length = progress_bar.increase_bar(25, password_length);
+
+		document.getElementById("good_password_length").style.color="green";
+		document.getElementById("good_password_length").style.display="block";
     }
 
 	else {
     	// Decrease the progress bar if there is no number
 		password_length = progress_bar.decrease_bar(25, password_length);
+
+		document.getElementById("good_password_length").style.color="red";
+		document.getElementById("good_password_length").style.display="block";
     }
 
 }
