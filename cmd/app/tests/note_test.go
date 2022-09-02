@@ -63,7 +63,7 @@ func TestAddNote(t *testing.T) {
 	assert.Equal(t, 302, writer.Code)
 
 	// check if the request redirects to the /dashboard route
-	assert.Equal(t, "/dashboard", writer.HeaderMap.Get("Location"))
+	assert.Equal(t, "/dashboard", writer.Header().Get("Location"))
 }
 
 func TestEditNote(t *testing.T) {
@@ -93,7 +93,7 @@ func TestEditNote(t *testing.T) {
 	assert.Equal(t, 302, writer.Code)
 
 	// check if the request redirects to the /dashboard route
-	assert.Equal(t, "/dashboard", writer.HeaderMap.Get("Location"))
+	assert.Equal(t, "/dashboard", writer.Header().Get("Location"))
 }
 
 func TestDeleteNote(t *testing.T) {
@@ -113,7 +113,7 @@ func TestDeleteNote(t *testing.T) {
 	assert.Equal(t, 302, writer.Code)
 
 	// check if the request redirects to the /dashboard route
-	assert.Equal(t, "/dashboard", writer.HeaderMap.Get("Location"))
+	assert.Equal(t, "/dashboard", writer.Header().Get("Location"))
 }
 
 

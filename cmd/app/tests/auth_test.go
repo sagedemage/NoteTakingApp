@@ -41,7 +41,7 @@ func TestRegistrationSuccess(t *testing.T) {
 	var route_path = "/login?msg_success=Registered+Successfully"
 
 	// check if the request redirects to the /login route
-	assert.Equal(t, route_path, writer.HeaderMap.Get("Location"))
+	assert.Equal(t, route_path, writer.Header().Get("Location"))
 }
 
 func TestRegistrationEmailAlreadyExistsFailure(t *testing.T) {
@@ -73,7 +73,7 @@ func TestRegistrationEmailAlreadyExistsFailure(t *testing.T) {
 	var route_path = "/register?msg_error=email+already+taken"
 
 	// check if the request redirects to the /login route
-	assert.Equal(t, route_path, writer.HeaderMap.Get("Location"))
+	assert.Equal(t, route_path, writer.Header().Get("Location"))
 }
 
 func TestRegistrationUsernameAlreadyExistsFailure(t *testing.T) {
@@ -105,7 +105,7 @@ func TestRegistrationUsernameAlreadyExistsFailure(t *testing.T) {
 	var route_path = "/register?msg_error=username+already+taken"
 
 	// check if the request redirects to the /login route
-	assert.Equal(t, route_path, writer.HeaderMap.Get("Location"))
+	assert.Equal(t, route_path, writer.Header().Get("Location"))
 }
 
 func TestRegistrationPasswordMustMatchFailure(t *testing.T) {
@@ -137,7 +137,7 @@ func TestRegistrationPasswordMustMatchFailure(t *testing.T) {
 	var route_path = "/register?msg_error=passwords+do+not+match"
 
 	// check if the request redirects to the /login route
-	assert.Equal(t, route_path, writer.HeaderMap.Get("Location"))
+	assert.Equal(t, route_path, writer.Header().Get("Location"))
 }
 
 func TestRegistrationShortPasswordFailure(t *testing.T) {
@@ -169,7 +169,7 @@ func TestRegistrationShortPasswordFailure(t *testing.T) {
 	var route_path = "/register?msg_error=must+be+at+least+8+characters"
 
 	// check if the request redirects to the /login route
-	assert.Equal(t, route_path, writer.HeaderMap.Get("Location"))
+	assert.Equal(t, route_path, writer.Header().Get("Location"))
 }
 
 /* Login */
@@ -198,7 +198,7 @@ func TestLoginSuccessWithEmail(t *testing.T) {
 	assert.Equal(t, 302, writer.Code)
 
 	// check if the request redirects to the /dashboard route
-	assert.Equal(t, "/dashboard", writer.HeaderMap.Get("Location"))
+	assert.Equal(t, "/dashboard", writer.Header().Get("Location"))
 }
 
 func TestLoginSuccessWithUsername(t *testing.T) {
@@ -226,7 +226,7 @@ func TestLoginSuccessWithUsername(t *testing.T) {
 	assert.Equal(t, 302, writer.Code)
 
 	// check if the request redirects to the /dashboard route
-	assert.Equal(t, "/dashboard", writer.HeaderMap.Get("Location"))
+	assert.Equal(t, "/dashboard", writer.Header().Get("Location"))
 }
 
 func TestLoginEmailDoesNotExistFailure(t *testing.T) {
@@ -254,7 +254,7 @@ func TestLoginEmailDoesNotExistFailure(t *testing.T) {
 	assert.Equal(t, 302, writer.Code)
 
 	// check if the request redirects to the /view-notes route
-	assert.Equal(t, "/login?msg_error=incorrect+username+or+password", writer.HeaderMap.Get("Location"))
+	assert.Equal(t, "/login?msg_error=incorrect+username+or+password", writer.Header().Get("Location"))
 }
 
 func TestLoginUsernameDoesNotExistFailure(t *testing.T) {
@@ -282,7 +282,7 @@ func TestLoginUsernameDoesNotExistFailure(t *testing.T) {
 	assert.Equal(t, 302, writer.Code)
 
 	// check if the request redirects to the /view-notes route
-	assert.Equal(t, "/login?msg_error=incorrect+username+or+password", writer.HeaderMap.Get("Location"))
+	assert.Equal(t, "/login?msg_error=incorrect+username+or+password", writer.Header().Get("Location"))
 }
 
 func TestLoginPasswordIncorrectFailure(t *testing.T) {
@@ -310,7 +310,7 @@ func TestLoginPasswordIncorrectFailure(t *testing.T) {
 	assert.Equal(t, 302, writer.Code)
 
 	// check if the request redirects to the /view-notes route
-	assert.Equal(t, "/login?msg_error=incorrect+username+or+password", writer.HeaderMap.Get("Location"))
+	assert.Equal(t, "/login?msg_error=incorrect+username+or+password", writer.Header().Get("Location"))
 }
 
 
