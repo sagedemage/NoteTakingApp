@@ -72,11 +72,11 @@ func is_user_valid(db *gorm.DB, username string, password string) (uint, error) 
 
 		if err != nil {
 			// Check if the password is incorrect
-			return 0, errors.New("Incorrect username or password") 
+			return 0, errors.New("incorrect username or password") 
 		}
 	} else if username != user.Email || username != user.Username {
 		// Check if the email or username does not exists 
-		return 0, errors.New("Incorrect username or password")
+		return 0, errors.New("incorrect username or password")
 	}
 
 	return user.ID, nil
