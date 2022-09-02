@@ -99,7 +99,7 @@ passwordField.onkeyup = function() {
     }
 
 	// password lenth is 6 more characters
-    if (passwordField.value.length >= 6) {
+    if (passwordField.value.length >= 8) {
 		// Increase the progress bar if there is a number
 		password_length = progress_bar.increase_bar(25, password_length);
 

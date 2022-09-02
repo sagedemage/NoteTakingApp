@@ -102,7 +102,7 @@ func TestRegistrationUsernameAlreadyExistsFailure(t *testing.T) {
 	// check if redirection is successful
 	assert.Equal(t, 302, writer.Code)
 
-	var route_path = "/register?msg_error=username+already+taken"
+	var route_path = "/register?msg_error=Username+already+taken"
 
 	// check if the request redirects to the /login route
 	assert.Equal(t, route_path, writer.HeaderMap.Get("Location"))
@@ -134,7 +134,39 @@ func TestRegistrationPasswordMustMatchFailure(t *testing.T) {
 	// check if redirection is successful
 	assert.Equal(t, 302, writer.Code)
 
-	var route_path = "/register?msg_error=passwords+do+not+match"
+	var route_path = "/register?msg_error=Passwords+do+not+match"
+
+	// check if the request redirects to the /login route
+	assert.Equal(t, route_path, writer.HeaderMap.Get("Location"))
+}
+
+func TestRegistrationShortPasswordFailure(t *testing.T) {
+	/* Test passwords do not match */
+	var router = Setup() // setup
+
+	// initialize reponse writer
+	writer := httptest.NewRecorder() 
+
+	// test home page
+	request, _ := http.NewRequest("POST", "/register", nil)
+	  
+	v := url.Values{} // initialize url values
+	
+	// set post form data
+	v.Set("email", "test100@gmail.com")
+	v.Add("username", "test100")
+	v.Add("password", "test100")
+	v.Add("confirm", "test100")
+
+	request.PostForm = v // post form request
+	
+	// reponse to an http request
+	router.ServeHTTP(writer, request) 
+
+	// check if redirection is successful
+	assert.Equal(t, 302, writer.Code)
+
+	var route_path = "/register?msg_error=Must+be+at+least+8+characters"
 
 	// check if the request redirects to the /login route
 	assert.Equal(t, route_path, writer.HeaderMap.Get("Location"))
