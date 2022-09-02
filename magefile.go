@@ -25,7 +25,8 @@ func Test() error {
 	if err := sh.Run("go", "mod", "download"); err != nil {
 		return err
 	}
-
-	return sh.Run("go", "test", "-v", "./cmd/app/tests/...")
+	
+	// go test -v -cover ./cmd/app/tests/...
+	return sh.Run("go", "test", "-v", "-cover", "./cmd/app/tests/...")
 }
 

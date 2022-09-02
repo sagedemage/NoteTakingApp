@@ -1,86 +1,115 @@
 package tests
 
 import (
-	"os"
-  	"path"
-  	"runtime"
-
 	"net/http"
 	"net/http/httptest"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
-	"go-web-app-experiment/cmd/app/router_setup"
 )
 
-func ChangetoRepoRootDirectory() {
-	_, filename, _, _ := runtime.Caller(0)
-
-  	dir := path.Join(path.Dir(filename), "../../..")
-  	err := os.Chdir(dir)
-  	if err != nil {
-  	  panic(err)
-  	}
-}
-
 func TestRoutes(t *testing.T) {
-	// Change directory
-	ChangetoRepoRootDirectory()
+	/* Test routes for that do not require authentication */
+	// setup
+	var router = Setup()
 
-	// setup routerr
-	r := router_setup.InitializeRouter()
-	
-	// setup http recorder for testing
-	write := httptest.NewRecorder()
+	// setup reponse writer
+	writer := httptest.NewRecorder()
 
 	// test home page
 	request, _ := http.NewRequest("GET", "/", nil)
-	r.ServeHTTP(write, request)
-	assert.Equal(t, 200, write.Code)
+	
+	// reponse to an http request
+	router.ServeHTTP(writer, request)
+
+	// check if the request succeeded
+	assert.Equal(t, 200, writer.Code)
 
 	// test about page
 	request, _ = http.NewRequest("GET", "/about", nil)
-	r.ServeHTTP(write, request)
-	assert.Equal(t, 200, write.Code)
+	
+	// reponse to an http request
+	router.ServeHTTP(writer, request)
+	assert.Equal(t, 200, writer.Code)
 
 	// test login page
 	request, _ = http.NewRequest("GET", "/login", nil)
-	r.ServeHTTP(write, request)
-	assert.Equal(t, 200, write.Code)
+	
+	// reponse to an http request
+	router.ServeHTTP(writer, request)
+
+	// check if the request succeeded
+	assert.Equal(t, 200, writer.Code)
 
 	// test register page
 	request, _ = http.NewRequest("GET", "/register", nil)
-	r.ServeHTTP(write, request)
-	assert.Equal(t, 200, write.Code)
+	
+	// reponse to an http request
+	router.ServeHTTP(writer, request)
+
+	// check if the request succeeded
+	assert.Equal(t, 200, writer.Code)
 }
 
 func TestAuthRoutes(t *testing.T) {
-	// Change directory
-	ChangetoRepoRootDirectory()
+	/* Test routes that require authentication */
+	// setup
+	var router = Setup()
 
-	// setup routerr
-	r := router_setup.InitializeRouter()
+	// setup reponse writer
+	writer := httptest.NewRecorder()
+
+	// test the dashboard page
+	request, _ := http.NewRequest("GET", "/dashboard", nil)
 	
-	// setup http recorder for testing
-	write := httptest.NewRecorder()
+	// reponse to an http request
+	router.ServeHTTP(writer, request)
 
-	// test view notes page
-	request, _ := http.NewRequest("GET", "/view-notes", nil)
-	r.ServeHTTP(write, request)
-	assert.Equal(t, 401, write.Code)
+	// check if the request got unauthorized reponse
+	assert.Equal(t, 401, writer.Code)
 
 	// test about page
 	request, _ = http.NewRequest("GET", "/add-new-note", nil)
-	r.ServeHTTP(write, request)
-	assert.Equal(t, 401, write.Code)
+	
+	// reponse to an http request
+	router.ServeHTTP(writer, request)
+
+	// check if the request got unauthorized reponse
+	assert.Equal(t, 401, writer.Code)
 
 	// test login page
 	request, _ = http.NewRequest("GET", "/edit-note", nil)
-	r.ServeHTTP(write, request)
-	assert.Equal(t, 401, write.Code)
+	
+	// reponse to an http request
+	router.ServeHTTP(writer, request)
+
+	// check if the request got unauthorized reponse
+	assert.Equal(t, 401, writer.Code)
 
 	// test logging out
 	request, _ = http.NewRequest("GET", "/logout", nil)
-	r.ServeHTTP(write, request)
-	assert.Equal(t, 401, write.Code)
+
+	// reponse to an http request
+	router.ServeHTTP(writer, request)
+
+	// check if the request got unauthorized reponse
+	assert.Equal(t, 401, writer.Code)
+}
+
+func TestPageNotFoundRoutes(t *testing.T) {
+	/* Test page not found */
+	// setup
+	var router = Setup()
+
+	// setup reponse writer
+	writer := httptest.NewRecorder()
+
+	// test page not found
+	request, _ := http.NewRequest("GET", "/welcome", nil)
+
+	// reponse to an http request
+	router.ServeHTTP(writer, request)
+
+	// check if the request got page not found reponse
+	assert.Equal(t, 404, writer.Code)
 }

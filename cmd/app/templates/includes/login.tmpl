@@ -1,5 +1,17 @@
 {{ define "content" }}
 
+{{ if eq .error_status true }}
+<div class="alert alert-danger" role="alert">
+	{{ .msg_error }}
+</div>
+{{ end }}
+
+{{ if eq .success_status true }}
+<div class="alert alert-success" role="alert">
+	{{ .msg_success }}
+</div>
+{{ end }}
+
 <form method="post">
 	<div class="form-group">
     	<label for="exampleInputUsername1">Email or Username</label>

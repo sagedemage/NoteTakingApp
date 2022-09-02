@@ -17,10 +17,10 @@ func RenderWebPage(template_page string, page_title string) gin.HandlerFunc {
 		user := session.Get("is_logged_in")
 
 		c.HTML(http.StatusOK, template_page, gin.H{
-			"title": page_title,
 			"page_title": page_title,
 			"user": user,
 		})
 	}
 	return gin.HandlerFunc(fn)
 }
+

@@ -3,18 +3,50 @@ package auth
 import (
 	"net/http"
 
-	"github.com/gin-gonic/gin"
-	
-	"gorm.io/gorm"
-	
-	"errors"
-	
-	"go-web-app-experiment/cmd/app/notebook_db"
+	"net/url"
 
-	"go-web-app-experiment/cmd/app/form"
+	"github.com/gin-contrib/sessions"
+
+	"github.com/gin-gonic/gin"
+
+	"gorm.io/gorm"
+
+	"errors"
+
+	"notebook_app/cmd/app/notebook_db"
+
+	"notebook_app/cmd/app/form"
 )
 
-func RegisterNewUser(db *gorm.DB, email string, username string, password string, confirm string) error {
+func RegisterPage(c *gin.Context) {
+	/* Login Page */
+	var page_title = "Register"
+
+	// success message status
+	var error_status = false
+
+	// query msg_success
+	msg_error := c.Query("msg_error")
+
+	if msg_error != "" {
+		error_status = true
+	}
+
+	// Get user session data
+	session := sessions.Default(c)
+
+	// Get loggin in value
+	user := session.Get("is_logged_in")
+
+	c.HTML(http.StatusOK, "register.tmpl", gin.H{
+		"page_title": page_title,
+		"user": user,
+		"error_status": error_status,
+		"msg_error": msg_error,
+	})
+}
+
+func register_new_user(db *gorm.DB, email string, username string, password string, confirm string) error {
 	/* Check if email is already taken */
 	var user1 = &notebook_db.User{}
 
@@ -34,8 +66,8 @@ func RegisterNewUser(db *gorm.DB, email string, username string, password string
 	}
 
 	/* Check if the password is under 6 characters */
-	if len(password) < 6 {
-		return errors.New("password is less than 6 characters")
+	if len(password) < 8 {
+		return errors.New("must be at least 8 characters")
 	} 
 
 	/* Checks if the passwords match */
@@ -68,24 +100,44 @@ func Register(db *gorm.DB) gin.HandlerFunc {
 		var confirm string = form.GetFormValue(c, "confirm") 
 
 		// Register new user
-		err := RegisterNewUser(db, email, username, password, confirm)
+		err := register_new_user(db, email, username, password, confirm)
 
 		/* Check if user registration is successful */
 		if err == nil {
-			token := GenerateSessionToken()
-
-			c.SetCookie("token", token, 3600, "", c.Request.URL.Hostname(), false, true)
-			c.Set("is_logged_in", true)
-
-			// Redirect to the login page
-			c.Redirect(http.StatusFound, "/login")
+			// Send success message
+			register_success_message(c, "Registered Successfully")
 		} else {
-			c.JSON(http.StatusUnprocessableEntity, gin.H{
-				"MSG": "Registration Failed",
-				"ErrorMessage": err.Error(),
-			})
+			// Send error message
+			register_error_message(c, err)
 		}
 	}
 	return gin.HandlerFunc(fn)
 }
 
+func register_error_message(c *gin.Context, err error) {
+	// initialize query values
+	q := url.Values{}
+
+	// set note_id query value
+	q.Set("msg_error", err.Error())
+
+	// pass query value to the delete note route
+	location := url.URL{Path: "/register", RawQuery: q.Encode()}
+
+	// redirect back to register page
+	c.Redirect(http.StatusFound, location.RequestURI())
+}
+
+func register_success_message(c *gin.Context, msg_success string) {
+	// initialize query values
+	q := url.Values{}
+
+	// set note_id query value
+	q.Set("msg_success", msg_success)
+
+	// pass query value to the delete note route
+	location := url.URL{Path: "/login", RawQuery: q.Encode()}
+
+	// redirect to edit note
+	c.Redirect(http.StatusFound, location.RequestURI())
+}

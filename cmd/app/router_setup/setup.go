@@ -7,23 +7,20 @@ import (
 
 	"github.com/gin-contrib/sessions/cookie"
 
-	"go-web-app-experiment/cmd/app/notebook_db"
+	"gorm.io/gorm"
 
-	"go-web-app-experiment/cmd/app/notes"
+	"notebook_app/cmd/app/notes"
 
-	"go-web-app-experiment/cmd/app/template_loader"
+	"notebook_app/cmd/app/template_loader"
 
-	"go-web-app-experiment/cmd/app/page_renderer"
+	"notebook_app/cmd/app/page_renderer"
 
-	"go-web-app-experiment/cmd/app/auth"
+	"notebook_app/cmd/app/auth"
 )
 
-func InitializeRouter() *gin.Engine {
+func InitializeRouter(db *gorm.DB) *gin.Engine {
 	// create the router
 	router := gin.Default()
-
-	// Open database
-	db := notebook_db.InitDB("database/notebook.db")
 
 	// html renderer
 	router.HTMLRender = template_loader.LoadTemplates("cmd/app/templates")
@@ -46,10 +43,10 @@ func InitializeRouter() *gin.Engine {
 	router.GET("/about", page_renderer.RenderWebPage("about.tmpl", "About"))
 
 	// Render the new registration page at route "/register"
-	router.GET("/register", page_renderer.RenderWebPage("register.tmpl", "Register"))
+	router.GET("/register", auth.RegisterPage)
 
 	// Render the login page at route "/login"
-	router.GET("/login", page_renderer.RenderWebPage("login.tmpl", "Login"))
+	router.GET("/login", auth.LoginPage)
 
 	/* Post Requests */
 	// Register the user
@@ -58,31 +55,40 @@ func InitializeRouter() *gin.Engine {
 	// Login the user
 	router.POST("/login", auth.Login(db))
 
+	// Page Not Found
+	router.NoRoute(page_renderer.RenderPageNotFoundWebPage("404.html", "404 Page - Page Not Found"))
+
 	/* Auhtorization Required */
 	auth_routes := router.Group("/").Use(auth.AuthRequired)
 
 	/* Get Requets */
 	// Render the view table page at route "/table"
-	auth_routes.GET("/view-notes", notes.ViewNotes(db))
+	auth_routes.GET("/dashboard", notes.ViewNotes(db))
 
-	// Render the new entry page at route "/new-entry"
-	auth_routes.GET("/add-new-note", page_renderer.RenderWebPage("new-note.tmpl", "New Note"))
+	// Render the new entry page at route "/add-new-note"
+	auth_routes.GET("/add-new-note", page_renderer.RenderWebPage("add-note.tmpl", "New Note"))
 
-	// Render the new entry page at route "/new-entry"
+	// Render the new entry page at route "/edit-note"
 	auth_routes.GET("/edit-note", notes.EditNoteForm(db))
+
+	// Render the new entry page at route "/delete-entry"
+	auth_routes.GET("/delete-note", page_renderer.RenderWebPage("delete-note.tmpl", "Delete Note"))
 
 	// Logout the user
 	auth_routes.GET("/logout", auth.Logout)
 
 	/* Post Requests */
-	// Render the view table page at route "/table"
-	auth_routes.POST("/view-notes", notes.DeleteOrEditNote(db))
+	// Handle Delete and Edit post requets
+	auth_routes.POST("/dashboard", notes.DeleteOrEditNote(db))
 
-	// Get Form data from POST request
+	// Add Note from POST request
 	auth_routes.POST("/add-new-note", notes.AddNewNote(db))
 
-	// Get Form data from POST request
+	// Edit Note from POST request
 	auth_routes.POST("/edit-note", notes.EditNote(db))
+
+	// Delete Note from POST request
+	auth_routes.POST("/delete-note", notes.DeleteNote(db))
 
 	return router
 }

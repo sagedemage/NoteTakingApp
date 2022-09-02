@@ -6,15 +6,13 @@ import (
 	"github.com/gin-contrib/multitemplate"
 )
 
-func LoadTemplates(templatesDir string) multitemplate.Renderer {
-	r := multitemplate.NewRenderer()
-
-	layouts, err := filepath.Glob(templatesDir + "/layouts/*.tmpl")
+func generate_templates(r multitemplate.Renderer, templatesDir string, layoutFile string, pagesDir string) multitemplate.Renderer {
+	layouts, err := filepath.Glob(templatesDir + layoutFile)
 	if err != nil {
 		panic(err.Error())
 	}
 
-	includes, err := filepath.Glob(templatesDir + "/includes/*.tmpl")
+	includes, err := filepath.Glob(templatesDir + pagesDir)
 	if err != nil {
 		panic(err.Error())
 	}
@@ -26,6 +24,16 @@ func LoadTemplates(templatesDir string) multitemplate.Renderer {
 		files := append(layoutCopy, include)
 		r.AddFromFiles(filepath.Base(include), files...)
 	}
+	return r
+}
+
+func LoadTemplates(templatesDir string) multitemplate.Renderer {
+	r := multitemplate.NewRenderer()
+
+	r = generate_templates(r, templatesDir, "/layouts/base.tmpl", "/includes/*.tmpl")
+
+	r = generate_templates(r, templatesDir, "/layouts/error-base.html", "/errors/*.html")
+
 	return r
 }
 
