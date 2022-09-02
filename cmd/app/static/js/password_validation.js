@@ -1,4 +1,6 @@
-
+const lowerCaseLetters = /[a-z]/g;
+const upperCaseLetters = /[A-Z]/g;
+const numbers = /[0-9]/g;
 
 function ModifyWidthText(current_width) {
 	let width_text = current_width.toString();
@@ -51,10 +53,6 @@ let num = false;
 
 passwordField.onkeyup = function() {
 	/* Validate the password on key up */
-	let lowerCaseLetters = /[a-z]/g;
-	let upperCaseLetters = /[A-Z]/g;
-	let numbers = /[0-9]/g;
-	
     if (passwordField.value.match(lowerCaseLetters)) {
 		// Increase the progress bar if there is a lowercase letter
 		lowerCase = progress_bar.increase_bar(33, lowerCase);
