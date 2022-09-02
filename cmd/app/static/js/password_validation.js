@@ -20,10 +20,6 @@ class ProgressBar {
 		if (cond == false) {
 			this.p_bar_width += value;
 			document.getElementById("p-bar").style.width = ModifyWidthText(this.p_bar_width);
-		
-			console.log(this.p_bar_width);
-			console.log(cond);
-
 			cond = true;
 		}
 		return cond;
@@ -33,10 +29,6 @@ class ProgressBar {
 		if (cond == true) {
 			this.p_bar_width -= value;
 			document.getElementById("p-bar").style.width = ModifyWidthText(this.p_bar_width);
-			
-			console.log(this.p_bar_width);
-			console.log(cond);
-	
 			cond = false;
 		}
 		return cond;
@@ -53,14 +45,38 @@ let num = false;
 
 passwordField.onkeyup = function() {
 	/* Validate the password on key up */
+
+	// contains lowercase letter
     if (passwordField.value.match(lowerCaseLetters)) {
 		// Increase the progress bar if there is a lowercase letter
-		lowerCase = progress_bar.increase_bar(33, lowerCase);
+		lowerCase = progress_bar.increase_bar(25, lowerCase);
     }
 
 	else {
     	// Decrease the progress bar if there is no lowercase letter
-		lowerCase = progress_bar.decrease_bar(33, lowerCase);
+		lowerCase = progress_bar.decrease_bar(25, lowerCase);
+    }
+
+	// contains uppercase letter
+    if (passwordField.value.match(upperCaseLetters)) {
+		// Increase the progress bar if there is a uppercase letter
+		upperCase = progress_bar.increase_bar(25, upperCase);
+    }
+
+	else {
+    	// Decrease the progress bar if there is no uppercase letter
+		upperCase = progress_bar.decrease_bar(25, upperCase);
+    }
+
+	// contains number
+    if (passwordField.value.match(numbers)) {
+		// Increase the progress bar if there is a number
+		num = progress_bar.increase_bar(25, num);
+    }
+
+	else {
+    	// Decrease the progress bar if there is no number
+		num = progress_bar.decrease_bar(25, num);
     }
 
 }
