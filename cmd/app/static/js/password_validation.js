@@ -53,7 +53,7 @@ passwordField.onkeyup = function() {
 		lowerCase = progress_bar.increase_bar(25, lowerCase);
 		
 		document.getElementById("has_lowercase").style.color="green";
-		document.getElementById("has_lowercase").style.display="block";
+		document.getElementById("has_lowercase").style.visibility="visible";
     }
 
 	else {
@@ -61,7 +61,7 @@ passwordField.onkeyup = function() {
 		lowerCase = progress_bar.decrease_bar(25, lowerCase);
 		
 		document.getElementById("has_lowercase").style.color="red";
-		document.getElementById("has_lowercase").style.display="block";
+		document.getElementById("has_lowercase").style.visibility="visible";
     }
 
 	// contains uppercase letter
@@ -70,7 +70,7 @@ passwordField.onkeyup = function() {
 		upperCase = progress_bar.increase_bar(25, upperCase);
 
 		document.getElementById("has_uppercase").style.color="green";
-		document.getElementById("has_uppercase").style.display="block";
+		document.getElementById("has_uppercase").style.visibility="visible";
     }
 
 	else {
@@ -78,7 +78,7 @@ passwordField.onkeyup = function() {
 		upperCase = progress_bar.decrease_bar(25, upperCase);
 		
 		document.getElementById("has_uppercase").style.color="red";
-		document.getElementById("has_uppercase").style.display="block";
+		document.getElementById("has_uppercase").style.visibility="visible";
     }
 
 	// contains number
@@ -87,7 +87,7 @@ passwordField.onkeyup = function() {
 		num = progress_bar.increase_bar(25, num);
 		
 		document.getElementById("has_number").style.color="green";
-		document.getElementById("has_number").style.display="block";
+		document.getElementById("has_number").style.visibility="visible";
     }
 
 	else {
@@ -95,7 +95,7 @@ passwordField.onkeyup = function() {
 		num = progress_bar.decrease_bar(25, num);
 
 		document.getElementById("has_number").style.color="red";
-		document.getElementById("has_number").style.display="block";
+		document.getElementById("has_number").style.visibility="visible";
     }
 
 	// password lenth is 6 more characters
@@ -104,7 +104,7 @@ passwordField.onkeyup = function() {
 		password_length = progress_bar.increase_bar(25, password_length);
 
 		document.getElementById("good_password_length").style.color="green";
-		document.getElementById("good_password_length").style.display="block";
+		document.getElementById("good_password_length").style.visibility="visible";
     }
 
 	else {
@@ -112,7 +112,7 @@ passwordField.onkeyup = function() {
 		password_length = progress_bar.decrease_bar(25, password_length);
 
 		document.getElementById("good_password_length").style.color="red";
-		document.getElementById("good_password_length").style.display="block";
+		document.getElementById("good_password_length").style.visibility="visible";
     }
 
 }

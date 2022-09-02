@@ -32,18 +32,18 @@ article, footer {
 }
 
 #has_lowercase {
-	display: none;
+	visibility: hidden;
 }
 
 #has_uppercase {
-	display: none;
+	visibility: hidden;
 }
 
 #has_number {
-	display: none;
+	visibility: hidden;
 }
 
 #good_password_length {
-	display: none;
+	visibility: hidden;
 }
 
