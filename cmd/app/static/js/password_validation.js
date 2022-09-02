@@ -42,6 +42,7 @@ let progress_bar = new ProgressBar();
 let lowerCase = false;
 let upperCase = false;
 let num = false;
+let password_length = false;
 
 passwordField.onkeyup = function() {
 	/* Validate the password on key up */
@@ -77,6 +78,17 @@ passwordField.onkeyup = function() {
 	else {
     	// Decrease the progress bar if there is no number
 		num = progress_bar.decrease_bar(25, num);
+    }
+
+	// password lenth is 6 more characters
+    if (passwordField.value.length >= 6) {
+		// Increase the progress bar if there is a number
+		password_length = progress_bar.increase_bar(25, password_length);
+    }
+
+	else {
+    	// Decrease the progress bar if there is no number
+		password_length = progress_bar.decrease_bar(25, password_length);
     }
 
 }
