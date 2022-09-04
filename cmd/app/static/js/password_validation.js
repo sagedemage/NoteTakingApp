@@ -43,7 +43,6 @@ class ProgressBar {
 
 function ProgressForPasswordOnKeyPress(password_field, progress_bar) {
 	/* Change progress bar for password on key up */
-
 	// contains lowercase letter
 	if (password_field.value.match(lowerCaseLetters)) {
 		// Increase the progress bar if there is a lowercase letter
