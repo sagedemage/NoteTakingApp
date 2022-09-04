@@ -1,6 +1,6 @@
 const lowerCaseLetters = /[a-z]/g;
 const upperCaseLetters = /[A-Z]/g;
-const numbers = /[0-9]/g;
+const numeric = /[0-9]/g;
 
 function ModifyWidthText(current_width) {
 	let width_text = current_width.toString();
@@ -11,7 +11,7 @@ function ModifyWidthText(current_width) {
 
 class ProgressBar {
 	p_bar_width;
-	validate_statuses;
+	password_statuses;
 
   	constructor() {
 		this.p_bar_width = 0;
@@ -41,60 +41,26 @@ class ProgressBar {
   	}
 }
 
-function ProgressForPasswordOnKeyPress(password_field, progress_bar) {
-	/* Change progress bar for password on key up */
-	// contains lowercase letter
-	if (password_field.value.match(lowerCaseLetters)) {
-		// Increase the progress bar if there is a lowercase letter
-		progress_bar.increase_bar("lower_case", 25);
+function ProgressChangeOnPattern(password_field, progress_bar, pattern, password_status, info_id) {
+	/* Progress changes if the pattern matches */
+	if (password_field.value.match(pattern)) { // lowerCaseLetters
+		// Increase the progress bar if the pattern is met
+		progress_bar.increase_bar(password_status, 25); // "lower_case"
 		
-		document.getElementById("has_lowercase").style.color="green";
-		document.getElementById("has_lowercase").style.visibility="visible";
+		document.getElementById(info_id).style.color="green";
+		document.getElementById(info_id).style.visibility="visible";
 	}
 
 	else {
-		// Decrease the progress bar if there is no lowercase letter
-		progress_bar.decrease_bar("lower_case", 25);
+		// Decrease the progress bar if the pattern is not met
+		progress_bar.decrease_bar(password_status, 25);
 
-		document.getElementById("has_lowercase").style.color="red";
-		document.getElementById("has_lowercase").style.visibility="visible";
+		document.getElementById(info_id).style.color="red";
+		document.getElementById(info_id).style.visibility="visible";
 	}
+}
 
-	// contains uppercase letter
-	if (password_field.value.match(upperCaseLetters)) {
-		// Increase the progress bar if there is a uppercase letter
-		progress_bar.increase_bar("upper_case", 25);
-
-		document.getElementById("has_uppercase").style.color="green";
-		document.getElementById("has_uppercase").style.visibility="visible";
-	}
-
-	else {
-		// Decrease the progress bar if there is no uppercase letter
-		progress_bar.decrease_bar("upper_case", 25);
-
-		document.getElementById("has_uppercase").style.color="red";
-		document.getElementById("has_uppercase").style.visibility="visible";
-	}
-
-	// contains number
-	if (password_field.value.match(numbers)) {
-		// Increase the progress bar if there is a number
-		progress_bar.increase_bar("number", 25);
-		
-		document.getElementById("has_number").style.color="green";
-		document.getElementById("has_number").style.visibility="visible";
-	}
-
-	else {
-		// Decrease the progress bar if there is no number
-		progress_bar.decrease_bar("number", 25);
-
-		document.getElementById("has_number").style.color="red";
-		document.getElementById("has_number").style.visibility="visible";
-	}
-
-	// password lenth is 6 more characters
+function ProgressChangeOnPasswordLength(password_field, progress_bar) {
 	if (password_field.value.length >= 8) {
 		// Increase the progress bar if there is a number
 		progress_bar.increase_bar("good_length", 25);
@@ -110,6 +76,24 @@ function ProgressForPasswordOnKeyPress(password_field, progress_bar) {
 		document.getElementById("good_password_length").style.color="red";
 		document.getElementById("good_password_length").style.visibility="visible";
 	}
+}
+
+function ProgressForPasswordOnKeyPress(password_field, progress_bar) {
+	/* Change progress bar for password on key up */
+	// contains lowercase letter
+	ProgressChangeOnPattern(password_field, progress_bar, lowerCaseLetters, 
+		"lower_case", "has_lowercase");
+	
+	// contains uppercase letter
+	ProgressChangeOnPattern(password_field, progress_bar, upperCaseLetters, 
+		"upper_case", "has_uppercase");
+	
+	// contains number
+	ProgressChangeOnPattern(password_field, progress_bar, numeric,
+		"number", "has_number");
+
+	// password length is 8 more characters
+	ProgressChangeOnPasswordLength(password_field, progress_bar);
 }
 
 function PasswordValidator() {
