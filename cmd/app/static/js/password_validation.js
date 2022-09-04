@@ -2,7 +2,9 @@ const lowerCaseLetters = /[a-z]/g;
 const upperCaseLetters = /[A-Z]/g;
 const numeric = /[0-9]/g;
 
-function ModifyWidthText(current_width) {
+function ConvertToWidthText(current_width) {
+	/* Convert width number to text so that that html 
+	 * dom can read the value in the right format  */
 	let width_text = current_width.toString();
 	let new_width_value = width_text.concat("%");
 	
@@ -27,7 +29,7 @@ class ProgressBar {
 	increase_bar(name, value) {
 		if (this.password_statuses[name] === false) {
 			this.p_bar_width += value;
-			document.getElementById("p-bar").style.width = ModifyWidthText(this.p_bar_width);
+			document.getElementById("p-bar").style.width = ConvertToWidthText(this.p_bar_width);
 			this.password_statuses[name] = true;
 		}
   	}
@@ -35,7 +37,7 @@ class ProgressBar {
 	decrease_bar(name, value) {
 		if (this.password_statuses[name] === true) {
 			this.p_bar_width -= value;
-			document.getElementById("p-bar").style.width = ModifyWidthText(this.p_bar_width);
+			document.getElementById("p-bar").style.width = ConvertToWidthText(this.p_bar_width);
 			this.password_statuses[name] = false;
 		}
   	}
@@ -61,8 +63,9 @@ function ProgressChangeOnPattern(password_field, progress_bar, pattern, password
 }
 
 function ProgressChangeOnPasswordLength(password_field, progress_bar) {
+	/* chnage progress bar on the required password length which is 8 charcter */
 	if (password_field.value.length >= 8) {
-		// Increase the progress bar if there is a number
+		// Increase the progress bar if the password length is 8 characters or more
 		progress_bar.increase_bar("good_length", 25);
 
 		document.getElementById("good_password_length").style.color="green";
@@ -70,7 +73,7 @@ function ProgressChangeOnPasswordLength(password_field, progress_bar) {
 	}
 
 	else {
-		// Decrease the progress bar if there is no number
+		// Decrease the progress bar if the password length is less than 8 characters
 		progress_bar.decrease_bar("good_length", 25);
 
 		document.getElementById("good_password_length").style.color="red";
@@ -92,11 +95,12 @@ function ProgressForPasswordOnKeyPress(password_field, progress_bar) {
 	ProgressChangeOnPattern(password_field, progress_bar, numeric,
 		"number", "has_number");
 
-	// password length is 8 more characters
+	// password length is 8 or more characters
 	ProgressChangeOnPasswordLength(password_field, progress_bar);
 }
 
 function PasswordValidator() {
+	/* Password Validator */
 	let password_field = document.getElementById("password");
 	let progress_bar = new ProgressBar();
 
@@ -105,4 +109,5 @@ function PasswordValidator() {
 	}
 }
 
+// Start Password Validator
 PasswordValidator();
