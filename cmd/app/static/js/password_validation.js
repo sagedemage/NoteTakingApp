@@ -1,8 +1,10 @@
 const lowerCaseLetters = /[a-z]/g;
 const upperCaseLetters = /[A-Z]/g;
-const numbers = /[0-9]/g;
+const numeric = /[0-9]/g;
 
-function ModifyWidthText(current_width) {
+function ConvertToWidthText(current_width) {
+	/* Convert width number to text so that that html 
+	 * dom can read the value in the right format  */
 	let width_text = current_width.toString();
 	let new_width_value = width_text.concat("%");
 	
@@ -11,7 +13,7 @@ function ModifyWidthText(current_width) {
 
 class ProgressBar {
 	p_bar_width;
-	validate_statuses;
+	password_statuses;
 
   	constructor() {
 		this.p_bar_width = 0;
@@ -25,98 +27,87 @@ class ProgressBar {
  	}
 
 	increase_bar(name, value) {
-		if (this.password_statuses[name] == false) {
+		if (this.password_statuses[name] === false) {
 			this.p_bar_width += value;
-			document.getElementById("p-bar").style.width = ModifyWidthText(this.p_bar_width);
+			document.getElementById("p-bar").style.width = ConvertToWidthText(this.p_bar_width);
 			this.password_statuses[name] = true;
 		}
   	}
   
 	decrease_bar(name, value) {
-		if (this.password_statuses[name] == true) {
+		if (this.password_statuses[name] === true) {
 			this.p_bar_width -= value;
-			document.getElementById("p-bar").style.width = ModifyWidthText(this.p_bar_width);
+			document.getElementById("p-bar").style.width = ConvertToWidthText(this.p_bar_width);
 			this.password_statuses[name] = false;
 		}
   	}
 }
 
-let passwordField = document.getElementById("password");
-
-let progress_bar = new ProgressBar();
-
-passwordField.onkeyup = function() {
-	/* Validate the password on key up */
-
-	// contains lowercase letter
-    if (passwordField.value.match(lowerCaseLetters)) {
-		// Increase the progress bar if there is a lowercase letter
-		progress_bar.increase_bar("lower_case", 25);
+function ProgressChangeOnPattern(password_field, progress_bar, pattern, password_status, info_id) {
+	/* Progress changes if the pattern matches */
+	if (password_field.value.match(pattern)) { // lowerCaseLetters
+		// Increase the progress bar if the pattern is met
+		progress_bar.increase_bar(password_status, 25); // "lower_case"
 		
-		document.getElementById("has_lowercase").style.color="green";
-		document.getElementById("has_lowercase").style.visibility="visible";
-    }
+		document.getElementById(info_id).style.color="green";
+		document.getElementById(info_id).style.visibility="visible";
+	}
 
 	else {
-    	// Decrease the progress bar if there is no lowercase letter
-		progress_bar.decrease_bar("lower_case", 25);
+		// Decrease the progress bar if the pattern is not met
+		progress_bar.decrease_bar(password_status, 25);
 
-		document.getElementById("has_lowercase").style.color="red";
-		document.getElementById("has_lowercase").style.visibility="visible";
-    }
+		document.getElementById(info_id).style.color="red";
+		document.getElementById(info_id).style.visibility="visible";
+	}
+}
 
-	// contains uppercase letter
-    if (passwordField.value.match(upperCaseLetters)) {
-		// Increase the progress bar if there is a uppercase letter
-		progress_bar.increase_bar("upper_case", 25);
-
-		document.getElementById("has_uppercase").style.color="green";
-		document.getElementById("has_uppercase").style.visibility="visible";
-    }
-
-	else {
-    	// Decrease the progress bar if there is no uppercase letter
-		progress_bar.decrease_bar("upper_case", 25);
-
-		document.getElementById("has_uppercase").style.color="red";
-		document.getElementById("has_uppercase").style.visibility="visible";
-    }
-
-	// contains number
-    if (passwordField.value.match(numbers)) {
-		// Increase the progress bar if there is a number
-		progress_bar.increase_bar("number", 25);
-		
-		document.getElementById("has_number").style.color="green";
-		document.getElementById("has_number").style.visibility="visible";
-    }
-
-	else {
-    	// Decrease the progress bar if there is no number
-		progress_bar.decrease_bar("number", 25);
-
-		document.getElementById("has_number").style.color="red";
-		document.getElementById("has_number").style.visibility="visible";
-    }
-
-	// password lenth is 6 more characters
-    if (passwordField.value.length >= 8) {
-		// Increase the progress bar if there is a number
-		//password_length = progress_bar.increase_bar(25, password_length);
+function ProgressChangeOnPasswordLength(password_field, progress_bar) {
+	/* chnage progress bar on the required password length which is 8 charcter */
+	if (password_field.value.length >= 8) {
+		// Increase the progress bar if the password length is 8 characters or more
 		progress_bar.increase_bar("good_length", 25);
 
 		document.getElementById("good_password_length").style.color="green";
 		document.getElementById("good_password_length").style.visibility="visible";
-    }
+	}
 
 	else {
-    	// Decrease the progress bar if there is no number
-		//password_length = progress_bar.decrease_bar(25, password_length);
+		// Decrease the progress bar if the password length is less than 8 characters
 		progress_bar.decrease_bar("good_length", 25);
 
 		document.getElementById("good_password_length").style.color="red";
 		document.getElementById("good_password_length").style.visibility="visible";
-    }
-
+	}
 }
 
+function ProgressForPasswordOnKeyPress(password_field, progress_bar) {
+	/* Change progress bar for password on key up */
+	// contains lowercase letter
+	ProgressChangeOnPattern(password_field, progress_bar, lowerCaseLetters, 
+		"lower_case", "has_lowercase");
+	
+	// contains uppercase letter
+	ProgressChangeOnPattern(password_field, progress_bar, upperCaseLetters, 
+		"upper_case", "has_uppercase");
+	
+	// contains number
+	ProgressChangeOnPattern(password_field, progress_bar, numeric,
+		"number", "has_number");
+
+	// password length is 8 or more characters
+	ProgressChangeOnPasswordLength(password_field, progress_bar);
+}
+
+function PasswordValidator() {
+	/* Password Validator */
+	let password_field = document.getElementById("password");
+	let progress_bar = new ProgressBar();
+
+	password_field.onkeyup = function() {
+		ProgressForPasswordOnKeyPress(password_field, progress_bar);
+	}
+}
+
+// Start Password Validator
+PasswordValidator();
