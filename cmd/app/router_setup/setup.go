@@ -56,7 +56,7 @@ func InitializeRouter(db *gorm.DB) *gin.Engine {
 	router.POST("/login", auth.Login(db))
 
 	// Page Not Found
-	router.NoRoute(page_renderer.RenderPageNotFoundWebPage("404.html", "404 Page - Page Not Found"))
+	router.NoRoute(page_renderer.RenderPageNotFoundWebPage)
 
 	/* Auhtorization Required */
 	auth_routes := router.Group("/").Use(auth.AuthRequired)
@@ -72,7 +72,7 @@ func InitializeRouter(db *gorm.DB) *gin.Engine {
 	auth_routes.GET("/edit-note", notes.EditNoteForm(db))
 
 	// Render the new entry page at route "/delete-entry"
-	auth_routes.GET("/delete-note", page_renderer.RenderWebPage("delete-note.tmpl", "Delete Note"))
+	auth_routes.GET("/delete-note", notes.DeleteNoteForm)
 
 	// Logout the user
 	auth_routes.GET("/logout", auth.Logout)

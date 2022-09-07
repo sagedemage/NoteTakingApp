@@ -17,7 +17,7 @@ func AuthRequired(c *gin.Context) {
 	user := user_session.GetUserSessionData(c, "is_logged_in")
 
 	if user == nil {
-		page_renderer.RenderUnauthorizedWebPage(c, "401.html", "Unauthorized")
+		page_renderer.RenderUnauthorizedWebPage(c)
 
 		return
 	} 

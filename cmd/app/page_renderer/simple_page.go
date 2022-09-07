@@ -5,16 +5,14 @@ import (
 
 	"github.com/gin-gonic/gin"
 
-	"github.com/gin-contrib/sessions"
+	"notebook_app/cmd/app/user_session"
 )
 
 func RenderWebPage(template_page string, page_title string) gin.HandlerFunc {
+	/* Render a simple web page */
 	fn := func(c *gin.Context) {
-		// Get user session data
-		session := sessions.Default(c)
-
-		// Get loggin in value
-		user := session.Get("is_logged_in")
+		// Get user logged_in session data
+		user := user_session.GetUserSessionData(c, "is_logged_in")
 
 		c.HTML(http.StatusOK, template_page, gin.H{
 			"page_title": page_title,

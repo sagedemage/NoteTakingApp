@@ -12,6 +12,8 @@ import (
 	"notebook_app/cmd/app/user_session"
 
 	"notebook_app/cmd/app/form"
+
+	"notebook_app/cmd/app/page_renderer"
 )
 
 func EditNoteForm(db *gorm.DB) gin.HandlerFunc {
@@ -30,14 +32,18 @@ func EditNoteForm(db *gorm.DB) gin.HandlerFunc {
 		// Get user logged_in session data
 		user := user_session.GetUserSessionData(c, "is_logged_in")
 
-		// pass the note's title and description to the form page
-		c.HTML(http.StatusOK, "edit-note.tmpl", gin.H{
-			"page_title":       page_title,
-			"note_title":       note.Title,
-			"note_description": note.Description,
-			"user":				user,
-		})
 
+		if note_id != "" {
+			// pass the note's title and description to the form page
+			c.HTML(http.StatusOK, "edit-note.tmpl", gin.H{
+				"page_title":       page_title,
+				"note_title":       note.Title,
+				"note_description": note.Description,
+				"user":				user,
+			})
+		} else {
+			page_renderer.RenderPageNotFoundWebPage(c)
+		}
 	}
 	return gin.HandlerFunc(fn)
 }
