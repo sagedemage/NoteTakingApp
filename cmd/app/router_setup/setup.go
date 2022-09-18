@@ -37,7 +37,7 @@ func InitializeRouter(db *gorm.DB) *gin.Engine {
 
 	/* Get Requests */
 	// Render the home page at the root of the website
-	router.GET("/", page_renderer.RenderWebPage("home.tmpl", "Home")) // home.tmpl does not exist
+	router.GET("/", page_renderer.RenderWebPage("home.tmpl", "Home"))
 
 	// Render the about page at the route "/about"
 	router.GET("/about", page_renderer.RenderWebPage("about.tmpl", "About"))

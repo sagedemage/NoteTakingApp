@@ -1,0 +1,73 @@
+.bg-myGreen {
+    background-color: SeaGreen;
+}
+
+#content {
+    margin-top: 50px;
+}
+
+.gaps {
+    margin-right: 16%;
+    margin-left: 16%;
+}
+
+.indent {
+    padding-left: 0em;
+}
+
+#copyright {
+    text-align: center;
+}
+
+.scale_image {
+	max-width: 50%;
+	height: auto;
+}
+
+#bottom {
+    /* margin-top: 20em; */
+    margin-bottom: 5em;
+}
+
+/* mobile portrait layout */
+@media only screen and (max-width: 479px) {
+	.icon-link {
+		float: none;
+	}
+	#links {
+		margin-left: 0px;
+	}
+	.scale_image {
+		max-width: 100%;
+		height: auto;
+	}
+}
+
+/* tablet portrait layout */
+@media only screen and (min-width: 481px) and (max-width: 768px)  { 
+	.icon-link {
+		float: none;
+	}
+	#links {
+		margin-left: 0px;
+	}
+	.scale_image {
+		max-width: 100%;
+		height: auto;
+	}
+}
+
+/* small screens and laptop layout */
+@media only screen and (min-width: 769px) and (max-width: 1024px) {
+	.icon-link {
+		float: none;
+	}
+	#links {
+		margin-left: 0px;
+	}
+	.scale_image {
+		max-width: 80%;
+		height: auto;
+	}
+}
+
