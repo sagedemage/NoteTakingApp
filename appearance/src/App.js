@@ -18,7 +18,7 @@ function App() {
   return (
     <div>
         <div>
-            <Navbar collapseOnSelect expand="lg" bg="myGreen" variant="dark" fixed="top">
+            <Navbar collapseOnSelect expand="lg" bg="myBlue" variant="dark" fixed="top">
                 <Container>
                     <Navbar.Brand>
                         <span className="indent"> Notebook </span>
