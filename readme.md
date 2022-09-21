@@ -10,6 +10,24 @@ This is a note taking app. I create notes when learning new technologies and
 remembering what was in my mind lasted time. My goal is is to create a note taking web app 
 I can use on my home server. I use raspberry pi as my home server.
 
+## Setup
+Install nodejs for Debian, Ubuntu and distros based on Debian or Ubuntu
+```
+sudo apt install nodejs
+```
+
+Install nodejs for Windows: [nodejs download page](https://nodejs.org/en/download/)
+
+Go to the root of the repository
+```
+cd Notebook
+```
+
+Install the dependencies
+```
+npm install react react-dom react-router-dom react-bootstrap
+```
+
 ## Building the Project
 Build and Run Using Docker Compose (Option 1)
 ```
