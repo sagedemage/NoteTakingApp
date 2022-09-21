@@ -20,7 +20,7 @@ Install nodejs for Windows: [nodejs download page](https://nodejs.org/en/downloa
 
 Go to the root of the repository
 ```
-cd Notebook
+cd Notebook/appearance
 ```
 
 Install the dependencies
