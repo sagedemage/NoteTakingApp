@@ -7,6 +7,8 @@ import (
 
 	"github.com/gin-contrib/sessions/cookie"
 
+	"github.com/gin-contrib/cors"
+
 	"gorm.io/gorm"
 
 	"notebook_app/cmd/app/notes"
@@ -21,6 +23,12 @@ import (
 func InitializeRouter(db *gorm.DB) *gin.Engine {
 	// create the router
 	router := gin.Default()
+
+	config := cors.DefaultConfig()
+
+	config.AllowOrigins = []string{"http://localhost:3000"}
+
+	router.Use(cors.New(config))
 
 	// html renderer
 	router.HTMLRender = template_loader.LoadTemplates("cmd/app/templates")
@@ -62,8 +70,14 @@ func InitializeRouter(db *gorm.DB) *gin.Engine {
 	api := router.Group("/api")
 	
 	// test api route
-	api.GET("/test", func(c *gin.Context) {
-		c.JSON(200, gin.H{"msg": "test"})
+	api.GET("/test1", func(c *gin.Context) {
+		c.JSON(200, gin.H{"msg": "one"})
+	})
+	api.GET("/test2", func(c *gin.Context) {
+		c.JSON(200, gin.H{"msg": "two"})
+	})
+	api.GET("/test3", func(c *gin.Context) {
+		c.JSON(200, gin.H{"msg": "three"})
 	})
 
 	/* Auhtorization Required */
