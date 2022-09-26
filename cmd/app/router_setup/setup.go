@@ -58,6 +58,13 @@ func InitializeRouter(db *gorm.DB) *gin.Engine {
 	// Page Not Found
 	router.NoRoute(page_renderer.RenderPageNotFoundWebPage("404.html", "404 Page - Page Not Found"))
 
+	/* API */
+	api := router.Group("/api")
+	
+	api.GET("/test", func(c *gin.Context) {
+		c.JSON(200, gin.H{"msg": "test"})
+	})
+
 	/* Auhtorization Required */
 	auth_routes := router.Group("/").Use(auth.AuthRequired)
 
