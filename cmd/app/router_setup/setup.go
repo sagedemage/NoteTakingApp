@@ -61,6 +61,7 @@ func InitializeRouter(db *gorm.DB) *gin.Engine {
 	/* API */
 	api := router.Group("/api")
 	
+	// test api route
 	api.GET("/test", func(c *gin.Context) {
 		c.JSON(200, gin.H{"msg": "test"})
 	})
