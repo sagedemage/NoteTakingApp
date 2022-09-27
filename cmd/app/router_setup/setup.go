@@ -80,6 +80,9 @@ func InitializeRouter(db *gorm.DB) *gin.Engine {
 		c.JSON(200, gin.H{"msg": "three"})
 	})
 
+	// check user authentication
+	api.GET("/check-user-auth", auth.CheckUserAuthenticated)
+
 	/* Auhtorization Required */
 	auth_routes := router.Group("/").Use(auth.AuthRequired)
 
