@@ -29,7 +29,7 @@ function App() {
 				console.log("is logged in data", response.data);
 				setUserStatus(response.data);
 			})
-			.catch(err => console.log(err))
+			.catch(err => console.log(err));
 	}, [])
 
 	return (
@@ -47,13 +47,13 @@ function App() {
 								<Nav.Link href="/"> Home </Nav.Link>
 								<Nav.Link href="/about"> About </Nav.Link>
 							</Nav>
-							{ user.is_logged_in == null &&
+							{ user.is_logged_in === null &&
 							<Nav className="ms-auto">
 								<Nav.Link href="/login"> Login </Nav.Link>
 								<Nav.Link href="/register"> Register </Nav.Link>
 							</Nav>
 							}
-							{ user.is_logged_in != null &&
+							{ user.is_logged_in === true &&
 							<Nav className="ms-auto">
 								<NavDropdown
 								  id="nav-dropdown"

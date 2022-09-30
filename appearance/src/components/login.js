@@ -18,6 +18,7 @@ export const Login = () => {
 				password: password,
 			})
 			console.log(resp.data);
+			window.location.href = '/dashboard';
 		} 
 		catch (error) {
 			console.log(error.response)

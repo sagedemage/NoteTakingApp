@@ -134,28 +134,19 @@ func Login2(db *gorm.DB) gin.HandlerFunc {
 		if err != nil {
 			println(err)
 			return
-		} else {
+		} 
+		/*else {
 			c.JSON(http.StatusOK, 
 				gin.H{"username": userlogin.Username,
 				  "password": userlogin.Password,
 			})
-		}
-
-		
-
-		//c.BindJSON()
-
-		// get username form data
-		//var username string = form.GetFormValue(c, "username") 
-		
-		// get password form data
-		//var password string = form.GetFormValue(c, "password") 
+		}*/
 
 		// Is User Valid
-		//user_id, err := is_user_valid(db, username, password)
+		user_id, err := is_user_valid(db, userlogin.Username, userlogin.Password)
 
 		/* Check if user registration is successful */
-		/*if err == nil {
+		if err == nil {
 			// user session
 			session := sessions.Default(c)
 
@@ -165,11 +156,18 @@ func Login2(db *gorm.DB) gin.HandlerFunc {
       		session.Save()
 
 			// Redirect to the dashboard
-			c.Redirect(http.StatusFound, "/dashboard")
+			//c.Redirect(http.StatusFound, "/dashboard")
 		} else {
 			// send login error message
 			login_error_message(c, err)
-		}*/
+		}
+
+		session := sessions.Default(c)
+
+		c.JSON(http.StatusOK, 
+			gin.H{"logged in": session.Get("is_logged_in"),
+		})
+
 	}
 	return gin.HandlerFunc(fn)
 }
