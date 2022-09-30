@@ -4,9 +4,9 @@ import (
 	"net/http"
 
 	"net/url"
-	
+
 	"gorm.io/gorm"
-	
+
 	"errors"
 
 	"github.com/gin-gonic/gin"
@@ -113,6 +113,63 @@ func Login(db *gorm.DB) gin.HandlerFunc {
 			// send login error message
 			login_error_message(c, err)
 		}
+	}
+	return gin.HandlerFunc(fn)
+}
+
+func Login2(db *gorm.DB) gin.HandlerFunc {
+	
+	type UserLogin struct {
+		Username string
+		Password string
+	}
+
+	fn := func(c *gin.Context) {
+		/* Login */
+
+		var userlogin UserLogin
+
+		err := c.BindJSON(&userlogin)
+
+		if err != nil {
+			println(err)
+			return
+		} else {
+			c.JSON(http.StatusOK, 
+				gin.H{"username": userlogin.Username,
+				  "password": userlogin.Password,
+			})
+		}
+
+		
+
+		//c.BindJSON()
+
+		// get username form data
+		//var username string = form.GetFormValue(c, "username") 
+		
+		// get password form data
+		//var password string = form.GetFormValue(c, "password") 
+
+		// Is User Valid
+		//user_id, err := is_user_valid(db, username, password)
+
+		/* Check if user registration is successful */
+		/*if err == nil {
+			// user session
+			session := sessions.Default(c)
+
+			// store that logged in is true
+			session.Set("is_logged_in", true)
+			session.Set("user_id", user_id)
+      		session.Save()
+
+			// Redirect to the dashboard
+			c.Redirect(http.StatusFound, "/dashboard")
+		} else {
+			// send login error message
+			login_error_message(c, err)
+		}*/
 	}
 	return gin.HandlerFunc(fn)
 }

@@ -61,7 +61,7 @@ func InitializeRouter(db *gorm.DB) *gin.Engine {
 	router.POST("/register", auth.Register(db))
 
 	// Login the user
-	router.POST("/login", auth.Login(db))
+	//router.POST("/login", auth.Login(db))
 
 	// Page Not Found
 	router.NoRoute(page_renderer.RenderPageNotFoundWebPage("404.html", "404 Page - Page Not Found"))
@@ -82,6 +82,9 @@ func InitializeRouter(db *gorm.DB) *gin.Engine {
 
 	// check user authentication
 	api.GET("/check-user-auth", auth.CheckUserAuthenticated)
+
+	// login user
+	api.POST("/login", auth.Login2(db))
 
 	/* Auhtorization Required */
 	auth_routes := router.Group("/").Use(auth.AuthRequired)
