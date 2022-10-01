@@ -6,8 +6,16 @@ import {useState} from "react";
 
 export const Login = () => {
 
-	const [username, setUsername] = useState();
-	const [password, setPassword] = useState();
+	const [username, setUsername] = useState('');
+	const [password, setPassword] = useState('');
+
+	const handleUsernameChange = event => {
+    	setUsername(event.target.value);
+  	};
+
+	const handlePasswordChange = event => {
+    	setPassword(event.target.value);
+  	};
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();
@@ -18,7 +26,7 @@ export const Login = () => {
 				password: password,
 			})
 			console.log(resp.data);
-			window.location.href = '/dashboard';
+			//window.location.href = '/dashboard';
 		} 
 		catch (error) {
 			console.log(error.response)
@@ -34,7 +42,7 @@ export const Login = () => {
 					<input className="form-control" id="exampleInputUsername1" 
 						name="username" placeholder="Enter email or username" 
 						value={username} 
-						onChange={(e) => setUsername(e.target.value)}
+						onChange={handleUsernameChange}
 					required />
 				</div>
 				<div className="form-group">
@@ -42,7 +50,7 @@ export const Login = () => {
 					<input type="password" className="form-control" id="exampleInputPassword1" 
 						name="password" placeholder="Enter password" 
 						value={password}
-						onChange={(e) => setPassword(e.target.value)}
+						onChange={handlePasswordChange}
 					required />
 				</div>
 				<button type="submit" className="btn btn-primary">Submit</button>
