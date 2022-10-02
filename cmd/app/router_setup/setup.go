@@ -84,6 +84,9 @@ func InitializeRouter(db *gorm.DB) *gin.Engine {
 	// check user authentication
 	api.GET("/check-user-auth", auth.CheckUserAuthenticated)
 
+	// Register the user
+	api.POST("/register", auth.Register2(db))
+
 	// login user
 	api.POST("/login", auth.Login2(db))
 

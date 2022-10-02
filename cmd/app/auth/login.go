@@ -9,14 +9,6 @@ import (
 
 	"errors"
 
-	"io/ioutil"
-
-	"os"
-
-	"time"
-
-	jwt "github.com/golang-jwt/jwt/v4"
-
 	"github.com/gin-gonic/gin"
 
 	"github.com/gin-contrib/sessions"
@@ -127,26 +119,7 @@ func Login(db *gorm.DB) gin.HandlerFunc {
 	return gin.HandlerFunc(fn)
 }
 
-func generateToken(data data_types.JSON) (string, error) {
-	// token is valid for 7 days
-	date := time.Now().Add(time.Hour * 24 * 7)
 
-	token := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
-		"user": data,
-		"exp":  date.Unix(),
-	})
-
-	// get path from root dir
-	pwd, _ := os.Getwd()
-	keyPath := pwd + "/jwtsecret.key"
-
-	key, readErr := ioutil.ReadFile(keyPath)
-	if readErr != nil {
-		return "", readErr
-	}
-	tokenString, err := token.SignedString(key)
-	return tokenString, err
-}
 
 func Login2(db *gorm.DB) gin.HandlerFunc {
 	fn := func(c *gin.Context) {
@@ -159,6 +132,7 @@ func Login2(db *gorm.DB) gin.HandlerFunc {
 
 		var body RequestBody
 
+		// Get JSON Request Body
 		err := c.BindJSON(&body)
 
 		if err != nil {
@@ -189,7 +163,9 @@ func Login2(db *gorm.DB) gin.HandlerFunc {
 		} else {
 			// send login error message
 			login_error_message(c, err)
-			c.JSON(401, gin.H{"auth": false, "message": "user login failed"})
+
+			// json message
+			c.JSON(401, gin.H{"auth": false, "msg_error": err.Error()})
 		}
 	}
 	return gin.HandlerFunc(fn)
