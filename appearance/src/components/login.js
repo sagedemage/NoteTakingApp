@@ -4,7 +4,7 @@ import { useEffect } from "react";
 import axios from "axios";
 import {useState} from "react";
 
-export const Login = (props) => {
+export const Login = () => {
 
 	const [username, setUsername] = useState('');
 	const [password, setPassword] = useState('');
@@ -27,11 +27,10 @@ export const Login = (props) => {
 			if (response.data.auth === true) {
                 localStorage.setItem("token", response.data.token)
                 localStorage.setItem("auth", true)
-                props.setUserStatus(true)
-                //window.location.href = '/dashboard';
+                window.location.href = '/dashboard';
 			}
 			else {
-                props.setUserStatus(false)
+                localStorage.setItem("auth", false)
 			}
 			//console.log(response.data);
             console.log(response)

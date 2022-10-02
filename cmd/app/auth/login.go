@@ -222,3 +222,11 @@ func Logout(c *gin.Context) {
 	// Redirect to the table view page
 	c.Redirect(http.StatusTemporaryRedirect, "/")
 }
+
+func Logout2(c *gin.Context) {
+	/* Logout */
+
+	c.JSON(200, data_types.JSON{
+		"auth": false,
+	})
+}

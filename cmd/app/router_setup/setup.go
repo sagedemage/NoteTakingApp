@@ -87,6 +87,9 @@ func InitializeRouter(db *gorm.DB) *gin.Engine {
 	// login user
 	api.POST("/login", auth.Login2(db))
 
+	// logut user
+	api.GET("/logout", auth.Logout2)
+
 	/* Auhtorization Required */
 	auth_routes := router.Group("/").Use(auth.AuthRequired)
 

@@ -15,6 +15,7 @@ import { About } from "./components/about";
 import { Login } from "./components/login";
 import { Register } from "./components/register";
 import { Notes } from "./components/view-notes";
+import { Logout } from "./components/logout";
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 
@@ -76,7 +77,7 @@ function App() {
 								  variant="dark"
 								>
 								  	<NavDropdown.Item href="/dashboard">Notes</NavDropdown.Item>
-									<NavDropdown.Item href="#action/3.3">Logout</NavDropdown.Item>
+									<NavDropdown.Item onClick={() => Logout() }>Logout</NavDropdown.Item>
 								</NavDropdown>
 							</Nav>
 							}
@@ -89,7 +90,7 @@ function App() {
 				<Routes>
 					<Route path='/' element={<Home />}> </Route>
 					<Route path='about' element={<About />}> </Route>
-					<Route path='login' element={<Login setUserStatus={setUserStatus}/>}> </Route>
+					<Route path='login' element={<Login />}> </Route>
 					<Route path='register' element={<Register />}> </Route>
 					<Route path='dashboard' element={<Notes />}> </Route>
 				</Routes>
