@@ -25,14 +25,19 @@ export const Login = (props) => {
 			password: password,
 		}).then((response) => {
 			if (response.data.auth === true) {
+                localStorage.setItem("token", response.data.token)
+                localStorage.setItem("auth", true)
                 props.setUserStatus(true)
                 //window.location.href = '/dashboard';
 			}
 			else {
                 props.setUserStatus(false)
 			}
-			console.log(response.data);
-		})
+			//console.log(response.data);
+            console.log(response)
+		}).catch(e => {
+            console.log(e)
+        })
 	};
 
 	return (

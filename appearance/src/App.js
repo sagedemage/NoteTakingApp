@@ -25,6 +25,14 @@ function App() {
 
     axios.defaults.withCredentials = true;
 
+    let auth = localStorage.getItem("auth")
+
+    if (auth === null) {
+        auth = "false"
+    }
+
+    console.log("auth status: " + auth)
+
     //const [user, setUserStatus] = useState("");
 
 	/*useEffect(() => {
@@ -53,13 +61,13 @@ function App() {
 								<Nav.Link href="/"> Home </Nav.Link>
 								<Nav.Link href="/about"> About </Nav.Link>
 							</Nav>
-							{ user === false &&
+							{ auth === "false" &&
 							<Nav className="ms-auto">
 								<Nav.Link href="/login"> Login </Nav.Link>
 								<Nav.Link href="/register"> Register </Nav.Link>
 							</Nav>
 							}
-							{ user === true &&
+							{ auth === "true" &&
 							<Nav className="ms-auto">
 								<NavDropdown
 								  id="nav-dropdown"
