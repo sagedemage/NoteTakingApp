@@ -4,6 +4,8 @@ import (
 	"gorm.io/gorm"
 
 	"golang.org/x/crypto/bcrypt"
+
+	"notebook_app/cmd/app/data_types"
 )
 
 type User struct {
@@ -29,6 +31,13 @@ func CreateNewUser(db *gorm.DB, email string, username string, password string) 
 		panic(err)
 	}
 	db.Create(&User{Email: email, Username: username, Password: bytes})
+}
+
+func (u *User) Serialize() data_types.JSON {
+	return data_types.JSON{
+		"id": u.ID,
+		"username": u.Username,
+	}
 }
 
 /* Note functions */

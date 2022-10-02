@@ -9,6 +9,14 @@ import (
 
 	"errors"
 
+	"io/ioutil"
+
+	"os"
+
+	"time"
+
+	jwt "github.com/golang-jwt/jwt/v4"
+
 	"github.com/gin-gonic/gin"
 
 	"github.com/gin-contrib/sessions"
@@ -16,6 +24,8 @@ import (
 	"golang.org/x/crypto/bcrypt"
 
 	"notebook_app/cmd/app/notebook_db"
+
+	"notebook_app/cmd/app/data_types"
 
 	"notebook_app/cmd/app/form"
 )
@@ -47,16 +57,16 @@ func LoginPage(c *gin.Context) {
 		success_status = true
 	}
 	c.HTML(http_status, "login.tmpl", gin.H{
-		"page_title": page_title,
-		"user": user,
-		"error_status": error_status,
-		"msg_error": msg_error,
+		"page_title":     page_title,
+		"user":           user,
+		"error_status":   error_status,
+		"msg_error":      msg_error,
 		"success_status": success_status,
-		"msg_success": msg_success,
+		"msg_success":    msg_success,
 	})
 }
 
-func is_user_valid(db *gorm.DB, username string, password string) (uint, error) {
+func is_user_valid(db *gorm.DB, username string, password string) (*notebook_db.User, error) {
 	/* Check if the User is Valid */
 	var user = &notebook_db.User{}
 
@@ -66,20 +76,20 @@ func is_user_valid(db *gorm.DB, username string, password string) (uint, error) 
 	// Incorrect username or password (Reddit, GitHub)
 
 	if username == user.Email || username == user.Username {
-		// Check if the email or username exists 
+		// Check if the email or username exists
 		// compare the password to the password hash
 		err := bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(password))
 
 		if err != nil {
 			// Check if the password is incorrect
-			return 0, errors.New("incorrect username or password") 
+			return user, errors.New("incorrect username or password")
 		}
 	} else if username != user.Email || username != user.Username {
-		// Check if the email or username does not exists 
-		return 0, errors.New("incorrect username or password")
+		// Check if the email or username does not exists
+		return user, errors.New("incorrect username or password")
 	}
 
-	return user.ID, nil
+	return user, nil
 }
 
 func Login(db *gorm.DB) gin.HandlerFunc {
@@ -89,10 +99,10 @@ func Login(db *gorm.DB) gin.HandlerFunc {
 		c.Request.ParseForm()
 
 		// get username form data
-		var username string = form.GetFormValue(c, "username") 
-		
+		var username string = form.GetFormValue(c, "username")
+
 		// get password form data
-		var password string = form.GetFormValue(c, "password") 
+		var password string = form.GetFormValue(c, "password")
 
 		// Is User Valid
 		user_id, err := is_user_valid(db, username, password)
@@ -105,7 +115,7 @@ func Login(db *gorm.DB) gin.HandlerFunc {
 			// store that logged in is true
 			session.Set("is_logged_in", true)
 			session.Set("user_id", user_id)
-      		session.Save()
+			session.Save()
 
 			// Redirect to the dashboard
 			c.Redirect(http.StatusFound, "/dashboard")
@@ -117,57 +127,70 @@ func Login(db *gorm.DB) gin.HandlerFunc {
 	return gin.HandlerFunc(fn)
 }
 
-func Login2(db *gorm.DB) gin.HandlerFunc {
-	
-	type UserLogin struct {
-		Username string
-		Password string
-	}
+func generateToken(data data_types.JSON) (string, error) {
+	// token is valid for 7 days
+	date := time.Now().Add(time.Hour * 24 * 7)
 
+	token := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
+		"user": data,
+		"exp":  date.Unix(),
+	})
+
+	// get path from root dir
+	pwd, _ := os.Getwd()
+	keyPath := pwd + "/jwtsecret.key"
+
+	key, readErr := ioutil.ReadFile(keyPath)
+	if readErr != nil {
+		return "", readErr
+	}
+	tokenString, err := token.SignedString(key)
+	return tokenString, err
+}
+
+func Login2(db *gorm.DB) gin.HandlerFunc {
 	fn := func(c *gin.Context) {
 		/* Login */
 
-		var userlogin UserLogin
+		type RequestBody struct {
+			Username string `json:"username"`
+			Password string `json:"password"`
+		}
 
-		err := c.BindJSON(&userlogin)
+		var body RequestBody
+
+		err := c.BindJSON(&body)
 
 		if err != nil {
 			println(err)
 			return
-		} 
-		/*else {
-			c.JSON(http.StatusOK, 
-				gin.H{"username": userlogin.Username,
-				  "password": userlogin.Password,
-			})
-		}*/
+		}
 
 		// Is User Valid
-		user_id, err := is_user_valid(db, userlogin.Username, userlogin.Password)
+		user, err := is_user_valid(db, body.Username, body.Password)
 
 		/* Check if user registration is successful */
 		if err == nil {
-			// user session
-			session := sessions.Default(c)
+			serialized := user.Serialize()
+			token, _ := generateToken(serialized)
 
-			// store that logged in is true
-			session.Set("is_logged_in", true)
-			session.Set("user_id", user_id)
-      		session.Save()
+			//c.Request.Header.Set("token", token)
 
-			// Redirect to the dashboard
-			//c.Redirect(http.StatusFound, "/dashboard")
+			//c.Request.Header.Add("token", token)
+
+			c.Header("token", token)
+
+			//c.SetCookie("token", token, 60*60*24*7, "/", "", false, true)
+			c.JSON(200, data_types.JSON{
+				"user":  user.Serialize(),
+				"token": token,
+				"auth":  true,
+			})
 		} else {
 			// send login error message
 			login_error_message(c, err)
+			c.JSON(401, gin.H{"auth": false, "message": "user login failed"})
 		}
-
-		session := sessions.Default(c)
-
-		c.JSON(http.StatusOK, 
-			gin.H{"logged in": session.Get("is_logged_in"),
-		})
-
 	}
 	return gin.HandlerFunc(fn)
 }
@@ -199,4 +222,3 @@ func Logout(c *gin.Context) {
 	// Redirect to the table view page
 	c.Redirect(http.StatusTemporaryRedirect, "/")
 }
-

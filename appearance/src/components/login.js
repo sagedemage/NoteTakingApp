@@ -4,7 +4,7 @@ import { useEffect } from "react";
 import axios from "axios";
 import {useState} from "react";
 
-export const Login = () => {
+export const Login = (props) => {
 
 	const [username, setUsername] = useState('');
 	const [password, setPassword] = useState('');
@@ -20,17 +20,19 @@ export const Login = () => {
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 		console.log(username, password);
-		try {
-			const resp = await axios.post(`http://localhost:8080/api/login`, {
-				username: username,
-				password: password,
-			})
-			console.log(resp.data);
-			//window.location.href = '/dashboard';
-		} 
-		catch (error) {
-			console.log(error.response)
-		}
+		axios.post(`http://localhost:8080/api/login`, {
+			username: username,
+			password: password,
+		}).then((response) => {
+			if (response.data.auth === true) {
+                props.setUserStatus(true)
+                //window.location.href = '/dashboard';
+			}
+			else {
+                props.setUserStatus(false)
+			}
+			console.log(response.data);
+		})
 	};
 
 	return (

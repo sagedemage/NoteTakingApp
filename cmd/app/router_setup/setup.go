@@ -27,6 +27,7 @@ func InitializeRouter(db *gorm.DB) *gin.Engine {
 	config := cors.DefaultConfig()
 
 	config.AllowOrigins = []string{"http://localhost:3000"}
+	config.AllowCredentials = true
 
 	router.Use(cors.New(config))
 
@@ -35,7 +36,7 @@ func InitializeRouter(db *gorm.DB) *gin.Engine {
 
 	// session
 	store := cookie.NewStore([]byte("secret"))
-  	router.Use(sessions.Sessions("mysession", store))
+	router.Use(sessions.Sessions("mysession", store))
 
 	// do not trust all proxies for security reasons
 	router.SetTrustedProxies(nil)
@@ -68,7 +69,7 @@ func InitializeRouter(db *gorm.DB) *gin.Engine {
 
 	/* API */
 	api := router.Group("/api")
-	
+
 	// test api route
 	api.GET("/test1", func(c *gin.Context) {
 		c.JSON(200, gin.H{"msg": "one"})

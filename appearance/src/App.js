@@ -21,16 +21,22 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 
 function App() {
 
-	const [user, setUserStatus] = useState([]);
+	const [user, setUserStatus] = useState(false);
 
-	useEffect(() => {
+    axios.defaults.withCredentials = true;
+
+    //const [user, setUserStatus] = useState("");
+
+	/*useEffect(() => {
 		axios.get(`http://localhost:8080/api/check-user-auth`)
 			.then(response => {
 				console.log("is logged in data", response.data);
-				setUserStatus(response.data);
+				//setUserStatus(response.data);
 			})
 			.catch(err => console.log(err));
-	}, [])
+
+	}, [])*/
+
 
 	return (
 		<div>
@@ -47,13 +53,13 @@ function App() {
 								<Nav.Link href="/"> Home </Nav.Link>
 								<Nav.Link href="/about"> About </Nav.Link>
 							</Nav>
-							{ user.is_logged_in === null &&
+							{ user === false &&
 							<Nav className="ms-auto">
 								<Nav.Link href="/login"> Login </Nav.Link>
 								<Nav.Link href="/register"> Register </Nav.Link>
 							</Nav>
 							}
-							{ user.is_logged_in === true &&
+							{ user === true &&
 							<Nav className="ms-auto">
 								<NavDropdown
 								  id="nav-dropdown"
@@ -75,7 +81,7 @@ function App() {
 				<Routes>
 					<Route path='/' element={<Home />}> </Route>
 					<Route path='about' element={<About />}> </Route>
-					<Route path='login' element={<Login />}> </Route>
+					<Route path='login' element={<Login setUserStatus={setUserStatus}/>}> </Route>
 					<Route path='register' element={<Register />}> </Route>
 					<Route path='dashboard' element={<Notes />}> </Route>
 				</Routes>
