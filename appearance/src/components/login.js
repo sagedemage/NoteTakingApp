@@ -9,6 +9,9 @@ export const Login = () => {
 	const [username, setUsername] = useState('');
 	const [password, setPassword] = useState('');
 
+	const [error_status, setErrorStatus] = useState(false);
+	const [msg_error, setMsgError] = useState('');
+
 	const handleUsernameChange = event => {
     	setUsername(event.target.value);
   	};
@@ -32,7 +35,8 @@ export const Login = () => {
 			}
 			else {
 				// display error message
-				alert(response.data.msg_error);
+				setErrorStatus(true);
+				setMsgError(response.data.msg_error);
 			}
             console.log(response);
 		}).catch(e => {
@@ -40,8 +44,13 @@ export const Login = () => {
         })
 	};
 
-	return (
+	return (		
 		<div>
+			{ error_status === true &&
+			<div class="alert alert-danger" role="alert">
+				{ msg_error } 
+			</div>
+			}
 			<h2> Login </h2>
 			<form method="post" onSubmit={handleSubmit}>
 				<div className="form-group">
