@@ -1,30 +1,18 @@
 import "./home.css"
 
-import { useEffect } from "react";
 import axios from "axios";
-import {useState} from "react";
+import Cookies from 'universal-cookie';
 
-/*export const Logout1 = (props) => {
-
-	
-
-    return (
-		<div>
-			<h2> Logout </h2>
-            <p> User logged out </p>
-		</div>
-	);
-}*/
-
-export const Logout = async (e) => {
+export const Logout = async () => {
     axios.get(`http://localhost:8080/api/logout`, {
     }).then((response) => {
         if (response.data.auth === false) {
-            localStorage.removeItem("token")
-            localStorage.setItem("auth", false)
+			const cookies = new Cookies();
+			// set cookie
+			cookies.set("auth", false);
+			// redirect to the home page
             window.location.href = '/';
         }
-        //console.log(response.data);
         console.log(response)
     }).catch(e => {
         console.log(e)

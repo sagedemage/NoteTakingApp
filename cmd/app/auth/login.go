@@ -165,7 +165,7 @@ func Login2(db *gorm.DB) gin.HandlerFunc {
 			login_error_message(c, err)
 
 			// json message
-			c.JSON(401, gin.H{"auth": false, "msg_error": err.Error()})
+			c.JSON(200, gin.H{"auth": false, "msg_error": err.Error()})
 		}
 	}
 	return gin.HandlerFunc(fn)

@@ -1,6 +1,6 @@
 import './App.css';
 
-import {React, useEffect, useState} from "react";
+import { React } from "react";
 
 import { Route, Routes } from "react-router-dom";
 
@@ -19,33 +19,19 @@ import { Logout } from "./components/logout";
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 
+import Cookies from 'universal-cookie';
 
 function App() {
 
-	const [user, setUserStatus] = useState(false);
-
     axios.defaults.withCredentials = true;
 
-    let auth = localStorage.getItem("auth")
+	const cookies = new Cookies();
 
-    if (auth === null) {
-        auth = "false"
+	let auth = cookies.get("auth");
+
+    if (auth === undefined) {
+        auth = "false";
     }
-
-    console.log("auth status: " + auth)
-
-    //const [user, setUserStatus] = useState("");
-
-	/*useEffect(() => {
-		axios.get(`http://localhost:8080/api/check-user-auth`)
-			.then(response => {
-				console.log("is logged in data", response.data);
-				//setUserStatus(response.data);
-			})
-			.catch(err => console.log(err));
-
-	}, [])*/
-
 
 	return (
 		<div>

@@ -48,9 +48,6 @@ export const Register = () => {
                 //window.location.href = '/login';
 				alert(response.data.msg_success)
 			}
-			else if (response.data.registered === false) {
-				alert(response.data.msg_error)
-			}
 			else {
 				alert(response.data.msg_error)
 			}

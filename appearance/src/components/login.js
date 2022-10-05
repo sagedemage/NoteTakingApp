@@ -1,8 +1,8 @@
 import "./home.css"
 
-import { useEffect } from "react";
 import axios from "axios";
 import {useState} from "react";
+import Cookies from 'universal-cookie';
 
 export const Login = () => {
 
@@ -24,18 +24,19 @@ export const Login = () => {
 			username: username,
 			password: password,
 		}).then((response) => {
+			const cookies = new Cookies();
 			if (response.data.auth === true) {
-                localStorage.setItem("token", response.data.token)
-                localStorage.setItem("auth", true)
+				// set cookie
+				cookies.set("auth", true);
                 window.location.href = '/dashboard';
 			}
 			else {
-                localStorage.setItem("auth", false)
+				// display error message
+				alert(response.data.msg_error);
 			}
-			//console.log(response.data);
-            console.log(response)
+            console.log(response);
 		}).catch(e => {
-            console.log(e)
+            console.log(e);
         })
 	};
 
