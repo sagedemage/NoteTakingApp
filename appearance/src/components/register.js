@@ -22,9 +22,6 @@ export const Register = () => {
 	const [error_status, setErrorStatus] = useState(false);
 	const [msg_error, setMsgError] = useState('');
 
-	const [success_status, setSuccessStatus] = useState(false);
-	const [msg_success, setMsgSuccess] = useState('');
-
 	const handleEmailChange = event => {
     	setEmail(event.target.value);
   	};
@@ -51,19 +48,13 @@ export const Register = () => {
 			confirm_pwd: confirm_pwd,
 		}).then((response) => {
 			if (response.data.registered === true) {
-				// pass by url parameter
-				// /login=msg_success=true
-                //window.location.href = '/login';
-				
-				//setErrorStatus(false);
-				//setSuccessStatus(true);
-				//setMsgSuccess(response.data.msg_success);
-				
-				// http://localhost:3000/login?msg_success=Registered+Successfully
+				// create new url of the login page
 				var url = new URL("/login", "http://localhost:3000");
+
+				// add url parameter
 				url.searchParams.append("msg_success", response.data.msg_success);
-				//let suc = url.searchParams.get("msg_success")
-				//console.log(suc)
+
+				// redirect to the login page
 				window.location.href = url;
 			}
 			else {
@@ -80,11 +71,6 @@ export const Register = () => {
 			{ error_status === true &&
 			<div class="alert alert-danger" role="alert">
 				{ msg_error } 
-			</div>
-			}
-			{ success_status === true &&
-			<div class="alert alert-success" role="alert">
-				{ msg_success } 
 			</div>
 			}
 			<h2> Register </h2>
