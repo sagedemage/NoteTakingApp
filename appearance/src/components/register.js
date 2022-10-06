@@ -54,9 +54,17 @@ export const Register = () => {
 				// pass by url parameter
 				// /login=msg_success=true
                 //window.location.href = '/login';
-				setErrorStatus(false);
-				setSuccessStatus(true);
-				setMsgSuccess(response.data.msg_success);
+				
+				//setErrorStatus(false);
+				//setSuccessStatus(true);
+				//setMsgSuccess(response.data.msg_success);
+				
+				// http://localhost:3000/login?msg_success=Registered+Successfully
+				var url = new URL("/login", "http://localhost:3000");
+				url.searchParams.append("msg_success", response.data.msg_success);
+				//let suc = url.searchParams.get("msg_success")
+				//console.log(suc)
+				window.location.href = url;
 			}
 			else {
 				setErrorStatus(true);
