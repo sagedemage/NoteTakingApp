@@ -69,7 +69,7 @@ export const Register = () => {
 	return (
 		<div>
 			{ error_status === true &&
-			<div class="alert alert-danger" role="alert">
+			<div className="alert alert-danger" role="alert">
 				{ msg_error } 
 			</div>
 			}
