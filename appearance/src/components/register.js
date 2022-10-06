@@ -19,6 +19,12 @@ export const Register = () => {
 	const [password, setPassword] = useState('');
 	const [confirm_pwd, setConfirm] = useState('');
 
+	const [error_status, setErrorStatus] = useState(false);
+	const [msg_error, setMsgError] = useState('');
+
+	const [success_status, setSuccessStatus] = useState(false);
+	const [msg_success, setMsgSuccess] = useState('');
+
 	const handleEmailChange = event => {
     	setEmail(event.target.value);
   	};
@@ -44,15 +50,18 @@ export const Register = () => {
 			password: password,
 			confirm_pwd: confirm_pwd,
 		}).then((response) => {
-			if (response.data.registered  === true) {
+			if (response.data.registered === true) {
+				// pass by url parameter
+				// /login=msg_success=true
                 //window.location.href = '/login';
-				alert(response.data.msg_success)
+				setErrorStatus(false);
+				setSuccessStatus(true);
+				setMsgSuccess(response.data.msg_success);
 			}
 			else {
-				alert(response.data.msg_error)
+				setErrorStatus(true);
+				setMsgError(response.data.msg_error);
 			}
-			//console.log(response.data);
-            console.log(response)
 		}).catch(e => {
             console.log(e)
         })
@@ -60,6 +69,16 @@ export const Register = () => {
 
 	return (
 		<div>
+			{ error_status === true &&
+			<div class="alert alert-danger" role="alert">
+				{ msg_error } 
+			</div>
+			}
+			{ success_status === true &&
+			<div class="alert alert-success" role="alert">
+				{ msg_success } 
+			</div>
+			}
 			<h2> Register </h2>
 			<div className="row">
 				<div className="col-7">
