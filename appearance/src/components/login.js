@@ -40,7 +40,8 @@ export const Login = () => {
 			const cookies = new Cookies();
 			if (response.data.auth === true) {
 				// set cookie
-				cookies.set("auth", true);
+				cookies.set("auth", response.data.auth);
+				cookies.set("user_id", response.data.user_id);
                 window.location.href = '/dashboard';
 			}
 			else {

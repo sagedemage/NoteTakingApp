@@ -58,7 +58,7 @@ func LoginPage(c *gin.Context) {
 	})
 }
 
-func is_user_valid(db *gorm.DB, username string, password string) (*notebook_db.User, error) {
+func is_user_valid(db *gorm.DB, username string, password string) (uint, error) {
 	/* Check if the User is Valid */
 	var user = &notebook_db.User{}
 
@@ -74,14 +74,14 @@ func is_user_valid(db *gorm.DB, username string, password string) (*notebook_db.
 
 		if err != nil {
 			// Check if the password is incorrect
-			return user, errors.New("incorrect username or password")
+			return user.ID, errors.New("incorrect username or password")
 		}
 	} else if username != user.Email || username != user.Username {
 		// Check if the email or username does not exists
-		return user, errors.New("incorrect username or password")
+		return user.ID, errors.New("incorrect username or password")
 	}
 
-	return user, nil
+	return user.ID, nil
 }
 
 func Login(db *gorm.DB) gin.HandlerFunc {
@@ -141,23 +141,20 @@ func Login2(db *gorm.DB) gin.HandlerFunc {
 		}
 
 		// Is User Valid
-		user, err := is_user_valid(db, body.Username, body.Password)
+		user_id, err := is_user_valid(db, body.Username, body.Password)
 
 		/* Check if user registration is successful */
 		if err == nil {
-			serialized := user.Serialize()
-			token, _ := generateToken(serialized)
+			//serialized := user.Serialize()
+			//token, _ := generateToken(serialized)
 
 			//c.Request.Header.Set("token", token)
 
 			//c.Request.Header.Add("token", token)
 
-			c.Header("token", token)
-
 			//c.SetCookie("token", token, 60*60*24*7, "/", "", false, true)
 			c.JSON(200, data_types.JSON{
-				"user":  user.Serialize(),
-				"token": token,
+				"user_id":  user_id,
 				"auth":  true,
 			})
 		} else {

@@ -10,6 +10,8 @@ export const Logout = async () => {
 			const cookies = new Cookies();
 			// set cookie
 			cookies.set("auth", false);
+			cookies.remove("user_id");
+
 			// redirect to the home page
             window.location.href = '/';
         }
