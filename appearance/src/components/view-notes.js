@@ -1,7 +1,7 @@
 import {useEffect, useState} from "react";
 import Cookies from "universal-cookie";
 import axios from "axios";
-import "./home.css";
+import "./view-notes.css";
 
 export const Notes = () => {
 
@@ -40,17 +40,17 @@ export const Notes = () => {
 					Add New Note
 				</button>
 			</form>
-			<div>
-				<div className="container">
-					<h2 className="note-title"> Title </h2>
-					<p> Description </p>
+			{notes.map(note =>(
+				<div className="container note-entry">
+					<h2 className="note-title"> {note.Title} </h2>
+					<p> {note.Description} </p>
 					<div className="row">
 						<div className="col col-md-auto">
 							<form method="post">
 								<div className="form-group">
 									<input type="text" id="edit" 
 										name="edit" 
-										value={ note_num }
+										value={ note.ID }
 										onChange={ handleNotesChange }
 										hidden
 									/>
@@ -63,7 +63,7 @@ export const Notes = () => {
 								<div className="form-group">
 									<input type="text" id="delete" 
 									name="delete" 
-									value={ note_num }
+									value={ note.ID }
 									onChange={ handleNotesChange }
 									hidden
 									/>
@@ -73,7 +73,7 @@ export const Notes = () => {
 						</div>
 					</div>
 				</div>
-			</div>
+			))}
 		</div>
 	);
 }
