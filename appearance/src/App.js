@@ -27,10 +27,6 @@ function App() {
 
 	const isAuth = useAuth();
 
-    if (isAuth === undefined) {
-        isAuth = "false";
-    }
-
 	return (
 		<div>
 			<div>
