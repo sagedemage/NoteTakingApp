@@ -62,7 +62,7 @@ func InitializeRouter(db *gorm.DB) *gin.Engine {
 	router.POST("/register", auth.Register(db))
 
 	// Login the user
-	router.POST("/login", auth.Login(db))
+	router.POST("/login", auth.Login123(db))
 
 	// Page Not Found
 	router.NoRoute(page_renderer.RenderPageNotFoundWebPage("404.html", "404 Page - Page Not Found"))
@@ -88,10 +88,10 @@ func InitializeRouter(db *gorm.DB) *gin.Engine {
 	api.POST("/register", auth.Register2(db))
 
 	// login user
-	api.POST("/login", auth.Login2(db))
+	api.POST("/login", auth.Login(db))
 
 	// logut user
-	api.GET("/logout", auth.Logout2)
+	api.GET("/logout", auth.Logout)
 
 	/* Auhtorization Required */
 	auth_routes := router.Group("/").Use(auth.AuthRequired)
@@ -110,7 +110,7 @@ func InitializeRouter(db *gorm.DB) *gin.Engine {
 	auth_routes.GET("/delete-note", page_renderer.RenderWebPage("delete-note.tmpl", "Delete Note"))
 
 	// Logout the user
-	auth_routes.GET("/logout", auth.Logout)
+	auth_routes.GET("/logout", auth.Logout123)
 
 	/* Post Requests */
 	// Handle Delete and Edit post requets
