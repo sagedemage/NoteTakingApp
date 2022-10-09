@@ -90,15 +90,18 @@ func InitializeRouter(db *gorm.DB) *gin.Engine {
 	// login user
 	api.POST("/login", auth.Login(db))
 
-	// logut user
+	// logout user
 	api.GET("/logout", auth.Logout)
+
+	// fetch user notes
+	api.POST("/view-notes", notes.ViewNotes(db))
 
 	/* Auhtorization Required */
 	auth_routes := router.Group("/").Use(auth.AuthRequired)
 
 	/* Get Requets */
 	// Render the view table page at route "/table"
-	auth_routes.GET("/dashboard", notes.ViewNotes(db))
+	auth_routes.GET("/dashboard", notes.ViewNotes123(db))
 
 	// Render the new entry page at route "/add-new-note"
 	auth_routes.GET("/add-new-note", page_renderer.RenderWebPage("add-note.tmpl", "New Note"))
