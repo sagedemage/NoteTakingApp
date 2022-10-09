@@ -16,21 +16,19 @@ import { Login } from "./components/login";
 import { Register } from "./components/register";
 import { Notes } from "./components/view-notes";
 import { Logout } from "./components/logout";
+import { AuthRoute } from "./components/auth_route";
+import { useAuth } from "./components/auth";
 
 import 'bootstrap/dist/css/bootstrap.min.css';
-
-import Cookies from 'universal-cookie';
 
 function App() {
 
     axios.defaults.withCredentials = true;
 
-	const cookies = new Cookies();
+	const isAuth = useAuth();
 
-	let auth = cookies.get("auth");
-
-    if (auth === undefined) {
-        auth = "false";
+    if (isAuth === undefined) {
+        isAuth = "false";
     }
 
 	return (
@@ -48,13 +46,13 @@ function App() {
 								<Nav.Link href="/"> Home </Nav.Link>
 								<Nav.Link href="/about"> About </Nav.Link>
 							</Nav>
-							{ auth === "false" &&
+							{ isAuth === "false" &&
 							<Nav className="ms-auto">
 								<Nav.Link href="/login"> Login </Nav.Link>
 								<Nav.Link href="/register"> Register </Nav.Link>
 							</Nav>
 							}
-							{ auth === "true" &&
+							{ isAuth === "true" &&
 							<Nav className="ms-auto">
 								<NavDropdown
 								  id="nav-dropdown"
@@ -78,7 +76,10 @@ function App() {
 					<Route path='about' element={<About />}> </Route>
 					<Route path='login' element={<Login />}> </Route>
 					<Route path='register' element={<Register />}> </Route>
-					<Route path='dashboard' element={<Notes />}> </Route>
+
+					<Route element={<AuthRoute />}>
+						<Route path='dashboard' element={<Notes />}> </Route>
+					</Route>
 				</Routes>
 			</div>
 			<footer className="gaps" id="bottom">
