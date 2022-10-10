@@ -99,6 +99,9 @@ func InitializeRouter(db *gorm.DB) *gin.Engine {
 	// add a note
 	api.POST("/add-new-note", notes.AddNewNote(db))
 
+	// Delete Note from POST request
+	api.POST("/delete-note", notes.DeleteNote(db))
+
 	/* Auhtorization Required */
 	auth_routes := router.Group("/").Use(auth.AuthRequired)
 
@@ -129,7 +132,7 @@ func InitializeRouter(db *gorm.DB) *gin.Engine {
 	auth_routes.POST("/edit-note", notes.EditNote(db))
 
 	// Delete Note from POST request
-	auth_routes.POST("/delete-note", notes.DeleteNote(db))
+	auth_routes.POST("/delete-note", notes.DeleteNote123(db))
 
 	return router
 }

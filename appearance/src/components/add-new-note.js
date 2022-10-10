@@ -14,6 +14,10 @@ export const AddNoteForm = () => {
     	setDescription(event.target.value);
   	};
 
+	const GoBack = () => {
+		window.location.href='/dashboard';
+	}
+
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 		const cookies = new Cookies();
@@ -51,7 +55,9 @@ export const AddNoteForm = () => {
 						onChange={handleDescriptionChange}
 						required> </textarea>
 				</div>
+
 				<button type="submit" className="btn btn-primary">Submit</button>
+				<button type="button" className="btn btn-secondary" onClick={ GoBack }>Back</button>
 			</form>
 		</div>
 	);

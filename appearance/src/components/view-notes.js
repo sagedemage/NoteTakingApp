@@ -26,6 +26,17 @@ export const Notes = () => {
 		window.location.href='/add-new-note';
 	}
 
+	function DeleteNote(note_id) {
+		// create new url of the login page
+		var url = new URL("/delete-note", "http://localhost:3000");
+
+		// add url parameter
+		url.searchParams.append("note_id", note_id);
+
+		// redirect to the login page
+		window.location.href = url;
+	}
+
 	return (
 		<div>
 			<h2> Notes </h2>
@@ -52,17 +63,9 @@ export const Notes = () => {
 								<button type="submit" className="btn btn-primary">Edit</button>
 							</form>
 						</div>
-						<div className="col col-md-auto">
-							<form method="post">
-								<div className="form-group">
-									<input type="text" id="delete" 
-									name="delete" 
-									defaultValue={ note.ID }
-									hidden
-								/>
-								</div>
-								<button type="submit" className="btn btn-danger">Delete</button>
-							</form>
+						<div className="col col-md-auto">	
+							<button type="submit" className="btn btn-danger" 
+							onClick={ () => DeleteNote(note.ID) }>Delete</button>
 						</div>
 					</div>
 				</div>
