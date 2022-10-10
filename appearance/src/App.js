@@ -16,8 +16,9 @@ import { Login } from "./components/login";
 import { Register } from "./components/register";
 import { Notes } from "./components/view-notes";
 import { Logout } from "./components/logout";
-import { AuthRoute } from "./components/auth_route";
+import { AuthRoute } from "./components/auth-route";
 import { useAuth } from "./components/auth";
+import { AddNoteForm } from "./components/add-new-note";
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 
@@ -75,6 +76,7 @@ function App() {
 
 					<Route element={<AuthRoute />}>
 						<Route path='dashboard' element={<Notes />}> </Route>
+						<Route path='add-new-note' element={<AddNoteForm />}> </Route>
 					</Route>
 				</Routes>
 			</div>

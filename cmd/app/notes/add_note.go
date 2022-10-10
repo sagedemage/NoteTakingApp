@@ -16,6 +16,39 @@ import (
 
 func AddNewNote(db *gorm.DB) gin.HandlerFunc {
 	fn := func(c *gin.Context) {
+		// title and description
+		type RequestBody struct {
+			Title string `json:"title"`
+			Description string `json:"description"`
+			UserID uint `json:"user_id"`
+		}
+
+		var body RequestBody
+
+		// Get JSON Request Body
+		err := c.BindJSON(&body)
+
+		if err != nil {
+			println(err)
+			return
+		}
+
+		// Get User ID Data
+		//user_id := user_session.GetUserSessionData(c, "user_id").(uint)
+
+		// Create new note entry
+		notebook_db.CreateNewNoteEntry(db, body.Title, body.Description, body.UserID)
+
+		// Redirect to the dashboard
+		c.Redirect(http.StatusFound, "/dashboard")
+	}
+	return gin.HandlerFunc(fn)
+}
+
+/* Old Functions for my purely backend app */
+
+func AddNewNote123(db *gorm.DB) gin.HandlerFunc {
+	fn := func(c *gin.Context) {
 		// Parse Form Data
 		c.Request.ParseForm()
 

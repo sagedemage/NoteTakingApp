@@ -93,8 +93,11 @@ func InitializeRouter(db *gorm.DB) *gin.Engine {
 	// logout user
 	api.GET("/logout", auth.Logout)
 
-	// fetch user notes
+	// fetch user's notes
 	api.POST("/view-notes", notes.ViewNotes(db))
+
+	// add a note
+	api.POST("/add-new-note", notes.AddNewNote(db))
 
 	/* Auhtorization Required */
 	auth_routes := router.Group("/").Use(auth.AuthRequired)
@@ -120,7 +123,7 @@ func InitializeRouter(db *gorm.DB) *gin.Engine {
 	auth_routes.POST("/dashboard", notes.DeleteOrEditNote(db))
 
 	// Add Note from POST request
-	auth_routes.POST("/add-new-note", notes.AddNewNote(db))
+	auth_routes.POST("/add-new-note", notes.AddNewNote123(db))
 
 	// Edit Note from POST request
 	auth_routes.POST("/edit-note", notes.EditNote(db))

@@ -7,8 +7,6 @@ export const Notes = () => {
 
 	const [notes, setNotes] = useState([]);
 
-	const [note_num, setNotesNum] = useState(0);
-
 	useEffect(() => {
 		const cookies = new Cookies();
 		const user_id = parseInt(cookies.get("user_id"));
@@ -28,30 +26,26 @@ export const Notes = () => {
 		window.location.href='/add-new-note';
 	}
 
-	const handleNotesChange = event => {
-    	setNotesNum(event.target.value);
-  	};
-
 	return (
 		<div>
 			<h2> Notes </h2>
 			<form method="post">
-				<button type="button" className="btn btn-primary" onClick={AddNewNote}>
+				<button type="button" className="btn btn-primary" onClick={ AddNewNote }>
 					Add New Note
 				</button>
 			</form>
-			{notes.map(note =>(
-				<div className="container note-entry">
-					<h2 className="note-title"> {note.Title} </h2>
-					<p> {note.Description} </p>
+			{notes.map((note, i) => {
+				return (
+				<div className="container note-entry" key={i}>
+					<h2 className="note-title"> { note.Title } </h2>
+					<p> { note.Description } </p>
 					<div className="row">
 						<div className="col col-md-auto">
 							<form method="post">
 								<div className="form-group">
 									<input type="text" id="edit" 
 										name="edit" 
-										value={ note.ID }
-										onChange={ handleNotesChange }
+										defaultValue={ note.ID }
 										hidden
 									/>
 								</div>
@@ -63,17 +57,17 @@ export const Notes = () => {
 								<div className="form-group">
 									<input type="text" id="delete" 
 									name="delete" 
-									value={ note.ID }
-									onChange={ handleNotesChange }
+									defaultValue={ note.ID }
 									hidden
-									/>
+								/>
 								</div>
 								<button type="submit" className="btn btn-danger">Delete</button>
 							</form>
 						</div>
 					</div>
 				</div>
-			))}
+				)
+			})}
 		</div>
 	);
 }

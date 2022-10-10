@@ -33,7 +33,7 @@ func ViewNotes(db *gorm.DB) gin.HandlerFunc {
 
 		if err != nil {
 			println(err)
-			//return
+			return
 		} else {
 			// entries of the notes database
 			notes := notebook_db.GetNoteEntries(db, body.UserID)
