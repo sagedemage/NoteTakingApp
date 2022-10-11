@@ -1,6 +1,4 @@
 import axios from "axios";
-import {useState} from "react";
-import Cookies from 'universal-cookie';
 
 export const DeleteNote = () => {
 
