@@ -1,19 +1,19 @@
 package tests
 
 import (
-	"net/http"
-	"net/url"
+	//"net/http"
+	//"net/url"
 
-	"net/http/httptest"
+	//"net/http/httptest"
 
-	"testing"
+	//"testing"
 
-	"github.com/gin-gonic/gin"
-	"github.com/stretchr/testify/assert"
+	//"github.com/gin-gonic/gin"
+	//"github.com/stretchr/testify/assert"
 )
-
+/*
 func Login(router *gin.Engine) *httptest.ResponseRecorder {
-	/* Login user for tests */
+	/ Login user for tests /
 	// setup reponse writer
 	writer := httptest.NewRecorder()
 
@@ -35,7 +35,8 @@ func Login(router *gin.Engine) *httptest.ResponseRecorder {
 
 	return writer
 }
-
+*/
+/*
 func TestAddNote(t *testing.T) {
 	// setup
 	var router = Setup()
@@ -65,7 +66,8 @@ func TestAddNote(t *testing.T) {
 	// check if the request redirects to the /dashboard route
 	assert.Equal(t, "/dashboard", writer.Header().Get("Location"))
 }
-
+*/
+/*
 func TestEditNote(t *testing.T) {
 	// setup
 	var router = Setup()
@@ -95,7 +97,9 @@ func TestEditNote(t *testing.T) {
 	// check if the request redirects to the /dashboard route
 	assert.Equal(t, "/dashboard", writer.Header().Get("Location"))
 }
+*/
 
+/*
 func TestDeleteNote(t *testing.T) {
 	// setup
 	var router = Setup()
@@ -115,5 +119,5 @@ func TestDeleteNote(t *testing.T) {
 	// check if the request redirects to the /dashboard route
 	assert.Equal(t, "/dashboard", writer.Header().Get("Location"))
 }
-
+*/
 

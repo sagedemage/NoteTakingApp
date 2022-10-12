@@ -19,6 +19,7 @@ func InitializeRouter(db *gorm.DB) *gin.Engine {
 	config := cors.DefaultConfig()
 
 	config.AllowOrigins = []string{"http://localhost:3000"}
+
 	config.AllowCredentials = true
 
 	router.Use(cors.New(config))
