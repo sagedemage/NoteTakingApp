@@ -17,168 +17,181 @@ import (
 )
 
 /* Registration */
-/* ---
-func TestRegistrationSuccess(t *testing.T) {
-	var router = Setup() // setup
 
-	// initialize reponse writer
-	writer := httptest.NewRecorder()
-
-	// test home page
-	request, _ := http.NewRequest("POST", "/register", nil)
-
-	v := url.Values{} // initialize url values
-
-	// set post form data
-	v.Set("email", "test1000@gmail.com")
-	v.Add("username", "test1000")
-	v.Add("password", "test1000")
-	v.Add("confirm", "test1000")
-
-	request.PostForm = v // post form request
-
-	// reponse to an http request
-	router.ServeHTTP(writer, request)
-
-	// check if redirection is successful
-	assert.Equal(t, 302, writer.Code)
-
-	var route_path = "/login?msg_success=Registered+Successfully"
-
-	// check if the request redirects to the /login route
-	assert.Equal(t, route_path, writer.Header().Get("Location"))
+type RegisterRequest struct {
+	Email string `json:"email"`
+	Username string `json:"username"`
+	Password string `json:"password"`
+	ConfirmPwd string `json:"confirm_pwd"`
 }
---- */
-/*
-func TestRegistrationEmailAlreadyExistsFailure(t *testing.T) {
-	/ Test email already exists /
+
+func TestRegistrationSuccess(t *testing.T) {
+	/* Login with email */
+
+	mockResponse := `{"msg_success":"Registered Successfully","registered":true}`
+
 	var router = Setup() // setup
 
-	// initialize reponse writer
+	// initialize response writer
 	writer := httptest.NewRecorder()
 
-	// test home page
-	request, _ := http.NewRequest("POST", "/register", nil)
+	user_register := RegisterRequest {
+		Email: "test1000@gmail.com",
+		Username: "test1000",
+		Password: "test1000",
+		ConfirmPwd: "test1000",
+	}
 
-	v := url.Values{} // initialize url values
+	jsonValue, _ := json.Marshal(user_register)
 
-	// set post form data
-	v.Set("email", "test1000@gmail.com")
-	v.Add("username", "test1001")
-	v.Add("password", "test1001")
-	v.Add("confirm", "test1001")
-
-	request.PostForm = v // post form request
-
+	// call register api
+	request, _ := http.NewRequest("POST", "/api/register", bytes.NewBuffer(jsonValue))
+	
 	// reponse to an http request
 	router.ServeHTTP(writer, request)
 
-	// check if redirection is successful
-	assert.Equal(t, 302, writer.Code)
+	responseData, _ := ioutil.ReadAll(writer.Body)
 
-	var route_path = "/register?msg_error=email+already+taken"
+	assert.Equal(t, mockResponse, string(responseData))
 
-	// check if the request redirects to the /login route
-	assert.Equal(t, route_path, writer.Header().Get("Location"))
+	assert.Equal(t, http.StatusOK, writer.Code)
+}
+
+func TestRegistrationEmailAlreadyExistsFailure(t *testing.T) {
+	/* Login with email */
+
+	mockResponse := `{"msg_error":"email already taken","registered":false}`
+
+	var router = Setup() // setup
+
+	// initialize response writer
+	writer := httptest.NewRecorder()
+
+	user_register := RegisterRequest {
+		Email: "test1000@gmail.com",
+		Username: "test1001",
+		Password: "test1001",
+		ConfirmPwd: "test1001",
+	}
+
+	jsonValue, _ := json.Marshal(user_register)
+
+	// call register api
+	request, _ := http.NewRequest("POST", "/api/register", bytes.NewBuffer(jsonValue))
+	
+	// reponse to an http request
+	router.ServeHTTP(writer, request)
+
+	responseData, _ := ioutil.ReadAll(writer.Body)
+
+	assert.Equal(t, mockResponse, string(responseData))
+
+	assert.Equal(t, http.StatusOK, writer.Code)
 }
 
 func TestRegistrationUsernameAlreadyExistsFailure(t *testing.T) {
-	/ Test username already exists /
+	/* Login with email */
+
+	mockResponse := `{"msg_error":"username already taken","registered":false}`
+
 	var router = Setup() // setup
 
-	// initialize reponse writer
+	// initialize response writer
 	writer := httptest.NewRecorder()
 
-	// test home page
-	request, _ := http.NewRequest("POST", "/register", nil)
+	user_register := RegisterRequest {
+		Email: "test1001@gmail.com",
+		Username: "test1000",
+		Password: "test1001",
+		ConfirmPwd: "test1001",
+	}
 
-	v := url.Values{} // initialize url values
+	jsonValue, _ := json.Marshal(user_register)
 
-	// set post form data
-	v.Set("email", "test1001@gmail.com")
-	v.Add("username", "test1000")
-	v.Add("password", "test1001")
-	v.Add("confirm", "test1001")
-
-	request.PostForm = v // post form request
-
+	// call register api
+	request, _ := http.NewRequest("POST", "/api/register", bytes.NewBuffer(jsonValue))
+	
 	// reponse to an http request
 	router.ServeHTTP(writer, request)
 
-	// check if redirection is successful
-	assert.Equal(t, 302, writer.Code)
+	responseData, _ := ioutil.ReadAll(writer.Body)
 
-	var route_path = "/register?msg_error=username+already+taken"
+	assert.Equal(t, mockResponse, string(responseData))
 
-	// check if the request redirects to the /login route
-	assert.Equal(t, route_path, writer.Header().Get("Location"))
+	assert.Equal(t, http.StatusOK, writer.Code)
 }
 
 func TestRegistrationPasswordMustMatchFailure(t *testing.T) {
-	/ Test passwords do not match /
+	/* Login with email */
+
+	mockResponse := `{"msg_error":"passwords do not match","registered":false}`
+
 	var router = Setup() // setup
 
-	// initialize reponse writer
+	// initialize response writer
 	writer := httptest.NewRecorder()
 
-	// test home page
-	request, _ := http.NewRequest("POST", "/register", nil)
+	user_register := RegisterRequest {
+		Email: "test1001@gmail.com",
+		Username: "test1001",
+		Password: "test1001",
+		ConfirmPwd: "test1000",
+	}
 
-	v := url.Values{} // initialize url values
+	jsonValue, _ := json.Marshal(user_register)
 
-	// set post form data
-	v.Set("email", "test1001@gmail.com")
-	v.Add("username", "test1001")
-	v.Add("password", "test1001")
-	v.Add("confirm", "test1000")
-
-	request.PostForm = v // post form request
-
+	// call register api
+	request, _ := http.NewRequest("POST", "/api/register", bytes.NewBuffer(jsonValue))
+	
 	// reponse to an http request
 	router.ServeHTTP(writer, request)
 
-	// check if redirection is successful
-	assert.Equal(t, 302, writer.Code)
+	responseData, _ := ioutil.ReadAll(writer.Body)
 
-	var route_path = "/register?msg_error=passwords+do+not+match"
+	assert.Equal(t, mockResponse, string(responseData))
 
-	// check if the request redirects to the /login route
-	assert.Equal(t, route_path, writer.Header().Get("Location"))
+	assert.Equal(t, http.StatusOK, writer.Code)
 }
 
 func TestRegistrationShortPasswordFailure(t *testing.T) {
-	/ Test passwords do not match /
+	/* Login with email */
+
+	mockResponse := `{"msg_error":"must be at least 8 characters","registered":false}`
+
 	var router = Setup() // setup
 
-	// initialize reponse writer
+	// initialize response writer
 	writer := httptest.NewRecorder()
 
-	// test home page
-	request, _ := http.NewRequest("POST", "/register", nil)
+	user_register := RegisterRequest {
+		Email: "test100@gmail.com",
+		Username: "test100",
+		Password: "test100",
+		ConfirmPwd: "test100",
+	}
 
-	v := url.Values{} // initialize url values
+	jsonValue, _ := json.Marshal(user_register)
 
-	// set post form data
-	v.Set("email", "test100@gmail.com")
-	v.Add("username", "test100")
-	v.Add("password", "test100")
-	v.Add("confirm", "test100")
-
-	request.PostForm = v // post form request
-
+	// call register api
+	request, _ := http.NewRequest("POST", "/api/register", bytes.NewBuffer(jsonValue))
+	
 	// reponse to an http request
 	router.ServeHTTP(writer, request)
 
-	// check if redirection is successful
-	assert.Equal(t, 302, writer.Code)
+	responseData, _ := ioutil.ReadAll(writer.Body)
 
-	var route_path = "/register?msg_error=must+be+at+least+8+characters"
+	assert.Equal(t, mockResponse, string(responseData))
 
-	// check if the request redirects to the /login route
-	assert.Equal(t, route_path, writer.Header().Get("Location"))
+	assert.Equal(t, http.StatusOK, writer.Code)
 }
-*/
+
 /* Login */
+
+type LoginRequest struct {
+	Username string `json:"username"`
+	Password string `json:"password"`
+}
+
 func TestLoginSuccessWithEmail(t *testing.T) {
 	/* Login with email */
 
@@ -188,11 +201,6 @@ func TestLoginSuccessWithEmail(t *testing.T) {
 
 	// initialize response writer
 	writer := httptest.NewRecorder()
-
-	type LoginRequest struct {
-		Username string `json:"username"`
-		Password string `json:"password"`
-	}
 
 	user_login := LoginRequest {
 		Username: "test1000@gmail.com",
@@ -224,11 +232,6 @@ func TestLoginSuccessWithUsername(t *testing.T) {
 	// initialize response writer
 	writer := httptest.NewRecorder()
 
-	type LoginRequest struct {
-		Username string `json:"username"`
-		Password string `json:"password"`
-	}
-
 	user_login := LoginRequest {
 		Username: "test1000",
 		Password: "test1000",
@@ -258,11 +261,6 @@ func TestLoginEmailDoesNotExistFailure(t *testing.T) {
 
 	// initialize response writer
 	writer := httptest.NewRecorder()
-
-	type LoginRequest struct {
-		Username string `json:"username"`
-		Password string `json:"password"`
-	}
 
 	user_login := LoginRequest {
 		Username: "test3000@gmail.com",
@@ -294,11 +292,6 @@ func TestLoginUsernameDoesNotExistFailure(t *testing.T) {
 	// initialize response writer
 	writer := httptest.NewRecorder()
 
-	type LoginRequest struct {
-		Username string `json:"username"`
-		Password string `json:"password"`
-	}
-
 	user_login := LoginRequest {
 		Username: "test3000",
 		Password: "test3000",
@@ -328,11 +321,6 @@ func TestLoginPasswordIncorrectFailure(t *testing.T) {
 
 	// initialize response writer
 	writer := httptest.NewRecorder()
-
-	type LoginRequest struct {
-		Username string `json:"username"`
-		Password string `json:"password"`
-	}
 
 	user_login := LoginRequest {
 		Username: "test1000@gmail.com",
