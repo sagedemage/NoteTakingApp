@@ -1,8 +1,6 @@
 package notes
 
 import (
-	"net/http"
-
 	"github.com/gin-gonic/gin"
 
 	"gorm.io/gorm"
@@ -29,27 +27,6 @@ func DeleteNote(db *gorm.DB) gin.HandlerFunc {
 
 		// delete entry
 		db.Delete(&notebook_db.Note{}, body.NoteID)
-	}
-	return gin.HandlerFunc(fn)
-}
-
-/* Old functions for the purely backend app */
-
-func DeleteNote123(db *gorm.DB) gin.HandlerFunc {
-	fn := func(c *gin.Context) {
-		/* Edit Note Post Request */
-		// Parse Form Data
-		c.Request.ParseForm()
-
-		// query note id
-		note_id := c.Query("note_id")
-
-		// delete entry
-		db.Delete(&notebook_db.Note{}, note_id)
-
-		// Redirect to the dashboard
-		c.Redirect(http.StatusFound, "/dashboard")
-
 	}
 	return gin.HandlerFunc(fn)
 }
