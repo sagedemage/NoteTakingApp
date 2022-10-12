@@ -13,6 +13,8 @@ import (
 	"notebook_app/cmd/app/notebook_db"
 
 	"notebook_app/cmd/app/data_types"
+	
+	"notebook_app/cmd/app/request_bodies"
 
 )
 
@@ -47,13 +49,7 @@ func is_user_valid(db *gorm.DB, username string, password string) (uint, error) 
 func Login(db *gorm.DB) gin.HandlerFunc {
 	fn := func(c *gin.Context) {
 		/* Login */
-
-		type RequestBody struct {
-			Username string `json:"username"`
-			Password string `json:"password"`
-		}
-
-		var body RequestBody
+		var body request_bodies.LoginRequest
 
 		// Get JSON Request Body
 		err := c.BindJSON(&body)

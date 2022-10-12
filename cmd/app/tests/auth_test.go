@@ -14,16 +14,11 @@ import (
 	"testing"
 
 	"github.com/stretchr/testify/assert"
+
+	"notebook_app/cmd/app/request_bodies"
 )
 
 /* Registration */
-
-type RegisterRequest struct {
-	Email string `json:"email"`
-	Username string `json:"username"`
-	Password string `json:"password"`
-	ConfirmPwd string `json:"confirm_pwd"`
-}
 
 func TestRegistrationSuccess(t *testing.T) {
 	/* Login with email */
@@ -35,7 +30,7 @@ func TestRegistrationSuccess(t *testing.T) {
 	// initialize response writer
 	writer := httptest.NewRecorder()
 
-	user_register := RegisterRequest {
+	user_register := request_bodies.RegisterRequest {
 		Email: "test1000@gmail.com",
 		Username: "test1000",
 		Password: "test1000",
@@ -67,7 +62,7 @@ func TestRegistrationEmailAlreadyExistsFailure(t *testing.T) {
 	// initialize response writer
 	writer := httptest.NewRecorder()
 
-	user_register := RegisterRequest {
+	user_register := request_bodies.RegisterRequest {
 		Email: "test1000@gmail.com",
 		Username: "test1001",
 		Password: "test1001",
@@ -99,7 +94,7 @@ func TestRegistrationUsernameAlreadyExistsFailure(t *testing.T) {
 	// initialize response writer
 	writer := httptest.NewRecorder()
 
-	user_register := RegisterRequest {
+	user_register := request_bodies.RegisterRequest {
 		Email: "test1001@gmail.com",
 		Username: "test1000",
 		Password: "test1001",
@@ -131,7 +126,7 @@ func TestRegistrationPasswordMustMatchFailure(t *testing.T) {
 	// initialize response writer
 	writer := httptest.NewRecorder()
 
-	user_register := RegisterRequest {
+	user_register := request_bodies.RegisterRequest {
 		Email: "test1001@gmail.com",
 		Username: "test1001",
 		Password: "test1001",
@@ -163,7 +158,7 @@ func TestRegistrationShortPasswordFailure(t *testing.T) {
 	// initialize response writer
 	writer := httptest.NewRecorder()
 
-	user_register := RegisterRequest {
+	user_register := request_bodies.RegisterRequest {
 		Email: "test100@gmail.com",
 		Username: "test100",
 		Password: "test100",
@@ -187,11 +182,6 @@ func TestRegistrationShortPasswordFailure(t *testing.T) {
 
 /* Login */
 
-type LoginRequest struct {
-	Username string `json:"username"`
-	Password string `json:"password"`
-}
-
 func TestLoginSuccessWithEmail(t *testing.T) {
 	/* Login with email */
 
@@ -202,7 +192,7 @@ func TestLoginSuccessWithEmail(t *testing.T) {
 	// initialize response writer
 	writer := httptest.NewRecorder()
 
-	user_login := LoginRequest {
+	user_login := request_bodies.LoginRequest {
 		Username: "test1000@gmail.com",
 		Password: "test1000",
 	}
@@ -232,7 +222,7 @@ func TestLoginSuccessWithUsername(t *testing.T) {
 	// initialize response writer
 	writer := httptest.NewRecorder()
 
-	user_login := LoginRequest {
+	user_login := request_bodies.LoginRequest {
 		Username: "test1000",
 		Password: "test1000",
 	}
@@ -262,7 +252,7 @@ func TestLoginEmailDoesNotExistFailure(t *testing.T) {
 	// initialize response writer
 	writer := httptest.NewRecorder()
 
-	user_login := LoginRequest {
+	user_login := request_bodies.LoginRequest {
 		Username: "test3000@gmail.com",
 		Password: "test3000",
 	}
@@ -292,7 +282,7 @@ func TestLoginUsernameDoesNotExistFailure(t *testing.T) {
 	// initialize response writer
 	writer := httptest.NewRecorder()
 
-	user_login := LoginRequest {
+	user_login := request_bodies.LoginRequest {
 		Username: "test3000",
 		Password: "test3000",
 	}
@@ -322,7 +312,7 @@ func TestLoginPasswordIncorrectFailure(t *testing.T) {
 	// initialize response writer
 	writer := httptest.NewRecorder()
 
-	user_login := LoginRequest {
+	user_login := request_bodies.LoginRequest {
 		Username: "test1000@gmail.com",
 		Password: "test2000",
 	}

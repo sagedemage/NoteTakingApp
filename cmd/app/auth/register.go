@@ -11,6 +11,8 @@ import (
 	"notebook_app/cmd/app/notebook_db"
 
 	"notebook_app/cmd/app/data_types"
+
+	"notebook_app/cmd/app/request_bodies"
 )
 
 func register_new_user(db *gorm.DB, email string, username string, password string, confirm string) error {
@@ -51,15 +53,7 @@ func register_new_user(db *gorm.DB, email string, username string, password stri
 func Register(db *gorm.DB) gin.HandlerFunc {
 	fn := func(c *gin.Context) {
 		/* Register */
-
-		type RequestBody struct {
-			Email string `json:"email"`
-			Username string `json:"username"`
-			Password string `json:"password"`
-			ConfirmPwd string `json:"confirm_pwd"`
-		}
-
-		var body RequestBody
+		var body request_bodies.RegisterRequest
 
 		// Get JSON Request Body
 		err := c.BindJSON(&body)
