@@ -21,7 +21,7 @@ import (
 /* Registration */
 
 func TestRegistrationSuccess(t *testing.T) {
-	/* Login with email */
+	/* Registration success */
 
 	mockResponse := `{"msg_success":"Registered Successfully","registered":true}`
 
@@ -53,7 +53,7 @@ func TestRegistrationSuccess(t *testing.T) {
 }
 
 func TestRegistrationEmailAlreadyExistsFailure(t *testing.T) {
-	/* Login with email */
+	/* Registration failure with email that already exists */
 
 	mockResponse := `{"msg_error":"email already taken","registered":false}`
 
@@ -85,7 +85,7 @@ func TestRegistrationEmailAlreadyExistsFailure(t *testing.T) {
 }
 
 func TestRegistrationUsernameAlreadyExistsFailure(t *testing.T) {
-	/* Login with email */
+	/* Registration failure with username that already exists */
 
 	mockResponse := `{"msg_error":"username already taken","registered":false}`
 
@@ -117,7 +117,7 @@ func TestRegistrationUsernameAlreadyExistsFailure(t *testing.T) {
 }
 
 func TestRegistrationPasswordMustMatchFailure(t *testing.T) {
-	/* Login with email */
+	/* Registration failure with the passwords not matching */
 
 	mockResponse := `{"msg_error":"passwords do not match","registered":false}`
 
@@ -149,7 +149,7 @@ func TestRegistrationPasswordMustMatchFailure(t *testing.T) {
 }
 
 func TestRegistrationShortPasswordFailure(t *testing.T) {
-	/* Login with email */
+	/* Registration failure with short password */
 
 	mockResponse := `{"msg_error":"must be at least 8 characters","registered":false}`
 
@@ -183,7 +183,7 @@ func TestRegistrationShortPasswordFailure(t *testing.T) {
 /* Login */
 
 func TestLoginSuccessWithEmail(t *testing.T) {
-	/* Login with email */
+	/* Login success with email */
 
 	mockResponse := `{"auth":true,"user_id":1}`
 
@@ -213,7 +213,7 @@ func TestLoginSuccessWithEmail(t *testing.T) {
 }
 
 func TestLoginSuccessWithUsername(t *testing.T) {
-	/* Login with email */
+	/* Login success with username */
 
 	mockResponse := `{"auth":true,"user_id":1}`
 
@@ -243,7 +243,7 @@ func TestLoginSuccessWithUsername(t *testing.T) {
 }
 
 func TestLoginEmailDoesNotExistFailure(t *testing.T) {
-	/* Login with email */
+	/* Login failure with email that does not exists */
 
 	mockResponse := `{"auth":false,"msg_error":"incorrect username or password"}`
 
@@ -273,7 +273,7 @@ func TestLoginEmailDoesNotExistFailure(t *testing.T) {
 }
 
 func TestLoginUsernameDoesNotExistFailure(t *testing.T) {
-	/* Login with email */
+	/* Login failure with username that does not exist */
 
 	mockResponse := `{"auth":false,"msg_error":"incorrect username or password"}`
 
@@ -303,7 +303,7 @@ func TestLoginUsernameDoesNotExistFailure(t *testing.T) {
 }
 
 func TestLoginPasswordIncorrectFailure(t *testing.T) {
-	/* Login with email */
+	/* Login failure with incorrect password */
 
 	mockResponse := `{"auth":false,"msg_error":"incorrect username or password"}`
 
