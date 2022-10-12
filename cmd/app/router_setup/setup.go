@@ -3,19 +3,11 @@ package router_setup
 import (
 	"github.com/gin-gonic/gin"
 
-	"github.com/gin-contrib/sessions"
-
-	"github.com/gin-contrib/sessions/cookie"
-
 	"github.com/gin-contrib/cors"
 
 	"gorm.io/gorm"
 
 	"notebook_app/cmd/app/notes"
-
-	"notebook_app/cmd/app/template_loader"
-
-	"notebook_app/cmd/app/page_renderer"
 
 	"notebook_app/cmd/app/auth"
 )
@@ -32,11 +24,11 @@ func InitializeRouter(db *gorm.DB) *gin.Engine {
 	router.Use(cors.New(config))
 
 	// html renderer
-	router.HTMLRender = template_loader.LoadTemplates("cmd/app/templates")
+	//router.HTMLRender = template_loader.LoadTemplates("cmd/app/templates")
 
 	// session
-	store := cookie.NewStore([]byte("secret"))
-	router.Use(sessions.Sessions("mysession", store))
+	//store := cookie.NewStore([]byte("secret"))
+	//router.Use(sessions.Sessions("mysession", store))
 
 	// do not trust all proxies for security reasons
 	router.SetTrustedProxies(nil)
@@ -47,22 +39,11 @@ func InitializeRouter(db *gorm.DB) *gin.Engine {
 	/* API */
 	api := router.Group("/api")
 
-	// test api route
-	api.GET("/test1", func(c *gin.Context) {
-		c.JSON(200, gin.H{"msg": "one"})
-	})
-	api.GET("/test2", func(c *gin.Context) {
-		c.JSON(200, gin.H{"msg": "two"})
-	})
-	api.GET("/test3", func(c *gin.Context) {
-		c.JSON(200, gin.H{"msg": "three"})
-	})
-
 	// check user authentication
-	api.GET("/check-user-auth", auth.CheckUserAuthenticated)
+	//api.GET("/check-user-auth", auth.CheckUserAuthenticated)
 
 	// Register the user
-	api.POST("/register", auth.Register2(db))
+	api.POST("/register", auth.Register(db))
 
 	// login user
 	api.POST("/login", auth.Login(db))
@@ -85,7 +66,8 @@ func InitializeRouter(db *gorm.DB) *gin.Engine {
 	// Edit Note from POST request
 	api.POST("/edit-note", notes.EditNote(db))
 
-	/* Get Requests */
+	/* Old routes for my purely backend app */
+	/*
 	// Render the home page at the root of the website
 	router.GET("/", page_renderer.RenderWebPage("home.tmpl", "Home"))
 
@@ -98,9 +80,8 @@ func InitializeRouter(db *gorm.DB) *gin.Engine {
 	// Render the login page at route "/login"
 	router.GET("/login", auth.LoginPage)
 
-	/* Post Requests */
 	// Register the user
-	router.POST("/register", auth.Register(db))
+	router.POST("/register", auth.Register123(db))
 
 	// Login the user
 	router.POST("/login", auth.Login123(db))
@@ -108,10 +89,9 @@ func InitializeRouter(db *gorm.DB) *gin.Engine {
 	// Page Not Found
 	router.NoRoute(page_renderer.RenderPageNotFoundWebPage("404.html", "404 Page - Page Not Found"))
 
-	/* Auhtorization Required */
+	// Auhtorization Required
 	auth_routes := router.Group("/").Use(auth.AuthRequired)
 
-	/* Get Requets */
 	// Render the view table page at route "/table"
 	auth_routes.GET("/dashboard", notes.ViewNotes123(db))
 
@@ -127,7 +107,6 @@ func InitializeRouter(db *gorm.DB) *gin.Engine {
 	// Logout the user
 	auth_routes.GET("/logout", auth.Logout123)
 
-	/* Post Requests */
 	// Handle Delete and Edit post requets
 	auth_routes.POST("/dashboard", notes.DeleteOrEditNote(db))
 
@@ -139,6 +118,7 @@ func InitializeRouter(db *gorm.DB) *gin.Engine {
 
 	// Delete Note from POST request
 	auth_routes.POST("/delete-note", notes.DeleteNote123(db))
+	*/
 
 	return router
 }

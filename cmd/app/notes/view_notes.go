@@ -1,19 +1,12 @@
 package notes
 
 import (
-	"net/http"
-
-	"net/url"
-
+	
 	"github.com/gin-gonic/gin"
 
 	"gorm.io/gorm"
 
 	"notebook_app/cmd/app/notebook_db"
-
-	"notebook_app/cmd/app/user_session"
-
-	"notebook_app/cmd/app/form"
 
 	"notebook_app/cmd/app/data_types"
 )
@@ -46,9 +39,13 @@ func ViewNotes(db *gorm.DB) gin.HandlerFunc {
 	return gin.HandlerFunc(fn)
 }
 
+
+
+/* Old functions for my purely backend app */
+/*
 func ViewNotes123(db *gorm.DB) gin.HandlerFunc {
 	fn := func(c *gin.Context) {
-		/* View all the database entries as a table */
+		/ View all the database entries as a table /
 		// Set title name for the page
 		var page_title = "Notes"
 
@@ -73,8 +70,8 @@ func ViewNotes123(db *gorm.DB) gin.HandlerFunc {
 
 func DeleteOrEditNote(db *gorm.DB) gin.HandlerFunc {
 	fn := func(c *gin.Context) {
-		/* Handle Delete and Edit Button POST Requests
-		on the view notes page */
+		/ Handle Delete and Edit Button POST Requests
+		on the view notes page /
 		// Parse Form Data
 		c.Request.ParseForm()
 
@@ -82,7 +79,7 @@ func DeleteOrEditNote(db *gorm.DB) gin.HandlerFunc {
 		q := url.Values{}
 
 		if form.GetFormValue(c, "delete") != "" {
-			/* Delete Note Post request */
+			/ Delete Note Post request /
 			// get entry id for the deleting an entry
 			note_id := form.GetFormValue(c, "delete")
 
@@ -96,7 +93,7 @@ func DeleteOrEditNote(db *gorm.DB) gin.HandlerFunc {
 			c.Redirect(http.StatusFound, location.RequestURI())
 
 		} else if form.GetFormValue(c, "edit") != "" {
-			/* Edit Note Post Request Redirect */
+			/ Edit Note Post Request Redirect /
 			// get entry id for the editing an entry
 			note_id := form.GetFormValue(c, "edit")
 
@@ -112,6 +109,4 @@ func DeleteOrEditNote(db *gorm.DB) gin.HandlerFunc {
 	}
 	return gin.HandlerFunc(fn)
 }
-
-/* Old functions for my purely backend app */
-
+*/

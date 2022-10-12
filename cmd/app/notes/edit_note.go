@@ -1,18 +1,11 @@
 package notes
 
 import (
-	"net/http"
-	"strconv"
-
 	"github.com/gin-gonic/gin"
 
 	"gorm.io/gorm"
 
 	"notebook_app/cmd/app/notebook_db"
-
-	"notebook_app/cmd/app/user_session"
-
-	"notebook_app/cmd/app/form"
 
 	"notebook_app/cmd/app/data_types"
 )
@@ -70,10 +63,6 @@ func EditNote(db *gorm.DB) gin.HandlerFunc {
 
 		// Update the entry title and description by id
 		notebook_db.UpdateNoteEntry(db, body.NoteID, body.Title, body.Description)
-
-		// Redirect to the dashboard
-		c.Redirect(http.StatusFound, "/dashboard")
-
 	}
 	return gin.HandlerFunc(fn)
 }
@@ -81,14 +70,14 @@ func EditNote(db *gorm.DB) gin.HandlerFunc {
 
 
 /* Old functions for my purely backend app */
-
+/*
 func EditNote123(db *gorm.DB) gin.HandlerFunc {
 	fn := func(c *gin.Context) {
-		/* Edit Note Post Request */
+		/ Edit Note Post Request /
 		// Parse Form Data
 		c.Request.ParseForm()
 
-		/* Get Title and secription from the Post request */
+		/ Get Title and secription from the Post request /
 		var title string = form.GetFormValue(c, "title")
 		var description string = form.GetFormValue(c, "description")
 
@@ -113,7 +102,7 @@ func EditNote123(db *gorm.DB) gin.HandlerFunc {
 
 func EditNoteForm123(db *gorm.DB) gin.HandlerFunc {
 	fn := func(c *gin.Context) {
-		/* Render edit note form */
+		/ Render edit note form /
 
 		// Set title name for the page
 		var page_title = "Edit Note"
@@ -144,4 +133,4 @@ func EditNoteForm123(db *gorm.DB) gin.HandlerFunc {
 	}
 	return gin.HandlerFunc(fn)
 }
-
+*/

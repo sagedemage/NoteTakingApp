@@ -20,6 +20,9 @@ export const Login = () => {
 		if (msg_success !== null) {
 			setSuccessStatus(true);
 		}
+		if (error_status === true) {
+			setSuccessStatus(false);
+		}
 	});
 
 	const handleUsernameChange = event => {
@@ -48,7 +51,6 @@ export const Login = () => {
 				// display error message
 				setErrorStatus(true);
 				setMsgError(response.data.msg_error);
-				setSuccessStatus(false);
 			}
             console.log(response);
 		}).catch(e => {

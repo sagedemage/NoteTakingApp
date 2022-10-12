@@ -21,6 +21,7 @@ import { useAuth } from "./components/auth";
 import { AddNoteForm } from "./components/add-new-note";
 import { DeleteNote } from "./components/delete-note";
 import { EditNoteForm } from "./components/edit-note";
+import { PageNotFound } from "./components/page-not-found";
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 
@@ -71,16 +72,17 @@ function App() {
 			<br />
 			<div className="gaps" id="content">
 				<Routes>
-					<Route path='/' element={<Home />}> </Route>
-					<Route path='about' element={<About />}> </Route>
-					<Route path='login' element={<Login />}> </Route>
-					<Route path='register' element={<Register />}> </Route>
+					<Route path="/" element={<Home />}> </Route>
+					<Route path="about" element={<About />}> </Route>
+					<Route path="login" element={<Login />}> </Route>
+					<Route path="register" element={<Register />}> </Route>
+					<Route path="*" element={<PageNotFound />}> </Route>
 
 					<Route element={<AuthRoute />}>
-						<Route path='dashboard' element={<Notes />}> </Route>
-						<Route path='add-new-note' element={<AddNoteForm />}> </Route>
-						<Route path='delete-note' element={<DeleteNote />}> </Route>
-						<Route path='edit-note' element={<EditNoteForm />}> </Route>
+						<Route path="dashboard" element={<Notes />}> </Route>
+						<Route path="add-new-note" element={<AddNoteForm />}> </Route>
+						<Route path="delete-note" element={<DeleteNote />}> </Route>
+						<Route path="edit-note" element={<EditNoteForm />}> </Route>
 					</Route>
 				</Routes>
 			</div>

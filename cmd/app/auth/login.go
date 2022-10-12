@@ -1,9 +1,6 @@
 package auth
 
 import (
-	"net/http"
-
-	"net/url"
 
 	"gorm.io/gorm"
 
@@ -11,15 +8,12 @@ import (
 
 	"github.com/gin-gonic/gin"
 
-	"github.com/gin-contrib/sessions"
-
 	"golang.org/x/crypto/bcrypt"
 
 	"notebook_app/cmd/app/notebook_db"
 
 	"notebook_app/cmd/app/data_types"
 
-	"notebook_app/cmd/app/form"
 )
 
 func is_user_valid(db *gorm.DB, username string, password string) (uint, error) {
@@ -48,19 +42,7 @@ func is_user_valid(db *gorm.DB, username string, password string) (uint, error) 
 	return user.ID, nil
 }
 
-func login_error_message(c *gin.Context, err error) {
-	// initialize query values
-	q := url.Values{}
 
-	// set note_id query value
-	q.Set("msg_error", err.Error())
-
-	// pass query value to the delete note route
-	location := url.URL{Path: "/login", RawQuery: q.Encode()}
-
-	// redirect to edit note
-	c.Redirect(http.StatusFound, location.RequestURI())
-}
 
 func Login(db *gorm.DB) gin.HandlerFunc {
 	fn := func(c *gin.Context) {
@@ -95,7 +77,7 @@ func Login(db *gorm.DB) gin.HandlerFunc {
 			})
 		} else {
 			// send login error message
-			login_error_message(c, err)
+			//login_error_message(c, err)
 
 			// json message
 			c.JSON(200, gin.H{"auth": false, "msg_error": err.Error()})
@@ -115,8 +97,9 @@ func Logout(c *gin.Context) {
 /* Old Functions for the Purely Backend App */
 // for legacy reasons
 
+/*
 func LoginPage(c *gin.Context) {
-	/* Login Page */
+	/ Login Page /
 	var page_title = "Login"
 
 	var error_status, success_status = false, false
@@ -153,7 +136,7 @@ func LoginPage(c *gin.Context) {
 
 func Login123(db *gorm.DB) gin.HandlerFunc {
 	fn := func(c *gin.Context) {
-		/* Login */
+		/ Login /
 		// Parse Form Data
 		c.Request.ParseForm()
 
@@ -166,7 +149,7 @@ func Login123(db *gorm.DB) gin.HandlerFunc {
 		// Is User Valid
 		user_id, err := is_user_valid(db, username, password)
 
-		/* Check if user registration is successful */
+		/ Check if user registration is successful /
 		if err == nil {
 			// user session
 			session := sessions.Default(c)
@@ -187,7 +170,7 @@ func Login123(db *gorm.DB) gin.HandlerFunc {
 }
 
 func Logout123(c *gin.Context) {
-	/* Logout */
+	/ Logout /
 	// user session
 	session := sessions.Default(c)
 
@@ -200,4 +183,17 @@ func Logout123(c *gin.Context) {
 	c.Redirect(http.StatusTemporaryRedirect, "/")
 }
 
+func login_error_message(c *gin.Context, err error) {
+	// initialize query values
+	q := url.Values{}
 
+	// set note_id query value
+	q.Set("msg_error", err.Error())
+
+	// pass query value to the delete note route
+	location := url.URL{Path: "/login", RawQuery: q.Encode()}
+
+	// redirect to edit note
+	c.Redirect(http.StatusFound, location.RequestURI())
+}
+*/

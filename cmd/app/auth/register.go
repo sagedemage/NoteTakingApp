@@ -1,11 +1,6 @@
 package auth
 
 import (
-	"net/http"
-
-	"net/url"
-
-	"github.com/gin-contrib/sessions"
 
 	"github.com/gin-gonic/gin"
 
@@ -15,38 +10,8 @@ import (
 
 	"notebook_app/cmd/app/notebook_db"
 
-	"notebook_app/cmd/app/form"
-	
 	"notebook_app/cmd/app/data_types"
 )
-
-func RegisterPage(c *gin.Context) {
-	/* Login Page */
-	var page_title = "Register"
-
-	// success message status
-	var error_status = false
-
-	// query msg_success
-	msg_error := c.Query("msg_error")
-
-	if msg_error != "" {
-		error_status = true
-	}
-
-	// Get user session data
-	session := sessions.Default(c)
-
-	// Get loggin in value
-	user := session.Get("is_logged_in")
-
-	c.HTML(http.StatusOK, "register.tmpl", gin.H{
-		"page_title": page_title,
-		"user": user,
-		"error_status": error_status,
-		"msg_error": msg_error,
-	})
-}
 
 func register_new_user(db *gorm.DB, email string, username string, password string, confirm string) error {
 	/* Check if email is already taken */
@@ -86,53 +51,6 @@ func register_new_user(db *gorm.DB, email string, username string, password stri
 func Register(db *gorm.DB) gin.HandlerFunc {
 	fn := func(c *gin.Context) {
 		/* Register */
-		// Parse Form Data
-		c.Request.ParseForm()
-
-		// get email data
-		var email string = form.GetFormValue(c, "email") 
-		
-		// get username form data
-		var username string = form.GetFormValue(c, "username") 
-		
-		// get password form data
-		var password string = form.GetFormValue(c, "password") 
-
-		// get confirm from data
-		var confirm string = form.GetFormValue(c, "confirm") 
-
-		// Register new user
-		err := register_new_user(db, email, username, password, confirm)
-
-		/* Check if user registration is successful */
-		if err == nil {
-			// Send success message
-			register_success_message(c, "Registered Successfully")
-		} else {
-			// Send error message
-			register_error_message(c, err)
-		}
-	}
-	return gin.HandlerFunc(fn)
-}
-
-func Register2(db *gorm.DB) gin.HandlerFunc {
-	fn := func(c *gin.Context) {
-		/* Register */
-		// Parse Form Data
-		/*c.Request.ParseForm()
-
-		// get email data
-		var email string = form.GetFormValue(c, "email") 
-		
-		// get username form data
-		var username string = form.GetFormValue(c, "username") 
-		
-		// get password form data
-		var password string = form.GetFormValue(c, "password") 
-
-		// get confirm from data
-		var confirm string = form.GetFormValue(c, "confirm")*/
 
 		type RequestBody struct {
 			Email string `json:"email"`
@@ -164,7 +82,7 @@ func Register2(db *gorm.DB) gin.HandlerFunc {
 			})
 		} else {
 			// Send error message
-			register_error_message(c, err)
+			//register_error_message(c, err)
 
 			// json message
 			c.JSON(200, data_types.JSON{ // 401
@@ -174,6 +92,69 @@ func Register2(db *gorm.DB) gin.HandlerFunc {
 		}
 	}
 	return gin.HandlerFunc(fn)
+}
+
+/* old functions for my purely backend app */
+/*
+func Register123(db *gorm.DB) gin.HandlerFunc {
+	fn := func(c *gin.Context) {
+		/ Register /
+		// Parse Form Data
+		c.Request.ParseForm()
+
+		// get email data
+		var email string = form.GetFormValue(c, "email") 
+		
+		// get username form data
+		var username string = form.GetFormValue(c, "username") 
+		
+		// get password form data
+		var password string = form.GetFormValue(c, "password") 
+
+		// get confirm from data
+		var confirm string = form.GetFormValue(c, "confirm") 
+
+		// Register new user
+		err := register_new_user(db, email, username, password, confirm)
+
+		/ Check if user registration is successful /
+		if err == nil {
+			// Send success message
+			register_success_message(c, "Registered Successfully")
+		} else {
+			// Send error message
+			register_error_message(c, err)
+		}
+	}
+	return gin.HandlerFunc(fn)
+}
+
+func RegisterPage(c *gin.Context) {
+	/ Login Page /
+	var page_title = "Register"
+
+	// success message status
+	var error_status = false
+
+	// query msg_success
+	msg_error := c.Query("msg_error")
+
+	if msg_error != "" {
+		error_status = true
+	}
+
+	// Get user session data
+	session := sessions.Default(c)
+
+	// Get loggin in value
+	user := session.Get("is_logged_in")
+
+	c.HTML(http.StatusOK, "register.tmpl", gin.H{
+		"page_title": page_title,
+		"user": user,
+		"error_status": error_status,
+		"msg_error": msg_error,
+	})
 }
 
 func register_error_message(c *gin.Context, err error) {
@@ -203,3 +184,4 @@ func register_success_message(c *gin.Context, msg_success string) {
 	// redirect to edit note
 	c.Redirect(http.StatusFound, location.RequestURI())
 }
+*/
