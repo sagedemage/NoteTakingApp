@@ -332,3 +332,27 @@ func TestLoginPasswordIncorrectFailure(t *testing.T) {
 	assert.Equal(t, http.StatusOK, writer.Code)
 }
 
+// Logout
+
+func TestLogout(t *testing.T) {
+	/* Logout success */
+
+	mockResponse := `{"auth":false}`
+
+	var router = Setup() // setup
+
+	// initialize response writer
+	writer := httptest.NewRecorder()
+
+	// call login api
+	request, _ := http.NewRequest("GET", "/api/logout", nil)
+	
+	// reponse to an http request
+	router.ServeHTTP(writer, request)
+
+	responseData, _ := ioutil.ReadAll(writer.Body)
+
+	assert.Equal(t, mockResponse, string(responseData))
+
+	assert.Equal(t, http.StatusOK, writer.Code)
+}
