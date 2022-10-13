@@ -5,19 +5,22 @@ import (
 
 	"gorm.io/gorm"
 
+	"notebook_app/cmd/app/data_types"
+
 	"notebook_app/cmd/app/notebook_db"
 
-	"notebook_app/cmd/app/data_types"
+	"notebook_app/cmd/app/request_bodies"
 )
 
 func FetchNote(db *gorm.DB) gin.HandlerFunc {
 	fn := func(c *gin.Context) {
-		/* Fetch the note data */
+		/* Fetch the note data in order to 
+		easily edit note quickly */
 		type RequestBody struct {
 			NoteID uint `json:"note_id"`
 		}
 
-		var body RequestBody
+		var body request_bodies.DeleteorFetchNoteRequest
 
 		// Get JSON Request Body
 		err := c.BindJSON(&body)
@@ -32,24 +35,17 @@ func FetchNote(db *gorm.DB) gin.HandlerFunc {
 	
 		// return note data
 		c.JSON(200, data_types.JSON{
-			"note":  note,
+			"title": note.Title,
+			"description": note.Description,
 		})
 	}
 	return gin.HandlerFunc(fn)
 }
 
-// Update Note Post Request
-
 func EditNote(db *gorm.DB) gin.HandlerFunc {
 	fn := func(c *gin.Context) {
 		/* Edit Note Post Request */
-		type RequestBody struct {
-			NoteID uint `json:"note_id"`
-			Title string `json:"title"`
-			Description string `json:"description"`
-		}
-
-		var body RequestBody
+		var body request_bodies.EditNoteRequest
 
 		// Get JSON Request Body
 		err := c.BindJSON(&body)

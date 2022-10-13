@@ -1,6 +1,6 @@
 package request_bodies
 
-/* Registration */
+/* Auth Request Bodies */
 
 type RegisterRequest struct {
 	Email string `json:"email"`
@@ -8,8 +8,6 @@ type RegisterRequest struct {
 	Password string `json:"password"`
 	ConfirmPwd string `json:"confirm_pwd"`
 }
-
-/* Login */
 
 type LoginRequest struct {
 	Username string `json:"username"`

@@ -5,7 +5,6 @@ export const EditNoteForm = () => {
 	
 	let url = new URL(window.location.href);
 	const note_id = parseInt(url.searchParams.get("note_id"));
-	console.log(note_id);
 
 	if (note_id === null) {
 		window.location.href = '/';
@@ -30,11 +29,9 @@ export const EditNoteForm = () => {
 		axios.post(`http://localhost:8080/api/fetch-note`, {
 			note_id: note_id,
 		}).then((response) => {
-			console.log(response.data.note)
-			if (response.data.note !== undefined) {
-				setTitle(response.data.note.Title);
-				setDescription(response.data.note.Description);
-				console.log("Response data " + response.data.note);	
+			if (note_id !== undefined) {
+				setTitle(response.data.title);
+				setDescription(response.data.description);
 			}
 		}).catch(e => {
             console.log(e);

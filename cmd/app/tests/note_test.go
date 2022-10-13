@@ -1,123 +1,147 @@
 package tests
 
 import (
-	//"net/http"
-	//"net/url"
+	"bytes"
 
-	//"net/http/httptest"
+	"net/http"
 
-	//"testing"
+	"net/http/httptest"
 
-	//"github.com/gin-gonic/gin"
-	//"github.com/stretchr/testify/assert"
+	"encoding/json"
+
+	"io/ioutil"
+	
+	"testing"
+
+	"github.com/stretchr/testify/assert"
+
+	"notebook_app/cmd/app/request_bodies"
 )
-/*
-func Login(router *gin.Engine) *httptest.ResponseRecorder {
-	/ Login user for tests /
-	// setup reponse writer
+
+func TestAddNote(t *testing.T) {
+	/* Add Note */
+	// setup
+	var router = Setup()
+
 	writer := httptest.NewRecorder()
 
-	// request login page
-	request, _ := http.NewRequest("POST", "/login", nil)
-	
-	// initialize query values for the post form  
-	v := url.Values{}
+	add_note := request_bodies.AddNoteRequest {
+		UserID: 1,
+		Title: "title",
+		Description: "description",
+	}
 
-	// set post form data
-	v.Set("username", "test1000@gmail.com")
-	v.Add("password", "test1000")
-
-	// post form request
-	request.PostForm = v
-
-	// reponse to an http request
-	router.ServeHTTP(writer, request)
-
-	return writer
-}
-*/
-/*
-func TestAddNote(t *testing.T) {
-	// setup
-	var router = Setup()
-
-	// Login User
-	writer := Login(router)
+	jsonValue, _ := json.Marshal(add_note)
 
 	// test home page
-	request, _ := http.NewRequest("POST", "/add-new-note", nil)
+	request, _ := http.NewRequest("POST", "/api/add-new-note", bytes.NewBuffer(jsonValue))
 	
-	// initialize query values for the post form  
-	v := url.Values{}
-
-	// set post form data
-	v.Set("title", "title")
-	v.Add("description", "description")
-
-	// post form request
-	request.PostForm = v
-
 	// reponse to an http request
 	router.ServeHTTP(writer, request)
 
 	// check if redirection is successful
-	assert.Equal(t, 302, writer.Code)
-
-	// check if the request redirects to the /dashboard route
-	assert.Equal(t, "/dashboard", writer.Header().Get("Location"))
+	assert.Equal(t, 200, writer.Code)
 }
-*/
-/*
+
+func TestFetchNote(t *testing.T) {
+	/* Add Note */
+
+	mockResponse := `{"description":"description","title":"title"}`
+
+	// setup
+	var router = Setup()
+
+	writer := httptest.NewRecorder()
+
+	add_note := request_bodies.DeleteorFetchNoteRequest {
+		NoteID: 1,
+	}
+
+	jsonValue, _ := json.Marshal(add_note)
+
+	// test home page
+	request, _ := http.NewRequest("POST", "/api/fetch-note", bytes.NewBuffer(jsonValue))
+	
+	// reponse to an http request
+	router.ServeHTTP(writer, request)
+
+	responseData, _ := ioutil.ReadAll(writer.Body)
+
+	assert.Equal(t, mockResponse, string(responseData))
+
+	// check if redirection is successful
+	assert.Equal(t, 200, writer.Code)
+}
+
+func TestViewNotes(t *testing.T) {
+	/* View Notes */
+
+	// setup
+	var router = Setup()
+
+	writer := httptest.NewRecorder()
+
+	add_note := request_bodies.ViewNotesRequest {
+		UserID: 1,
+	}
+
+	jsonValue, _ := json.Marshal(add_note)
+
+	// test home page
+	request, _ := http.NewRequest("POST", "/api/view-notes", bytes.NewBuffer(jsonValue))
+	
+	// reponse to an http request
+	router.ServeHTTP(writer, request)
+
+	// check if redirection is successful
+	assert.Equal(t, 200, writer.Code)
+}
+
 func TestEditNote(t *testing.T) {
+	/* Edit Note */
 	// setup
 	var router = Setup()
 
-	// Login User
-	writer := Login(router)
+	writer := httptest.NewRecorder()
+
+	edit_note := request_bodies.EditNoteRequest {
+		NoteID: 1,
+		Title: "title2",
+		Description: "description2",
+	}
+
+	jsonValue, _ := json.Marshal(edit_note)
 
 	// test home page
-	request, _ := http.NewRequest("POST", "/edit-note?note_id=1", nil)
+	request, _ := http.NewRequest("POST", "/api/edit-note", bytes.NewBuffer(jsonValue))
 	
-	// initialize query values for the post form  
-	v := url.Values{}
-
-	// set post form data
-	v.Set("title", "Number One")
-	v.Add("description", "You are number one")
-
-	// post form request
-	request.PostForm = v
-
 	// reponse to an http request
 	router.ServeHTTP(writer, request)
 
 	// check if redirection is successful
-	assert.Equal(t, 302, writer.Code)
-
-	// check if the request redirects to the /dashboard route
-	assert.Equal(t, "/dashboard", writer.Header().Get("Location"))
+	assert.Equal(t, 200, writer.Code)
 }
-*/
 
-/*
 func TestDeleteNote(t *testing.T) {
+	/* Delete Note */
 	// setup
 	var router = Setup()
 
-	// Login User
-	writer := Login(router)
+	writer := httptest.NewRecorder()
+
+	delete_note := request_bodies.DeleteorFetchNoteRequest {
+		NoteID: 1,
+	}
+
+	jsonValue, _ := json.Marshal(delete_note)
 
 	// test home page
-	request, _ := http.NewRequest("POST", "/delete-note?note_id=1", nil)
+	request, _ := http.NewRequest("POST", "/api/delete-note", bytes.NewBuffer(jsonValue))
 	
 	// reponse to an http request
 	router.ServeHTTP(writer, request)
 
 	// check if redirection is successful
-	assert.Equal(t, 302, writer.Code)
-
-	// check if the request redirects to the /dashboard route
-	assert.Equal(t, "/dashboard", writer.Header().Get("Location"))
+	assert.Equal(t, 200, writer.Code)
 }
-*/
 

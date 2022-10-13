@@ -6,16 +6,14 @@ import (
 	"gorm.io/gorm"
 
 	"notebook_app/cmd/app/notebook_db"
+
+	"notebook_app/cmd/app/request_bodies"
 )
 
 func DeleteNote(db *gorm.DB) gin.HandlerFunc {
 	fn := func(c *gin.Context) {
 		/* Edit Note Post Request */
-		type RequestBody struct {
-			NoteID uint `json:"note_id"`
-		}
-
-		var body RequestBody
+		var body request_bodies.DeleteorFetchNoteRequest
 
 		// Get JSON Request Body
 		err := c.BindJSON(&body)

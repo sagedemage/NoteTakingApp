@@ -6,18 +6,14 @@ import (
 	"github.com/gin-gonic/gin"
 
 	"notebook_app/cmd/app/notebook_db"
+	
+	"notebook_app/cmd/app/request_bodies"
 )
 
 func AddNewNote(db *gorm.DB) gin.HandlerFunc {
 	fn := func(c *gin.Context) {
-		// title and description
-		type RequestBody struct {
-			Title string `json:"title"`
-			Description string `json:"description"`
-			UserID uint `json:"user_id"`
-		}
-
-		var body RequestBody
+		/* Add new note */
+		var body request_bodies.AddNoteRequest
 
 		// Get JSON Request Body
 		err := c.BindJSON(&body)

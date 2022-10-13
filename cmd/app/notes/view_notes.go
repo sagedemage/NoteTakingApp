@@ -9,17 +9,14 @@ import (
 	"notebook_app/cmd/app/notebook_db"
 
 	"notebook_app/cmd/app/data_types"
+
+	"notebook_app/cmd/app/request_bodies"
 )
 
 func ViewNotes(db *gorm.DB) gin.HandlerFunc {
 	fn := func(c *gin.Context) {
 		/* View all the database entries as a table */
-
-		type RequestBody struct {
-			UserID uint `json:"user_id"`
-		}
-
-		var body RequestBody
+		var body request_bodies.ViewNotesRequest
 
 		// Get JSON Request Body
 		err := c.BindJSON(&body)

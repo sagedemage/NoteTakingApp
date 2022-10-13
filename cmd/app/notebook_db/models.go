@@ -48,8 +48,6 @@ func GetNoteEntries(db *gorm.DB, user_id uint) []Note {
 
 	db.Where("user_id = ?", user_id).Find(&notes)
 
-	//db.Find(&notes)  // find entries of notes table
-
 	return notes
 }
 
