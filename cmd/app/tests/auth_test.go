@@ -23,13 +23,15 @@ import (
 func TestRegistrationSuccess(t *testing.T) {
 	/* Registration success */
 
+	// mock response data
 	mockResponse := `{"msg_success":"Registered Successfully","registered":true}`
 
-	var router = Setup() // setup
+	var r = Setup() // setup router
 
-	// initialize response writer
-	writer := httptest.NewRecorder()
+	// writer for the reponse recorder
+	w := httptest.NewRecorder()
 
+	// request body
 	user_register := request_bodies.RegisterRequest {
 		Email: "test1000@gmail.com",
 		Username: "test1000",
@@ -37,31 +39,37 @@ func TestRegistrationSuccess(t *testing.T) {
 		ConfirmPwd: "test1000",
 	}
 
+	// convert to json
 	jsonValue, _ := json.Marshal(user_register)
 
-	// call register api
+	// request for the register api
 	request, _ := http.NewRequest("POST", "/api/register", bytes.NewBuffer(jsonValue))
 	
-	// reponse to an http request
-	router.ServeHTTP(writer, request)
+	// serve request
+	r.ServeHTTP(w, request)
 
-	responseData, _ := ioutil.ReadAll(writer.Body)
+	// get response data
+	responseData, _ := ioutil.ReadAll(w.Body)
 
+	// check if the response data is correct
 	assert.Equal(t, mockResponse, string(responseData))
 
-	assert.Equal(t, http.StatusOK, writer.Code)
+	// check if the response is a success
+	assert.Equal(t, http.StatusOK, w.Code)
 }
 
 func TestRegistrationEmailAlreadyExistsFailure(t *testing.T) {
 	/* Registration failure with email that already exists */
 
+	// mock reponse data
 	mockResponse := `{"msg_error":"email already taken","registered":false}`
 
-	var router = Setup() // setup
+	var r = Setup() // setup router
 
-	// initialize response writer
-	writer := httptest.NewRecorder()
+	// writer for the reponse recorder
+	w := httptest.NewRecorder()
 
+	// request body
 	user_register := request_bodies.RegisterRequest {
 		Email: "test1000@gmail.com",
 		Username: "test1001",
@@ -69,31 +77,37 @@ func TestRegistrationEmailAlreadyExistsFailure(t *testing.T) {
 		ConfirmPwd: "test1001",
 	}
 
+	// convert to json
 	jsonValue, _ := json.Marshal(user_register)
 
-	// call register api
+	// request for register api
 	request, _ := http.NewRequest("POST", "/api/register", bytes.NewBuffer(jsonValue))
 	
-	// reponse to an http request
-	router.ServeHTTP(writer, request)
+	// serve request
+	r.ServeHTTP(w, request)
 
-	responseData, _ := ioutil.ReadAll(writer.Body)
+	// get response data
+	responseData, _ := ioutil.ReadAll(w.Body)
 
+	// check the response data is correct
 	assert.Equal(t, mockResponse, string(responseData))
 
-	assert.Equal(t, http.StatusOK, writer.Code)
+	// check the reponse is a success
+	assert.Equal(t, http.StatusOK, w.Code)
 }
 
 func TestRegistrationUsernameAlreadyExistsFailure(t *testing.T) {
 	/* Registration failure with username that already exists */
 
+	// mock reponse data
 	mockResponse := `{"msg_error":"username already taken","registered":false}`
 
-	var router = Setup() // setup
+	var r = Setup() // setup router
 
-	// initialize response writer
-	writer := httptest.NewRecorder()
+	// writer for the reponse recorder
+	w := httptest.NewRecorder()
 
+	// request body
 	user_register := request_bodies.RegisterRequest {
 		Email: "test1001@gmail.com",
 		Username: "test1000",
@@ -101,31 +115,37 @@ func TestRegistrationUsernameAlreadyExistsFailure(t *testing.T) {
 		ConfirmPwd: "test1001",
 	}
 
+	// convert to json
 	jsonValue, _ := json.Marshal(user_register)
 
-	// call register api
+	// request for register api
 	request, _ := http.NewRequest("POST", "/api/register", bytes.NewBuffer(jsonValue))
 	
-	// reponse to an http request
-	router.ServeHTTP(writer, request)
+	// serve request
+	r.ServeHTTP(w, request)
 
-	responseData, _ := ioutil.ReadAll(writer.Body)
+	// get reponse data
+	responseData, _ := ioutil.ReadAll(w.Body)
 
+	// check reponse data is correct
 	assert.Equal(t, mockResponse, string(responseData))
 
-	assert.Equal(t, http.StatusOK, writer.Code)
+	// check the response is a success
+	assert.Equal(t, http.StatusOK, w.Code)
 }
 
 func TestRegistrationPasswordMustMatchFailure(t *testing.T) {
 	/* Registration failure with the passwords not matching */
 
+	// mock reponse data
 	mockResponse := `{"msg_error":"passwords do not match","registered":false}`
 
-	var router = Setup() // setup
+	var r = Setup() // setup router
 
-	// initialize response writer
-	writer := httptest.NewRecorder()
+	// writer for the reponse recorder
+	w := httptest.NewRecorder()
 
+	// request body
 	user_register := request_bodies.RegisterRequest {
 		Email: "test1001@gmail.com",
 		Username: "test1001",
@@ -133,31 +153,37 @@ func TestRegistrationPasswordMustMatchFailure(t *testing.T) {
 		ConfirmPwd: "test1000",
 	}
 
+	// convert to json
 	jsonValue, _ := json.Marshal(user_register)
 
-	// call register api
+	// request fot register api
 	request, _ := http.NewRequest("POST", "/api/register", bytes.NewBuffer(jsonValue))
 	
-	// reponse to an http request
-	router.ServeHTTP(writer, request)
+	// serve request
+	r.ServeHTTP(w, request)
 
-	responseData, _ := ioutil.ReadAll(writer.Body)
+	// get reponse data
+	responseData, _ := ioutil.ReadAll(w.Body)
 
+	// check the resonse data is correct
 	assert.Equal(t, mockResponse, string(responseData))
 
-	assert.Equal(t, http.StatusOK, writer.Code)
+	// check the response is a success
+	assert.Equal(t, http.StatusOK, w.Code)
 }
 
 func TestRegistrationShortPasswordFailure(t *testing.T) {
 	/* Registration failure with short password */
 
+	// mock resonse data
 	mockResponse := `{"msg_error":"must be at least 8 characters","registered":false}`
 
-	var router = Setup() // setup
+	var r = Setup() // setup router
 
-	// initialize response writer
-	writer := httptest.NewRecorder()
+	// writer for the reponse recorder
+	w := httptest.NewRecorder()
 
+	// request body
 	user_register := request_bodies.RegisterRequest {
 		Email: "test100@gmail.com",
 		Username: "test100",
@@ -165,19 +191,23 @@ func TestRegistrationShortPasswordFailure(t *testing.T) {
 		ConfirmPwd: "test100",
 	}
 
+	// convert to json
 	jsonValue, _ := json.Marshal(user_register)
 
-	// call register api
+	// request for register api
 	request, _ := http.NewRequest("POST", "/api/register", bytes.NewBuffer(jsonValue))
 	
-	// reponse to an http request
-	router.ServeHTTP(writer, request)
+	// serve request
+	r.ServeHTTP(w, request)
 
-	responseData, _ := ioutil.ReadAll(writer.Body)
+	// get response data
+	responseData, _ := ioutil.ReadAll(w.Body)
 
+	// check response data is correct
 	assert.Equal(t, mockResponse, string(responseData))
 
-	assert.Equal(t, http.StatusOK, writer.Code)
+	// check response is a success
+	assert.Equal(t, http.StatusOK, w.Code)
 }
 
 /* Login */
@@ -185,151 +215,181 @@ func TestRegistrationShortPasswordFailure(t *testing.T) {
 func TestLoginSuccessWithEmail(t *testing.T) {
 	/* Login success with email */
 
+	// mock response data
 	mockResponse := `{"auth":true,"user_id":1}`
 
-	var router = Setup() // setup
+	var r = Setup() // router setup
 
-	// initialize response writer
-	writer := httptest.NewRecorder()
+	// writer for the reponse recorder
+	w := httptest.NewRecorder()
 
+	// request body
 	user_login := request_bodies.LoginRequest {
 		Username: "test1000@gmail.com",
 		Password: "test1000",
 	}
 
+	// convert to json
 	jsonValue, _ := json.Marshal(user_login)
 
-	// call login api
+	// request for login api
 	request, _ := http.NewRequest("POST", "/api/login", bytes.NewBuffer(jsonValue))
 	
-	// reponse to an http request
-	router.ServeHTTP(writer, request)
+	// serve request
+	r.ServeHTTP(w, request)
 
-	responseData, _ := ioutil.ReadAll(writer.Body)
+	// get response data
+	responseData, _ := ioutil.ReadAll(w.Body)
 
+	// check if the response data is correct
 	assert.Equal(t, mockResponse, string(responseData))
 
-	assert.Equal(t, http.StatusOK, writer.Code)
+	// check if the reponse is a success
+	assert.Equal(t, http.StatusOK, w.Code)
 }
 
 func TestLoginSuccessWithUsername(t *testing.T) {
 	/* Login success with username */
 
+	// mock response data
 	mockResponse := `{"auth":true,"user_id":1}`
 
-	var router = Setup() // setup
+	var r = Setup() // router setup
 
-	// initialize response writer
-	writer := httptest.NewRecorder()
+	// writer for the reponse recorder
+	w := httptest.NewRecorder()
 
+	// request body
 	user_login := request_bodies.LoginRequest {
 		Username: "test1000",
 		Password: "test1000",
 	}
 
+	// convert to json
 	jsonValue, _ := json.Marshal(user_login)
 
-	// call login api
+	// request for login api
 	request, _ := http.NewRequest("POST", "/api/login", bytes.NewBuffer(jsonValue))
 	
-	// reponse to an http request
-	router.ServeHTTP(writer, request)
+	// serve request
+	r.ServeHTTP(w, request)
 
-	responseData, _ := ioutil.ReadAll(writer.Body)
+	// get response data
+	responseData, _ := ioutil.ReadAll(w.Body)
 
+	// check if the response data is correct
 	assert.Equal(t, mockResponse, string(responseData))
 
-	assert.Equal(t, http.StatusOK, writer.Code)
+	// check if the response is a success
+	assert.Equal(t, http.StatusOK, w.Code)
 }
 
 func TestLoginEmailDoesNotExistFailure(t *testing.T) {
 	/* Login failure with email that does not exists */
 
+	// mock response data
 	mockResponse := `{"auth":false,"msg_error":"incorrect username or password"}`
 
-	var router = Setup() // setup
+	var r = Setup() // setup router
 
-	// initialize response writer
-	writer := httptest.NewRecorder()
+	// writer for the reponse recorder
+	w := httptest.NewRecorder()
 
+	// request body
 	user_login := request_bodies.LoginRequest {
 		Username: "test3000@gmail.com",
 		Password: "test3000",
 	}
 
+	// convert to json
 	jsonValue, _ := json.Marshal(user_login)
 
 	// call login api
 	request, _ := http.NewRequest("POST", "/api/login", bytes.NewBuffer(jsonValue))
 	
 	// reponse to an http request
-	router.ServeHTTP(writer, request)
+	r.ServeHTTP(w, request)
 
-	responseData, _ := ioutil.ReadAll(writer.Body)
+	// get response data
+	responseData, _ := ioutil.ReadAll(w.Body)
 
+	// check if the response data is correct
 	assert.Equal(t, mockResponse, string(responseData))
 
-	assert.Equal(t, http.StatusOK, writer.Code)
+	// check if the response is a success
+	assert.Equal(t, http.StatusOK, w.Code)
 }
 
 func TestLoginUsernameDoesNotExistFailure(t *testing.T) {
 	/* Login failure with username that does not exist */
 
+	// mock response data
 	mockResponse := `{"auth":false,"msg_error":"incorrect username or password"}`
 
-	var router = Setup() // setup
+	var r = Setup() // setup router
 
-	// initialize response writer
-	writer := httptest.NewRecorder()
+	// writer for the reponse recorder
+	w := httptest.NewRecorder()
 
+	// request body
 	user_login := request_bodies.LoginRequest {
 		Username: "test3000",
 		Password: "test3000",
 	}
 
+	// convert to json
 	jsonValue, _ := json.Marshal(user_login)
 
 	// call login api
 	request, _ := http.NewRequest("POST", "/api/login", bytes.NewBuffer(jsonValue))
 	
 	// reponse to an http request
-	router.ServeHTTP(writer, request)
+	r.ServeHTTP(w, request)
 
-	responseData, _ := ioutil.ReadAll(writer.Body)
+	// get response data
+	responseData, _ := ioutil.ReadAll(w.Body)
 
+	// check if the response data is correct
 	assert.Equal(t, mockResponse, string(responseData))
 
-	assert.Equal(t, http.StatusOK, writer.Code)
+	// check if the response is a success
+	assert.Equal(t, http.StatusOK, w.Code)
 }
 
 func TestLoginPasswordIncorrectFailure(t *testing.T) {
 	/* Login failure with incorrect password */
 
+	// mock response data
 	mockResponse := `{"auth":false,"msg_error":"incorrect username or password"}`
 
-	var router = Setup() // setup
+	var r = Setup() // setup router
 
-	// initialize response writer
-	writer := httptest.NewRecorder()
+	// writer for the reponse recorder
+	w := httptest.NewRecorder()
 
+	// request body
 	user_login := request_bodies.LoginRequest {
 		Username: "test1000@gmail.com",
 		Password: "test2000",
 	}
 
+	// convert to json
 	jsonValue, _ := json.Marshal(user_login)
 
 	// call login api
 	request, _ := http.NewRequest("POST", "/api/login", bytes.NewBuffer(jsonValue))
 	
 	// reponse to an http request
-	router.ServeHTTP(writer, request)
+	r.ServeHTTP(w, request)
 
-	responseData, _ := ioutil.ReadAll(writer.Body)
+	// get response data
+	responseData, _ := ioutil.ReadAll(w.Body)
 
+	// check if the response data is correct
 	assert.Equal(t, mockResponse, string(responseData))
 
-	assert.Equal(t, http.StatusOK, writer.Code)
+	// check if the response is a success
+	assert.Equal(t, http.StatusOK, w.Code)
 }
 
 // Logout
@@ -337,22 +397,26 @@ func TestLoginPasswordIncorrectFailure(t *testing.T) {
 func TestLogout(t *testing.T) {
 	/* Logout success */
 
+	// mock response data
 	mockResponse := `{"auth":false}`
 
-	var router = Setup() // setup
+	var r = Setup() // setup router
 
-	// initialize response writer
-	writer := httptest.NewRecorder()
+	// writer for the reponse recorder
+	w := httptest.NewRecorder()
 
-	// call login api
+	// request for login api
 	request, _ := http.NewRequest("GET", "/api/logout", nil)
 	
-	// reponse to an http request
-	router.ServeHTTP(writer, request)
+	// serve request
+	r.ServeHTTP(w, request)
 
-	responseData, _ := ioutil.ReadAll(writer.Body)
+	// get response data
+	responseData, _ := ioutil.ReadAll(w.Body)
 
+	// check if the reponse data is correct
 	assert.Equal(t, mockResponse, string(responseData))
 
-	assert.Equal(t, http.StatusOK, writer.Code)
+	// check if the response is a success
+	assert.Equal(t, http.StatusOK, w.Code)
 }
