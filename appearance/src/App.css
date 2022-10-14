@@ -25,8 +25,19 @@
 }
 
 #bottom {
-    /* margin-top: 20em; */
     margin-bottom: 5em;
+}
+
+.footer-bottom {
+	height: 75px;
+	text-align: center;
+	margin-top: auto;
+}
+
+#body {
+	min-height: 100vh;
+	display: flex;
+	flex-direction: column;
 }
 
 /* mobile portrait layout */

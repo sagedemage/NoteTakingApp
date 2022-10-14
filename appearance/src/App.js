@@ -32,7 +32,7 @@ function App() {
 	const isAuth = useAuth();
 
 	return (
-		<div>
+		<div id="body">
 			<div>
 				<Navbar collapseOnSelect expand="lg" bg="myBlue" variant="dark" fixed="top">
 					<Container>
@@ -86,7 +86,7 @@ function App() {
 					</Route>
 				</Routes>
 			</div>
-			<footer className="gaps" id="bottom">
+			<footer className="footer-bottom">
 				<div id="copyright">
 					<p id="copyright"> &copy; {(new Date().getFullYear())} Salmaan Saeed </p>
 				</div>
