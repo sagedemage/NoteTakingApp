@@ -1,12 +1,8 @@
-import './App.css';
+import './app.css';
 
 import { React } from "react";
 
 import { Route, Routes } from "react-router-dom";
-
-import { Nav, Navbar, Container } from 'react-bootstrap';
-
-import NavDropdown from 'react-bootstrap/NavDropdown';
 
 import axios from "axios";
 
@@ -15,13 +11,12 @@ import { About } from "./components/about";
 import { Login } from "./components/login";
 import { Register } from "./components/register";
 import { Notes } from "./components/view-notes";
-import { Logout } from "./components/logout";
 import { AuthRoute } from "./components/auth-route";
-import { useAuth } from "./components/auth";
 import { AddNoteForm } from "./components/add-new-note";
 import { DeleteNote } from "./components/delete-note";
 import { EditNoteForm } from "./components/edit-note";
 import { PageNotFound } from "./components/page-not-found";
+import { MyNavBar } from "./components/navigation-bar";
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 
@@ -29,47 +24,9 @@ function App() {
 
     axios.defaults.withCredentials = true;
 
-	const isAuth = useAuth();
-
 	return (
 		<div id="body">
-			<div>
-				<Navbar collapseOnSelect expand="lg" bg="myBlue" variant="dark" fixed="top">
-					<Container>
-						<Navbar.Brand>
-							<span className="indent"> Notebook </span>
-						</Navbar.Brand>
-				
-						<Navbar.Toggle aria-controls="responsive-navbar-nav"  />
-						<Navbar.Collapse id="responsive-navbar-nav">
-							<Nav className="me-auto">
-								<Nav.Link href="/"> Home </Nav.Link>
-								<Nav.Link href="/about"> About </Nav.Link>
-							</Nav>
-							{ isAuth === "false" &&
-							<Nav className="ms-auto">
-								<Nav.Link href="/login"> Login </Nav.Link>
-								<Nav.Link href="/register"> Register </Nav.Link>
-							</Nav>
-							}
-							{ isAuth === "true" &&
-							<Nav className="ms-auto">
-								<NavDropdown
-								  id="nav-dropdown"
-								  title="Account"
-								  menuVariant="dark"
-								  variant="dark"
-								>
-								  	<NavDropdown.Item href="/dashboard">Notes</NavDropdown.Item>
-									<NavDropdown.Item onClick={() => Logout() }>Logout</NavDropdown.Item>
-								</NavDropdown>
-							</Nav>
-							}
-						</Navbar.Collapse>
-					</Container>
-				</Navbar>
-			</div>
-			<br />
+			<MyNavBar />
 			<div className="gaps" id="content">
 				<Routes>
 					<Route path="/" element={<Home />}> </Route>
