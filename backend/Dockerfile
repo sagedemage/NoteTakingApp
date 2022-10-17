@@ -16,13 +16,8 @@ ADD . ./
 # Copy the go source files from the cmd/app directory to the working directory
 ADD cmd/app/*.go ./
 
-# Download all dependencies
-RUN go mod download
-
 # Install the go external packages
 RUN go get -u github.com/gin-gonic/gin \ 
-	github.com/gin-contrib/sessions \
-	github.com/gin-contrib/multitemplate \
 	gorm.io/gorm \
 	gorm.io/driver/sqlite
 
