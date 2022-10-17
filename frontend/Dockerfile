@@ -16,7 +16,8 @@ WORKDIR /app
 COPY . .
 
 # Install all dependencies
-RUN npm ci
+#RUN npm ci
+RUN npm install react react-dom react-router-dom react-bootstrap
 
 # Install serve
 RUN npm install -g serve

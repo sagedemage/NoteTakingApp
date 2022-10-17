@@ -10,60 +10,34 @@ This is a note taking app. I create notes when learning new technologies and
 remembering what was in my mind lasted time. My goal is is to create a note taking web app 
 I can use on my home server. I use raspberry pi as my home server.
 
-## Setup
-Install nodejs for Debian, Ubuntu and distros based on Debian or Ubuntu
-```
-sudo apt install nodejs
-```
-
-Install nodejs for Windows: [nodejs download page](https://nodejs.org/en/download/)
-
+## Building the Project
 Go to the root of the repository
 ```
-cd Notebook/appearance
+cd Notebook
 ```
 
-Install the dependencies
-```
-npm install react react-dom react-router-dom react-bootstrap
-```
-
-## Building the Project
-Build and Run Using Docker Compose (Option 1)
+Build the Docker image
 ```
 docker-compose build
 ```
+
+Start up the Docker image
 ```
 docker-compose up
 ```
 
-Quick Run (Option 2)
-```
-mage -v run
-```
-***Note***: *Look at Mage build system installation below*
+## Frontend:
+### Frameworks:
+* [facebook/react](https://github.com/facebook/react/)
+	* [reactjs.org](https://reactjs.org/)
 
-## Mage build system Installation
-Install Mage build system
-```
-git clone https://github.com/magefile/mage
-cd mage
-go run bootstrap.go
-```
-If on Linux, export the go bin direcotory
-```
-export PATH="$PATH:$HOME/go/bin/"
-```
-
-## Frameworks:
+## Backend:
+### Frameworks:
 * [gin-gonic/gin](https://github.com/gin-gonic/gin)
 	* [gin-gonic.com](https://gin-gonic.com/)
 
-## Libraries:
+### Libraries:
 * [go-gorm/gorm](https://github.com/go-gorm/gorm)
 	* [gorm.io](https://gorm.io/)
 
-## Gin Contrib
-* [gin-contrib/sessions](https://github.com/gin-contrib/sessions)
-* [gin-contrib/multitemplate](https://github.com/gin-contrib/multitemplate)
 
