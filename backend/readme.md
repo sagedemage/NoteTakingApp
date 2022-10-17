@@ -1,5 +1,18 @@
 # Backend
 
+## Build and Run the App with Docker
+Build the app
+```
+docker-compose build
+```
+
+Startup the app
+```
+docker-compose up
+```
+
+## Build and Run the App without Docker
+
 ## Dependencies
 Install dependencies
 ```
@@ -23,4 +36,9 @@ export PATH="$PATH:$HOME/go/bin/"
 ## Run web app
 ```
 mage -v run
+```
+
+## Test the web app
+```
+mage -v test
 ```
