@@ -1,8 +1,7 @@
 # syntax=docker/dockerfile:1
 
-# Use Debian as OS
+# Use Alpine as OS
 FROM node:16-alpine
-# FROM node:16-bullseye
 
 # Update and install gcc and make
 RUN apk update && \

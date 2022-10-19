@@ -1,7 +1,7 @@
 # syntax=docker/dockerfile:1
 
 # Use Debian as OS
-FROM golang:1.18-bullseye
+FROM golang:1.19-bullseye
 
 # Update and install gcc and make
 RUN apt update && \
@@ -29,8 +29,4 @@ EXPOSE 8080
 
 # Run the executable
 CMD [ "./build/app" ]
-
-
-
-
 
