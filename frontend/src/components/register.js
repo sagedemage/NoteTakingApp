@@ -1,5 +1,6 @@
+/* Registration Page */
+
 import {useEffect} from "react";
-import "./register.css"
 
 import PasswordValidator from "./password-validator"
 
@@ -11,8 +12,6 @@ export const Register = () => {
 		// Start Password Validator
 		PasswordValidator();
 	}, []);
-
-	/* Registration Submition */
 
 	const [email, setEmail] = useState('');
 	const [username, setUsername] = useState('');
@@ -39,6 +38,7 @@ export const Register = () => {
   	};
 
 	const handleSubmit = async (e) => {
+		/* Registration Submission */
 		e.preventDefault();
 		console.log(email, username, password, confirm_pwd);
 		axios.post(`http://localhost:8080/api/register`, {

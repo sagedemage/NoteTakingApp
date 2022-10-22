@@ -1,4 +1,4 @@
-import "./home.css";
+/* Page Not Found Page */
 
 export const PageNotFound = () => {
 	return (

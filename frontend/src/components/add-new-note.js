@@ -1,5 +1,7 @@
+/* Add New Note Page */
+
 import axios from "axios";
-import {useState} from "react";
+import { useState } from "react";
 import Cookies from 'universal-cookie';
 
 export const AddNoteForm = () => {
@@ -19,6 +21,7 @@ export const AddNoteForm = () => {
 	}
 
 	const handleSubmit = async (e) => {
+		/* Add New Note Submission */
 		e.preventDefault();
 		const cookies = new Cookies();
 		const user_id = parseInt(cookies.get("user_id"));

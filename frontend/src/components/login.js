@@ -1,4 +1,4 @@
-import "./home.css"
+/* Login Page */
 
 import axios from "axios";
 import {useEffect, useState} from "react";

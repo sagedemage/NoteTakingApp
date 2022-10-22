@@ -1,4 +1,4 @@
-import "./home.css"
+/* About Page */
 
 export const About = () => {
 	return (

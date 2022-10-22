@@ -1,4 +1,4 @@
-import "./home.css"
+/* Logout Action */
 
 import axios from "axios";
 import Cookies from 'universal-cookie';

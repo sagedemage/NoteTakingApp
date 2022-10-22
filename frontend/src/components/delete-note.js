@@ -4,7 +4,6 @@ export const DeleteNote = () => {
 
 	let url = new URL(window.location.href);
 	const note_id = parseInt(url.searchParams.get("note_id"));
-	console.log(note_id);
 
 	if (note_id === null) {
 		window.location.href = '/';
@@ -15,8 +14,8 @@ export const DeleteNote = () => {
 	}
 
 	const handleSubmit = async (e) => {
+		/* Delete Note Submission */
 		e.preventDefault();
-		//const cookies = new Cookies();
 		axios.post(`http://localhost:8080/api/delete-note`, {
 			note_id: note_id,
 		}).then((response) => {

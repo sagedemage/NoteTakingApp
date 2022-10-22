@@ -1,3 +1,5 @@
+/* View Notes Page (Dashboard Page) */
+
 import {useEffect, useState} from "react";
 import Cookies from "universal-cookie";
 import axios from "axios";
@@ -8,6 +10,7 @@ export const Notes = () => {
 	const [notes, setNotes] = useState([]);
 
 	useEffect(() => {
+		/* Fetch all the Notes for the Current User */
 		const cookies = new Cookies();
 		const user_id = parseInt(cookies.get("user_id"));
 		axios.post(`http://localhost:8080/api/view-notes`, {
@@ -27,24 +30,26 @@ export const Notes = () => {
 	}
 
 	function DeleteNote(note_id) {
-		// create new url of the login page
+		/* Delete Note Page Redirection */
+		// create new url of the delete note page
 		var url = new URL("/delete-note", "http://localhost:3000");
 
 		// add url parameter
 		url.searchParams.append("note_id", note_id);
 
-		// redirect to the login page
+		// redirect to that url
 		window.location.href = url;
 	}
 
 	function EditNote(note_id) {
-		// create new url of the login page
+		/* Edit Note Page Redirection */
+		// create new url of the edit note page
 		var url = new URL("/edit-note", "http://localhost:3000");
 
 		// add url parameter
 		url.searchParams.append("note_id", note_id);
 
-		// redirect to the login page
+		// redirect to that url
 		window.location.href = url;
 	}
 

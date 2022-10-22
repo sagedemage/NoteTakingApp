@@ -1,3 +1,5 @@
+/* Navigation Bar */
+
 import "./navigation-bar.css";
 
 import { Nav, Navbar, Container } from 'react-bootstrap';

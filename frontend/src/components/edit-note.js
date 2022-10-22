@@ -1,3 +1,5 @@
+/* Edit Page */
+
 import axios from "axios";
 import {useState, useEffect} from "react";
 
@@ -26,6 +28,7 @@ export const EditNoteForm = () => {
 	}
 
 	useEffect(() => {
+		/* Fetch Note */
 		axios.post(`http://localhost:8080/api/fetch-note`, {
 			note_id: note_id,
 		}).then((response) => {
