@@ -1,4 +1,4 @@
-/* Edit Page */
+/* Edit Note Page */
 
 import axios from "axios";
 import {useState, useEffect} from "react";

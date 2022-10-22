@@ -1,3 +1,5 @@
+/* Delete Note Page */
+
 import axios from "axios";
 
 export const DeleteNote = () => {
