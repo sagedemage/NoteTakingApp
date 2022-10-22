@@ -43,13 +43,12 @@ function App() {
 					</Route>
 				</Routes>
 			</div>
-			<footer className="footer-bottom">
-				<div id="copyright">
-					<p id="copyright"> &copy; {(new Date().getFullYear())} Salmaan Saeed </p>
-				</div>
+			<footer id="copyright">
+				<p> &copy; {(new Date().getFullYear())} Salmaan Saeed </p>
 			</footer>
 		</div>
 	);
 }
 
 export default App;
+
