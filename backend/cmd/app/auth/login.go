@@ -25,19 +25,17 @@ func is_user_valid(db *gorm.DB, username string, password string) (uint, error) 
 	// Get entry with the specified email or username
 	db.Where("email = ? OR username = ?", username, username).First(&user)
 
-	// Incorrect username or password (Reddit, GitHub)
-
 	if username == user.Email || username == user.Username {
-		// Check if the email or username exists
+		/* Check if the email or username exists */
 		// compare the password to the password hash
 		err := bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(password))
 
 		if err != nil {
-			// Check if the password is incorrect
+			/* Check if the password is incorrect */
 			return user.ID, errors.New("incorrect username or password")
 		}
 	} else if username != user.Email || username != user.Username {
-		// Check if the email or username does not exists
+		/* Check if the email or username does not exists */
 		return user.ID, errors.New("incorrect username or password")
 	}
 

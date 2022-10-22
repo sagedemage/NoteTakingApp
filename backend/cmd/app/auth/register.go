@@ -74,7 +74,7 @@ func Register(db *gorm.DB) gin.HandlerFunc {
 				"msg_success": "Registered Successfully",
 			})
 		} else {
-			// json message
+			// Send error message
 			c.JSON(200, data_types.JSON{ // 401
 				"registered": false, 
 				"msg_error": err.Error(),
