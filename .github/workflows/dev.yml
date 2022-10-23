@@ -15,8 +15,8 @@ jobs:
       with:
         go-version: 1.18
 
-    - name: Go to the backend directory
-      run: cd backend
+    - name: Backend App Directory
+      working-directory: ./backend
 
     - name: Verify dependencies
       run: go mod verify
