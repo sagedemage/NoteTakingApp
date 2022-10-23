@@ -28,4 +28,3 @@ func DeleteNote(db *gorm.DB) gin.HandlerFunc {
 	}
 	return gin.HandlerFunc(fn)
 }
-
