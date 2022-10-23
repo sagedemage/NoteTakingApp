@@ -11,41 +11,33 @@ remembering what was in my mind lasted time. My goal is is to create a note taki
 I can use on my home server. I use raspberry pi as my home server.
 
 ## Building the Project
-Build and Run Using Docker Compose (Option 1)
+Go to the root of the repository
+```
+cd Notebook
+```
+
+Build the Docker image
 ```
 docker-compose build
 ```
+
+Start up the Docker image
 ```
 docker-compose up
 ```
 
-Quick Run (Option 2)
-```
-mage -v run
-```
-***Note***: *Look at Mage build system installation below*
+## Frontend:
+### Frameworks:
+* [facebook/react](https://github.com/facebook/react/)
+	* [reactjs.org](https://reactjs.org/)
 
-## Mage build system Installation
-Install Mage build system
-```
-git clone https://github.com/magefile/mage
-cd mage
-go run bootstrap.go
-```
-If on Linux, export the go bin direcotory
-```
-export PATH="$PATH:$HOME/go/bin/"
-```
-
-## Frameworks:
+## Backend:
+### Frameworks:
 * [gin-gonic/gin](https://github.com/gin-gonic/gin)
 	* [gin-gonic.com](https://gin-gonic.com/)
 
-## Libraries:
+### Libraries:
 * [go-gorm/gorm](https://github.com/go-gorm/gorm)
 	* [gorm.io](https://gorm.io/)
 
-## Gin Contrib
-* [gin-contrib/sessions](https://github.com/gin-contrib/sessions)
-* [gin-contrib/multitemplate](https://github.com/gin-contrib/multitemplate)
 

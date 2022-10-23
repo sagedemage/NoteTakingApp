@@ -16,20 +16,26 @@ jobs:
         go-version: 1.18
 
     - name: Verify dependencies
+      working-directory: ./backend
       run: go mod verify
 
     - name: Install staticcheck
+      working-directory: ./backend
       run: go install honnef.co/go/tools/cmd/staticcheck@latest
 
     - name: Build
+      working-directory: ./backend
       run: go build -o build/ -v ./cmd/app/...
 
     - name: Vet
+      working-directory: ./backend
       run: go vet ./cmd/app/...
 
     - name: Lint
+      working-directory: ./backend
       run: staticcheck ./cmd/app/...
 
     - name: Test
+      working-directory: ./backend
       run: go test -v -cover ./cmd/app/tests/...
     

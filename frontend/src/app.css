@@ -1,0 +1,54 @@
+#body {
+	min-height: 100vh;
+	display: flex;
+	flex-direction: column;
+}
+
+#content {
+    margin-top: 50px;
+}
+
+#copyright {
+	height: 75px;
+	text-align: center;
+	margin-top: auto;
+}
+
+.bg-myBlue {
+    background-color: RoyalBlue;
+}
+
+.gaps {
+    margin-right: 16%;
+    margin-left: 16%;
+}
+
+.scale_image {
+	max-width: 50%;
+	height: auto;
+}
+
+/* mobile portrait layout */
+@media only screen and (max-width: 479px) {
+	.scale_image {
+		max-width: 100%;
+		height: auto;
+	}
+}
+
+/* tablet portrait layout */
+@media only screen and (min-width: 481px) and (max-width: 768px)  { 
+	.scale_image {
+		max-width: 100%;
+		height: auto;
+	}
+}
+
+/* small screens and laptop layout */
+@media only screen and (min-width: 769px) and (max-width: 1024px) {
+	.scale_image {
+		max-width: 80%;
+		height: auto;
+	}
+}
+
