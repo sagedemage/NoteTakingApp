@@ -16,10 +16,6 @@ func FetchNote(db *gorm.DB) gin.HandlerFunc {
 	fn := func(c *gin.Context) {
 		/* Fetch the note data in order to 
 		easily edit note quickly */
-		type RequestBody struct {
-			NoteID uint `json:"note_id"`
-		}
-
 		var body request_bodies.DeleteorFetchNoteRequest
 
 		// Get JSON Request Body

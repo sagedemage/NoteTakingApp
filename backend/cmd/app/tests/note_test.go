@@ -9,7 +9,7 @@ import (
 
 	"encoding/json"
 
-	"io/ioutil"
+	"io"
 	
 	"testing"
 
@@ -71,7 +71,7 @@ func TestFetchNote(t *testing.T) {
 	r.ServeHTTP(w, request)
 
 	// get response data
-	responseData, _ := ioutil.ReadAll(w.Body)
+	responseData, _ := io.ReadAll(w.Body)
 
 	// check if the response data is correct
 	assert.Equal(t, mockResponse, string(responseData))
@@ -103,7 +103,7 @@ func TestViewNotes(t *testing.T) {
 	r.ServeHTTP(w, request)
 
 	// get response data
-	responseData, _ := ioutil.ReadAll(w.Body)
+	responseData, _ := io.ReadAll(w.Body)
 
 	// check if the response data is correct
 	assert.Contains(t, string(responseData), `"Description":"description"`)

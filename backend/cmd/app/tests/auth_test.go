@@ -5,7 +5,7 @@ import (
 	
 	"encoding/json"
 	
-	"io/ioutil"
+	"io"
 	
 	"net/http"
 
@@ -49,7 +49,7 @@ func TestRegistrationSuccess(t *testing.T) {
 	r.ServeHTTP(w, request)
 
 	// get response data
-	responseData, _ := ioutil.ReadAll(w.Body)
+	responseData, _ := io.ReadAll(w.Body)
 
 	// check if the response data is correct
 	assert.Equal(t, mockResponse, string(responseData))
@@ -87,7 +87,7 @@ func TestRegistrationEmailAlreadyExistsFailure(t *testing.T) {
 	r.ServeHTTP(w, request)
 
 	// get response data
-	responseData, _ := ioutil.ReadAll(w.Body)
+	responseData, _ := io.ReadAll(w.Body)
 
 	// check the response data is correct
 	assert.Equal(t, mockResponse, string(responseData))
@@ -125,7 +125,7 @@ func TestRegistrationUsernameAlreadyExistsFailure(t *testing.T) {
 	r.ServeHTTP(w, request)
 
 	// get reponse data
-	responseData, _ := ioutil.ReadAll(w.Body)
+	responseData, _ := io.ReadAll(w.Body)
 
 	// check reponse data is correct
 	assert.Equal(t, mockResponse, string(responseData))
@@ -163,7 +163,7 @@ func TestRegistrationPasswordMustMatchFailure(t *testing.T) {
 	r.ServeHTTP(w, request)
 
 	// get reponse data
-	responseData, _ := ioutil.ReadAll(w.Body)
+	responseData, _ := io.ReadAll(w.Body)
 
 	// check the resonse data is correct
 	assert.Equal(t, mockResponse, string(responseData))
@@ -201,7 +201,7 @@ func TestRegistrationShortPasswordFailure(t *testing.T) {
 	r.ServeHTTP(w, request)
 
 	// get response data
-	responseData, _ := ioutil.ReadAll(w.Body)
+	responseData, _ := io.ReadAll(w.Body)
 
 	// check response data is correct
 	assert.Equal(t, mockResponse, string(responseData))
@@ -239,7 +239,7 @@ func TestLoginSuccessWithEmail(t *testing.T) {
 	r.ServeHTTP(w, request)
 
 	// get response data
-	responseData, _ := ioutil.ReadAll(w.Body)
+	responseData, _ := io.ReadAll(w.Body)
 
 	// check if the response data is correct
 	assert.Equal(t, mockResponse, string(responseData))
@@ -275,7 +275,7 @@ func TestLoginSuccessWithUsername(t *testing.T) {
 	r.ServeHTTP(w, request)
 
 	// get response data
-	responseData, _ := ioutil.ReadAll(w.Body)
+	responseData, _ := io.ReadAll(w.Body)
 
 	// check if the response data is correct
 	assert.Equal(t, mockResponse, string(responseData))
@@ -311,7 +311,7 @@ func TestLoginEmailDoesNotExistFailure(t *testing.T) {
 	r.ServeHTTP(w, request)
 
 	// get response data
-	responseData, _ := ioutil.ReadAll(w.Body)
+	responseData, _ := io.ReadAll(w.Body)
 
 	// check if the response data is correct
 	assert.Equal(t, mockResponse, string(responseData))
@@ -347,7 +347,7 @@ func TestLoginUsernameDoesNotExistFailure(t *testing.T) {
 	r.ServeHTTP(w, request)
 
 	// get response data
-	responseData, _ := ioutil.ReadAll(w.Body)
+	responseData, _ := io.ReadAll(w.Body)
 
 	// check if the response data is correct
 	assert.Equal(t, mockResponse, string(responseData))
@@ -383,7 +383,7 @@ func TestLoginPasswordIncorrectFailure(t *testing.T) {
 	r.ServeHTTP(w, request)
 
 	// get response data
-	responseData, _ := ioutil.ReadAll(w.Body)
+	responseData, _ := io.ReadAll(w.Body)
 
 	// check if the response data is correct
 	assert.Equal(t, mockResponse, string(responseData))
@@ -412,7 +412,7 @@ func TestLogout(t *testing.T) {
 	r.ServeHTTP(w, request)
 
 	// get response data
-	responseData, _ := ioutil.ReadAll(w.Body)
+	responseData, _ := io.ReadAll(w.Body)
 
 	// check if the reponse data is correct
 	assert.Equal(t, mockResponse, string(responseData))
