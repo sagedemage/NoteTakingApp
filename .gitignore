@@ -4,4 +4,5 @@ build
 *.xcf
 *~
 backend/database/notebook.db
+backend/database_password.txt
 

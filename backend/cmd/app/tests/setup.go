@@ -24,7 +24,7 @@ func change_to_repo_root_Dir() {
 
 func run_app() *gin.Engine{
 	// Open database
-	db := notebook_db.InitDB("database/notebook.db")
+	db := notebook_db.UseSQLite("database/notebook.db")
 
 	// setup routerr
 	r := router_setup.InitializeRouter(db)
