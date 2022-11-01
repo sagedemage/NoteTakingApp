@@ -11,8 +11,7 @@ services:
     build:
       context: ./backend
       dockerfile: Dockerfile
-    ports:
-      - "8080:8080"
+    network_mode: "host"
     restart: unless-stopped
   
 
