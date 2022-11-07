@@ -17,9 +17,10 @@ ADD . ./
 ADD cmd/app/*.go ./
 
 # Install the go external packages
-RUN go get -u github.com/gin-gonic/gin \ 
-	gorm.io/gorm \
-	gorm.io/driver/sqlite
+RUN go get -u github.com/gin-gonic/gin
+RUN go get -u gorm.io/gorm
+RUN go get -u gorm.io/driver/mysql
+RUN go get -u github.com/gin-contrib/cors
 
 # Build the Go app
 RUN go build -o build/ -v ./cmd/app/...

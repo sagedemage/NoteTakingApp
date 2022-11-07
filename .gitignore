@@ -3,5 +3,6 @@ build
 *.png
 *.xcf
 *~
-backend/database/notebook.db
+backend/cmd/app/tests/database/notebook.db 
+backend/database_password.txt
 

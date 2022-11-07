@@ -8,7 +8,7 @@ import (
 
 func Start() {
 	// Open database
-	db := notebook_db.InitDB("database/notebook.db")
+	db := notebook_db.InitDB()
 	
 	// Initialize the router
 	router := router_setup.InitializeRouter(db)
