@@ -54,5 +54,8 @@ func InitializeRouter(db *gorm.DB) *gin.Engine {
 	// Edit Note from POST request
 	api.POST("/edit-note", notes.EditNote(db))
 
+	// Get Decoded Token from POST request
+	api.POST("/get-decoded-token", auth.GetDecodedToken)
+
 	return router
 }
