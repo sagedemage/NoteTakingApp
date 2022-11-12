@@ -20,7 +20,7 @@ export const MyNavBar = () => {
 	
 	//const isAuth = useAuth();
 
-	const [isAuth, setAuth] = useState([]);
+	const [isAuth, setAuth] = useState(false);
 
 	useEffect(() => {
 		/* Fetch all the Notes for the Current User */
