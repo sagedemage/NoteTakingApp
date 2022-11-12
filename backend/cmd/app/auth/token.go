@@ -2,21 +2,16 @@ package auth
 
 import (
 	"errors"
-	//"log"
 	"os"
-
 	"time"
-
 	"github.com/gin-gonic/gin"
 	"github.com/golang-jwt/jwt/v4"
-
 	"github.com/joho/godotenv"
-
 	"notebook_app/cmd/app/data_types"
-	//"notebook_app/cmd/app/request_bodies"
 )
 
 func getSecretKey()(string){
+	/* Get Secret Key from Envionment Variable */
 	err := godotenv.Load(".env")
 
 	if err != nil {
@@ -29,16 +24,8 @@ func getSecretKey()(string){
 }
 
 func GenerateToken(user_id uint) (string, error) {
-	//secretkey := "abc123"
-	secretkey := getSecretKey()
-
-	var SigningKey = []byte(secretkey)
-
-	// HS256 works
-
-	// EdDSA does not work
-
-	//jwt.SigningMethodHS256.
+	// create signing key with secretkey
+	var SigningKey = []byte(getSecretKey())
 
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
 		"auth": true,
@@ -56,9 +43,8 @@ func GenerateToken(user_id uint) (string, error) {
 }
 
 func decode_token_string(tokenString string)(interface{}, interface{}) {
-	secretkey := getSecretKey()
-
-	var SigningKey = []byte(secretkey)
+	// create signing key with secretkey
+	var SigningKey = []byte(getSecretKey())
 
 	token, err := jwt.Parse(tokenString, func(token *jwt.Token) (interface{}, error) {
 		// Validate the algorithm is what you expect
@@ -81,8 +67,6 @@ func decode_token_string(tokenString string)(interface{}, interface{}) {
 
 func GetDecodedToken(c *gin.Context) {
 	/* Fetch Decode Token */
-	//var body request_bodies.LoginRequest
-
 	type TokenRequest struct {
 		Token string
 	}
