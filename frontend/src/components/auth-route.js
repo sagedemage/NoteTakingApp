@@ -1,12 +1,8 @@
 /* Authorization Routes */
 
 import { Navigate, Outlet, useLocation } from 'react-router-dom';
-//import { useAuth } from "./auth";
-
 import axios from "axios";
-
 import {useEffect, useState} from "react";
-
 import Cookies from "universal-cookie";
 
 export const AuthRoute = () => {

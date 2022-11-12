@@ -9,7 +9,6 @@ export const Logout = async () => {
         if (response.data.auth === false) {
 			const cookies = new Cookies();
 			// set cookie
-			//cookies.set("auth", false);
 			cookies.remove("token");
 
 			// redirect to the home page

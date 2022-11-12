@@ -45,7 +45,6 @@ export const Login = () => {
 			const cookies = new Cookies();
 			if (response.data.auth === true) {
 				// set cookie
-				//cookies.set("auth", response.data.auth);
 				cookies.set("token", response.data.token);
                 window.location.href = '/dashboard';
 			}
