@@ -13,7 +13,6 @@ import (
 	"github.com/joho/godotenv"
 
 	"notebook_app/cmd/app/data_types"
-
 	//"notebook_app/cmd/app/request_bodies"
 )
 
@@ -63,7 +62,7 @@ func decode_token_string(tokenString string)(interface{}, interface{}) {
 
 	token, err := jwt.Parse(tokenString, func(token *jwt.Token) (interface{}, error) {
 		// Validate the algorithm is what you expect
-		if _, ok := token.Method.(*jwt.SigningMethodHMAC); ok {
+		if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
 			return nil, errors.New("Unexpected signing method:")
 		}
 		return SigningKey, nil
