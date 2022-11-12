@@ -2,13 +2,9 @@ package router_setup
 
 import (
 	"github.com/gin-gonic/gin"
-
 	"github.com/gin-contrib/cors"
-
 	"gorm.io/gorm"
-
 	"notebook_app/cmd/app/notes"
-
 	"notebook_app/cmd/app/auth"
 )
 

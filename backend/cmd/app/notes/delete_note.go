@@ -2,11 +2,8 @@ package notes
 
 import (
 	"github.com/gin-gonic/gin"
-
 	"gorm.io/gorm"
-
 	"notebook_app/cmd/app/notebook_db"
-
 	"notebook_app/cmd/app/request_bodies"
 )
 

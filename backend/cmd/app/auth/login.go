@@ -2,17 +2,11 @@ package auth
 
 import (
 	"gorm.io/gorm"
-
 	"errors"
-
 	"github.com/gin-gonic/gin"
-
 	"golang.org/x/crypto/bcrypt"
-
 	"notebook_app/cmd/app/notebook_db"
-
 	"notebook_app/cmd/app/data_types"
-
 	"notebook_app/cmd/app/request_bodies"
 )
 
