@@ -6,9 +6,10 @@ import (
 	"io"
 	"net/http"
 	"net/http/httptest"
-	"testing"
-	"github.com/stretchr/testify/assert"
 	"notebook_app/cmd/app/request_bodies"
+	"testing"
+
+	"github.com/stretchr/testify/assert"
 )
 
 /* Registration */
@@ -384,6 +385,64 @@ func TestLoginPasswordIncorrectFailure(t *testing.T) {
 
 	// check if the response data is correct
 	assert.Equal(t, mockResponse, string(responseData))
+
+	// check if the response is a success
+	assert.Equal(t, http.StatusOK, w.Code)
+}
+
+func TestGetDecodedToken(t *testing.T) {
+	/* Login success with username */
+
+	// mock response data
+	mockResponse := `{"auth":true,"user_id":1}`
+
+	var r = Setup() // router setup
+
+	// writer for the reponse recorder
+	w := httptest.NewRecorder()
+
+	// request body
+	user_login := request_bodies.LoginRequest {
+		Username: "test1000",
+		Password: "test1000",
+	}
+
+	// convert to json
+	jsonValue, _ := json.Marshal(user_login)
+
+	// request for login api
+	request, _ := http.NewRequest("POST", "/api/login", bytes.NewBuffer(jsonValue))
+	
+	// serve request
+	r.ServeHTTP(w, request)
+
+	// get response data
+	responseData, _ := io.ReadAll(w.Body)
+
+	token := string(responseData[22:159])
+
+	type TokenRequest struct {
+		Token string
+	}
+
+	// request body
+	token_request := TokenRequest {
+		Token: token,
+	}
+
+	// convert to json
+	jsonValue, _ = json.Marshal(token_request)
+
+	request, _ = http.NewRequest("POST", "/api/get-decoded-token", bytes.NewBuffer(jsonValue))
+
+	// serve request
+	r.ServeHTTP(w, request)
+
+	// get response data
+	responseData, _ = io.ReadAll(w.Body)
+
+	// check if the response data is correct
+	assert.Equal(t, string(responseData), mockResponse)
 
 	// check if the response is a success
 	assert.Equal(t, http.StatusOK, w.Code)
