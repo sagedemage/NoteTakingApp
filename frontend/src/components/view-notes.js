@@ -9,22 +9,6 @@ export const Notes = () => {
 
 	const [notes, setNotes] = useState([]);
 
-	/*
-	useEffect(() => {
-		/ Fetch all the Notes for the Current User /
-		const cookies = new Cookies();
-		const user_id = parseInt(cookies.get("user_id"));
-		axios.post(`http://localhost:8080/api/view-notes`, {
-			user_id: user_id,
-		}).then((response) => {
-			setNotes(response.data.notes);
-            console.log("Response data " + response.data.notes);
-		}).catch(e => {
-            console.log(e);
-        })
-	}, []);
-	*/
-
 	useEffect(() => {
 		/* Fetch all the Notes for the Current User */
 		const cookies = new Cookies();
@@ -35,20 +19,17 @@ export const Notes = () => {
 			axios.post(`http://localhost:8080/api/get-decoded-token`, {
 				token: token,
 			}).then((response) => {
-				//setNotes(response.data.notes);
 				if (response.data.user_id !== undefined) {
 					user_id = response.data.user_id;
+					axios.post(`http://localhost:8080/api/view-notes`, {
+						user_id: user_id,
+					}).then((response) => {
+						setNotes(response.data.notes);
+					}).catch(e => {
+						console.log(e);
+					})
 				}
-				axios.post(`http://localhost:8080/api/view-notes`, {
-					user_id: user_id,
-				}).then((response) => {
-					setNotes(response.data.notes);
-					console.log("Response data " + response.data.notes);
-				}).catch(e => {
-					console.log(e);
-				})
-				console.log("Response data " + response.data.user_id);
-				console.log("Response data " + user_id);
+				
 			}).catch(e => {
 				console.log(e);
 			})

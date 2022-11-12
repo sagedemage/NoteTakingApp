@@ -12,14 +12,12 @@ import axios from "axios";
 
 import {useEffect, useState} from "react";
 
-import { useAuth } from "./auth";
+//import { useAuth } from "./auth";
 
 import { Logout } from "./logout";
 
 export const MyNavBar = () => {
 	
-	//const isAuth = useAuth();
-
 	const [isAuth, setAuth] = useState(false);
 
 	useEffect(() => {
@@ -31,14 +29,12 @@ export const MyNavBar = () => {
 			axios.post(`http://localhost:8080/api/get-decoded-token`, {
 				token: token,
 			}).then((response) => {
-				//setNotes(response.data.notes);
 				if (response.data.auth === true) {
 					setAuth(true)
 				}
 				else {
 					setAuth(false)
 				}
-				console.log("Response data " + response.data.auth);
 			}).catch(e => {
 				console.log(e);
 			})
