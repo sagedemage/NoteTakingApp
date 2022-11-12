@@ -421,12 +421,8 @@ func TestGetDecodedToken(t *testing.T) {
 
 	token := string(responseData[22:159])
 
-	type TokenRequest struct {
-		Token string
-	}
-
 	// request body
-	token_request := TokenRequest {
+	token_request :=  request_bodies.TokenRequest {
 		Token: token,
 	}
 

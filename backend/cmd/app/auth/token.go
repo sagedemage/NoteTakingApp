@@ -8,6 +8,7 @@ import (
 	"github.com/golang-jwt/jwt/v4"
 	"github.com/joho/godotenv"
 	"notebook_app/cmd/app/data_types"
+	"notebook_app/cmd/app/request_bodies"
 )
 
 func getSecretKey()(string){
@@ -67,11 +68,7 @@ func decode_token_string(tokenString string)(interface{}, interface{}) {
 
 func GetDecodedToken(c *gin.Context) {
 	/* Fetch Decode Token */
-	type TokenRequest struct {
-		Token string
-	}
-
-	var body TokenRequest
+	var body request_bodies.TokenRequest
 
 	// Get JSON Request Body
 	err := c.BindJSON(&body)
