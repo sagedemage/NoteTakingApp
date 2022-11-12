@@ -417,13 +417,23 @@ func TestGetDecodedToken(t *testing.T) {
 	r.ServeHTTP(w, request)
 
 	// get response data
-	responseData, _ := io.ReadAll(w.Body)
+	responseByteData, _ := io.ReadAll(w.Body)
 
-	token := string(responseData[22:159])
+	// convert responseData to string
+	responseData := string(responseByteData)
+
+	type DecodedTokenRequest struct {
+		Token string `json:"token"`
+	}
+
+	decoded_token := DecodedTokenRequest{}
+
+	// put json data into DecodedTokenRequest struct variable
+	json.Unmarshal([]byte(responseData), &decoded_token)
 
 	// request body
 	token_request :=  request_bodies.TokenRequest {
-		Token: token,
+		Token: decoded_token.Token,
 	}
 
 	// convert to json
@@ -435,10 +445,10 @@ func TestGetDecodedToken(t *testing.T) {
 	r.ServeHTTP(w, request)
 
 	// get response data
-	responseData, _ = io.ReadAll(w.Body)
+	responseByteData, _ = io.ReadAll(w.Body)
 
 	// check if the response data is correct
-	assert.Equal(t, string(responseData), mockResponse)
+	assert.Equal(t, string(responseByteData), mockResponse)
 
 	// check if the response is a success
 	assert.Equal(t, http.StatusOK, w.Code)
