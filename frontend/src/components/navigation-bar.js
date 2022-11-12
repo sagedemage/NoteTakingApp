@@ -1,19 +1,11 @@
 /* Navigation Bar */
 
 import "./navigation-bar.css";
-
 import { Nav, Navbar, Container } from 'react-bootstrap';
-
 import NavDropdown from 'react-bootstrap/NavDropdown';
-
-import Cookies from "universal-cookie";
-
 import axios from "axios";
-
 import {useEffect, useState} from "react";
-
-//import { useAuth } from "./auth";
-
+import {getToken} from "./token";
 import { Logout } from "./logout";
 
 export const MyNavBar = () => {
@@ -22,9 +14,7 @@ export const MyNavBar = () => {
 
 	useEffect(() => {
 		/* Fetch all the Notes for the Current User */
-		const cookies = new Cookies();
-		const token = cookies.get("token");
-		console.log(token)
+		const token = getToken();
 		if (token !== undefined) {
 			axios.post(`http://localhost:8080/api/get-decoded-token`, {
 				token: token,

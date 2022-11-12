@@ -1,7 +1,7 @@
 /* View Notes Page (Dashboard Page) */
 
 import {useEffect, useState} from "react";
-import Cookies from "universal-cookie";
+import {getToken} from "./token";
 import axios from "axios";
 import "./view-notes.css";
 
@@ -11,8 +11,7 @@ export const Notes = () => {
 
 	useEffect(() => {
 		/* Fetch all the Notes for the Current User */
-		const cookies = new Cookies();
-		const token = cookies.get("token");
+		const token = getToken();
 		let user_id = undefined;
 		console.log(token)
 		if (token !== undefined) {
