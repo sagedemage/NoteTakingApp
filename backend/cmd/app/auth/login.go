@@ -40,8 +40,6 @@ func is_user_valid(db *gorm.DB, username string, password string) (uint, error) 
 	return user.ID, nil
 }
 
-
-
 func Login(db *gorm.DB) gin.HandlerFunc {
 	fn := func(c *gin.Context) {
 		/* Login */

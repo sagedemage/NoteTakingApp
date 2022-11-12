@@ -1,7 +1,7 @@
 /* Add New Note Page */
 
 import axios from "axios";
-import { useState } from "react";
+import { useState} from "react";
 import Cookies from 'universal-cookie';
 
 export const AddNoteForm = () => {
@@ -23,19 +23,38 @@ export const AddNoteForm = () => {
 	const handleSubmit = async (e) => {
 		/* Add New Note Submission */
 		e.preventDefault();
+
 		const cookies = new Cookies();
-		const user_id = parseInt(cookies.get("user_id"));
-		axios.post(`http://localhost:8080/api/add-new-note`, {
-			title: title,
-			description: description,
-			user_id: user_id,
-		}).then((response) => {
-			// redirect to the dashboard
-            window.location.href = '/dashboard';
-            console.log(response);
-		}).catch(e => {
-            console.log(e);
-        })
+		const token = cookies.get("token");
+		let user_id = undefined;
+		console.log(token)
+		if (token !== undefined) {
+			axios.post(`http://localhost:8080/api/get-decoded-token`, {
+				token: token,
+			}).then((response) => {
+				//setNotes(response.data.notes);
+				if (response.data.user_id !== undefined) {
+					user_id = response.data.user_id;
+				}
+
+				axios.post(`http://localhost:8080/api/add-new-note`, {
+					title: title,
+					description: description,
+					user_id: user_id,
+				}).then((response) => {
+					// redirect to the dashboard
+					window.location.href = '/dashboard';
+					console.log(response);
+				}).catch(e => {
+					console.log(e);
+				})	
+
+				console.log("Response data " + response.data.user_id);
+				console.log("Response data " + user_id);
+			}).catch(e => {
+				console.log(e);
+			})
+		}
 	};
 
 	return (		

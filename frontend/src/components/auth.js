@@ -9,7 +9,10 @@ export const useAuth = () => {
 	const cookies = new Cookies();
 	let auth = cookies.get("auth");
 	if (auth === undefined) {
-		auth = "false";
+		auth = false;
+	}
+	else {
+		auth = true;
 	}
 	return auth;
 }
@@ -19,6 +22,7 @@ export const DecodeToken = () => {
 	/* Get the User Authentication Status */
 	const cookies = new Cookies();
 	let token = cookies.get("token");
+	let auth = "true";
 	if (token === undefined) {
 		auth = "false";
 	}

@@ -1,14 +1,49 @@
 /* Authorization Routes */
 
 import { Navigate, Outlet, useLocation } from 'react-router-dom';
-import { useAuth } from "./auth";
+//import { useAuth } from "./auth";
+
+import axios from "axios";
+
+import {useEffect, useState} from "react";
+
+import Cookies from "universal-cookie";
 
 export const AuthRoute = () => {
 	
-	const isAuth = useAuth();
+	//const isAuth = useAuth();
 	const location = useLocation();
 
-	if (isAuth !== "true") {
+	const [isAuth, setAuth] = useState(false);
+
+	useEffect(() => {
+		/* Fetch all the Notes for the Current User */
+		const cookies = new Cookies();
+		const token = cookies.get("token");
+		console.log(token)
+		if (token !== undefined) {
+			axios.post(`http://localhost:8080/api/get-decoded-token`, {
+				token: token,
+			}).then((response) => {
+				//setNotes(response.data.notes);
+				if (response.data.auth === true) {
+					setAuth(true)
+				}
+				else {
+					setAuth(false)
+				}
+				console.log("Response data " + response.data.auth);
+			}).catch(e => {
+				console.log(e);
+			})
+		}
+		else {
+			setAuth(false)
+		}
+	}, []);
+
+
+	if (isAuth !== true) {
 		return (
 			<div id="home-content">
 				<h2> Unauthorized User </h2>
