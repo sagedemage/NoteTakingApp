@@ -30,3 +30,12 @@ func Test() error {
 	return sh.Run("go", "test", "-v", "-cover", "./cmd/app/tests/...")
 }
 
+func Lint() error {
+	if err := sh.Run("go", "mod", "download"); err != nil {
+		return err
+	}
+	
+	// go test -v -cover ./cmd/app/tests/...
+	return sh.Run("staticcheck", "./cmd/app/...")
+}
+
