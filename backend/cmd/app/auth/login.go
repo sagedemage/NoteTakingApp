@@ -1,21 +1,13 @@
 package auth
 
 import (
-
 	"gorm.io/gorm"
-
 	"errors"
-
 	"github.com/gin-gonic/gin"
-
 	"golang.org/x/crypto/bcrypt"
-
 	"notebook_app/cmd/app/notebook_db"
-
 	"notebook_app/cmd/app/data_types"
-	
 	"notebook_app/cmd/app/request_bodies"
-
 )
 
 func is_user_valid(db *gorm.DB, username string, password string) (uint, error) {
@@ -42,8 +34,6 @@ func is_user_valid(db *gorm.DB, username string, password string) (uint, error) 
 	return user.ID, nil
 }
 
-
-
 func Login(db *gorm.DB) gin.HandlerFunc {
 	fn := func(c *gin.Context) {
 		/* Login */
@@ -62,16 +52,23 @@ func Login(db *gorm.DB) gin.HandlerFunc {
 
 		/* Check if user registration is successful */
 		if err == nil {
-			//serialized := user.Serialize()
-			//token, _ := generateToken(serialized)
+			token, err := GenerateToken(user_id)
+
+			if err != nil {
+				var err = errors.New("Failed to generate token")
+				println(err)
+			}
 
 			c.JSON(200, data_types.JSON{
-				"user_id":  user_id,
-				"auth":  true,
+				"auth": true,
+				"token": token,
 			})
 		} else {
 			// json message
-			c.JSON(200, gin.H{"auth": false, "msg_error": err.Error()})
+			c.JSON(200, gin.H{
+				"auth": false, 
+				"msg_error": err.Error(),
+			})
 		}
 	}
 	return gin.HandlerFunc(fn)

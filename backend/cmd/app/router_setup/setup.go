@@ -2,13 +2,9 @@ package router_setup
 
 import (
 	"github.com/gin-gonic/gin"
-
 	"github.com/gin-contrib/cors"
-
 	"gorm.io/gorm"
-
 	"notebook_app/cmd/app/notes"
-
 	"notebook_app/cmd/app/auth"
 )
 
@@ -53,6 +49,9 @@ func InitializeRouter(db *gorm.DB) *gin.Engine {
 
 	// Edit Note from POST request
 	api.POST("/edit-note", notes.EditNote(db))
+
+	// Get Decoded Token from POST request
+	api.POST("/get-decoded-token", auth.GetDecodedToken)
 
 	return router
 }

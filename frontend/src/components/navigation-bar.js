@@ -1,18 +1,38 @@
 /* Navigation Bar */
 
 import "./navigation-bar.css";
-
 import { Nav, Navbar, Container } from 'react-bootstrap';
-
 import NavDropdown from 'react-bootstrap/NavDropdown';
-
-import { useAuth } from "./auth";
-
+import axios from "axios";
+import {useEffect, useState} from "react";
+import {getToken} from "./token";
 import { Logout } from "./logout";
 
 export const MyNavBar = () => {
 	
-	const isAuth = useAuth();
+	const [isAuth, setAuth] = useState(false);
+
+	useEffect(() => {
+		/* Fetch all the Notes for the Current User */
+		const token = getToken();
+		if (token !== undefined) {
+			axios.post(`http://localhost:8080/api/get-decoded-token`, {
+				token: token,
+			}).then((response) => {
+				if (response.data.auth === true) {
+					setAuth(true)
+				}
+				else {
+					setAuth(false)
+				}
+			}).catch(e => {
+				console.log(e);
+			})
+		}
+		else {
+			setAuth(false)
+		}
+	}, []);
 
 	return (
 		<div className="mb">
@@ -28,13 +48,13 @@ export const MyNavBar = () => {
 							<Nav.Link href="/"> Home </Nav.Link>
 							<Nav.Link href="/about"> About </Nav.Link>
 						</Nav>
-						{ isAuth === "false" &&
+						{ isAuth === false &&
 						<Nav className="ms-auto">
 							<Nav.Link href="/login"> Login </Nav.Link>
 							<Nav.Link href="/register"> Register </Nav.Link>
 						</Nav>
 						}
-						{ isAuth === "true" &&
+						{ isAuth === true &&
 						<Nav className="ms-auto">
 							<NavDropdown
 							  id="nav-dropdown"

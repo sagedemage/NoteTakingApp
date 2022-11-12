@@ -9,8 +9,7 @@ export const Logout = async () => {
         if (response.data.auth === false) {
 			const cookies = new Cookies();
 			// set cookie
-			cookies.set("auth", false);
-			cookies.remove("user_id");
+			cookies.remove("token");
 
 			// redirect to the home page
             window.location.href = '/';

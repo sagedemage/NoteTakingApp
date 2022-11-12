@@ -2,9 +2,7 @@ package notebook_db
 
 import (
 	"gorm.io/gorm"
-
 	"golang.org/x/crypto/bcrypt"
-
 	"notebook_app/cmd/app/data_types"
 )
 
