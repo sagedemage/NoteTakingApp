@@ -55,7 +55,7 @@ func Login(db *gorm.DB) gin.HandlerFunc {
 			token, err := GenerateToken(user_id)
 
 			if err != nil {
-				var err = errors.New("Failed to generate token")
+				var err = errors.New("failed to generate token")
 				println(err)
 			}
 

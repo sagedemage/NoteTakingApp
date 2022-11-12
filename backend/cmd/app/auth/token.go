@@ -1,7 +1,7 @@
 package auth
 
 import (
-	"errors"
+	"fmt"
 	"os"
 	"time"
 	"github.com/gin-gonic/gin"
@@ -50,7 +50,7 @@ func decode_token_string(tokenString string)(interface{}, interface{}) {
 	token, err := jwt.Parse(tokenString, func(token *jwt.Token) (interface{}, error) {
 		// Validate the algorithm is what you expect
 		if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
-			return nil, errors.New("Unexpected signing method:")
+			return nil, fmt.Errorf("unexpected signing method: %v", token.Header["alg"])
 		}
 		return SigningKey, nil
 	})
