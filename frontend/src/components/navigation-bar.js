@@ -9,9 +9,7 @@ import {getToken} from "./token";
 import { Logout } from "./logout";
 
 export const MyNavBar = () => {
-	
 	const [isAuth, setAuth] = useState(false);
-
 	useEffect(() => {
 		/* Fetch all the Notes for the Current User */
 		const token = getToken();
@@ -56,14 +54,12 @@ export const MyNavBar = () => {
 						}
 						{ isAuth === true &&
 						<Nav className="ms-auto">
-							<NavDropdown
-							  id="nav-dropdown"
-							  title="Account"
-							  menuVariant="dark"
-							  variant="dark"
-							>
+							<NavDropdown id="nav-dropdown" title="Account"
+								menuVariant="dark" variant="dark">
 								<NavDropdown.Item href="/dashboard">Notes</NavDropdown.Item>
-								<NavDropdown.Item onClick={() => Logout() }>Logout</NavDropdown.Item>
+								<NavDropdown.Item onClick={() => Logout() }>
+									Logout
+								</NavDropdown.Item>
 							</NavDropdown>
 						</Nav>
 						}

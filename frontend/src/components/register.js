@@ -17,22 +17,18 @@ export const Register = () => {
 	const [username, setUsername] = useState('');
 	const [password, setPassword] = useState('');
 	const [confirm_pwd, setConfirm] = useState('');
-
 	const [error_status, setErrorStatus] = useState(false);
 	const [msg_error, setMsgError] = useState('');
 
 	const handleEmailChange = event => {
     	setEmail(event.target.value);
   	};
-
 	const handleUsernameChange = event => {
     	setUsername(event.target.value);
   	};
-
 	const handlePasswordChange = event => {
     	setPassword(event.target.value);
   	};
-
 	const handleConfirmChange = event => {
     	setConfirm(event.target.value);
   	};
@@ -50,10 +46,8 @@ export const Register = () => {
 			if (response.data.registered === true) {
 				// create new url of the login page
 				var url = new URL("/login", "http://localhost:3000");
-
 				// add url parameter
 				url.searchParams.append("msg_success", response.data.msg_success);
-
 				// redirect to the login page
 				window.location.href = url;
 			}
@@ -116,7 +110,8 @@ export const Register = () => {
 				<div id="message" className="col-5">
 					<div className="progress">
 						<div id="p-bar" className="progress-bar bg-success" role="progressbar" 
-							style={{ width: 0 + '%' }} aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">
+							style={{ width: 0 + '%' }} aria-valuenow="25" 
+							aria-valuemin="0" aria-valuemax="100">
 						</div>
 					</div>
 					<p id="has_lowercase"> contains a lowercase letter </p>

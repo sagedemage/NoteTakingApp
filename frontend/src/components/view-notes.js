@@ -1,4 +1,4 @@
-/* View Notes Page (Dashboard Page) */
+/* View Notes (Dashboard) */
 
 import {useEffect, useState} from "react";
 import {getToken} from "./token";
@@ -6,7 +6,7 @@ import axios from "axios";
 import "./view-notes.css";
 
 export const Notes = () => {
-
+	/* View Notes Page (Dashboard Page) */
 	const [notes, setNotes] = useState([]);
 
 	useEffect(() => {
@@ -35,8 +35,6 @@ export const Notes = () => {
 		}
 	}, []);
 
-	console.log("Notes data: " + notes);
-
 	const AddNewNote = () => {
 		window.location.href='/add-new-note';
 	}
@@ -52,7 +50,6 @@ export const Notes = () => {
 		// redirect to that url
 		window.location.href = url;
 	}
-
 	function EditNote(note_id) {
 		/* Edit Note Page Redirection */
 		// create new url of the edit note page

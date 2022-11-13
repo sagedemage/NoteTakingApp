@@ -70,9 +70,13 @@ export const AddNoteForm = () => {
 						onChange={handleDescriptionChange}
 						required> </textarea>
 				</div>
-
-				<button type="submit" className="btn btn-primary">Submit</button>
-				<button type="button" className="btn btn-secondary" onClick={ GoBack }>Back</button>
+				<button type="submit" className="btn btn-primary">
+					Submit
+				</button>
+				<button type="button" className="btn btn-secondary" 
+					onClick={ GoBack }>
+					Back
+				</button>
 			</form>
 		</div>
 	);

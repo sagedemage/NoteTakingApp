@@ -1,9 +1,9 @@
-/* Logout Action */
-
+/* Logout */
 import axios from "axios";
 import Cookies from 'universal-cookie';
 
 export const Logout = async () => {
+	/* Logout Action */
     axios.get(`http://localhost:8080/api/logout`, {
     }).then((response) => {
         if (response.data.auth === false) {

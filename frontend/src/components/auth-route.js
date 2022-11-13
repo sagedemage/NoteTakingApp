@@ -6,10 +6,7 @@ import {useEffect, useState} from "react";
 import Cookies from "universal-cookie";
 
 export const AuthRoute = () => {
-	
-	//const isAuth = useAuth();
-	const location = useLocation();
-
+	const origin = useLocation();
 	const [isAuth, setAuth] = useState(false);
 
 	useEffect(() => {
@@ -21,7 +18,6 @@ export const AuthRoute = () => {
 			axios.post(`http://localhost:8080/api/get-decoded-token`, {
 				token: token,
 			}).then((response) => {
-				//setNotes(response.data.notes);
 				if (response.data.auth === true) {
 					setAuth(true)
 				}
@@ -48,5 +44,5 @@ export const AuthRoute = () => {
 		);
 	}
 	
-	return isAuth ? <Outlet /> : <Navigate to="/" replace state={{ from: location }} />;
+	return isAuth ? <Outlet /> : <Navigate to="/" replace state={{ from: origin }} />;
 }
