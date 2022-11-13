@@ -8,7 +8,6 @@ import (
 	"net/http/httptest"
 	"notebook_app/cmd/app/request_bodies"
 	"testing"
-
 	"github.com/stretchr/testify/assert"
 )
 

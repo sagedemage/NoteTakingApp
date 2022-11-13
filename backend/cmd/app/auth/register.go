@@ -5,7 +5,6 @@ import (
 	"gorm.io/gorm"
 	"errors"
 	"notebook_app/cmd/app/notebook_db"
-	"notebook_app/cmd/app/data_types"
 	"notebook_app/cmd/app/request_bodies"
 )
 
@@ -63,13 +62,13 @@ func Register(db *gorm.DB) gin.HandlerFunc {
 		/* Check if user registration is successful */
 		if err == nil {
 			// Send success message
-			c.JSON(200, data_types.JSON{
+			c.JSON(200, gin.H{
 				"registered":  true,
 				"msg_success": "Registered Successfully",
 			})
 		} else {
 			// Send error message
-			c.JSON(200, data_types.JSON{ // 401
+			c.JSON(200, gin.H{
 				"registered": false, 
 				"msg_error": err.Error(),
 			})

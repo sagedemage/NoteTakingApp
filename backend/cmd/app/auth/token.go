@@ -7,7 +7,6 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/golang-jwt/jwt/v4"
 	"github.com/joho/godotenv"
-	"notebook_app/cmd/app/data_types"
 	"notebook_app/cmd/app/request_bodies"
 )
 
@@ -80,7 +79,7 @@ func GetDecodedToken(c *gin.Context) {
 
 	auth, user_id := decode_token_string(body.Token)
 
-	c.JSON(200, data_types.JSON{
+	c.JSON(200, gin.H{
 		"auth": auth,
 		"user_id": user_id,
 	})

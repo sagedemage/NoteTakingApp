@@ -6,7 +6,6 @@ import (
 	"github.com/gin-gonic/gin"
 	"golang.org/x/crypto/bcrypt"
 	"notebook_app/cmd/app/notebook_db"
-	"notebook_app/cmd/app/data_types"
 	"notebook_app/cmd/app/request_bodies"
 )
 
@@ -59,7 +58,7 @@ func Login(db *gorm.DB) gin.HandlerFunc {
 				println(err)
 			}
 
-			c.JSON(200, data_types.JSON{
+			c.JSON(200, gin.H{
 				"auth": true,
 				"token": token,
 			})
@@ -77,7 +76,7 @@ func Login(db *gorm.DB) gin.HandlerFunc {
 func Logout(c *gin.Context) {
 	/* Logout */
 
-	c.JSON(200, data_types.JSON{
+	c.JSON(200, gin.H{
 		"auth": false,
 	})
 }

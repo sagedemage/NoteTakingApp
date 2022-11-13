@@ -3,7 +3,7 @@ package notebook_db
 import (
 	"gorm.io/gorm"
 	"golang.org/x/crypto/bcrypt"
-	"notebook_app/cmd/app/data_types"
+	"github.com/gin-gonic/gin"
 )
 
 type User struct {
@@ -31,8 +31,8 @@ func CreateNewUser(db *gorm.DB, email string, username string, password string) 
 	db.Create(&User{Email: email, Username: username, Password: bytes})
 }
 
-func (u *User) Serialize() data_types.JSON {
-	return data_types.JSON{
+func (u *User) Serialize() gin.H{
+	return gin.H{
 		"id": u.ID,
 		"username": u.Username,
 	}
