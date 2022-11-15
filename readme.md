@@ -39,5 +39,6 @@ docker-compose up
 ### Libraries:
 * [go-gorm/gorm](https://github.com/go-gorm/gorm)
 	* [gorm.io](https://gorm.io/)
+* [golang-jwt/jwt](https://github.com/golang-jwt/jwt)
 
 
