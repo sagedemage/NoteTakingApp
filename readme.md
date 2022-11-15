@@ -40,5 +40,6 @@ docker-compose up
 * [go-gorm/gorm](https://github.com/go-gorm/gorm)
 	* [gorm.io](https://gorm.io/)
 * [golang-jwt/jwt](https://github.com/golang-jwt/jwt)
+* [joho/godotenv](https://github.com/joho/godotenv)
 
 

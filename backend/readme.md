@@ -19,7 +19,8 @@ Install dependencies
 go get -u github.com/gin-gonic/gin \ 
 	gorm.io/gorm \
 	gorm.io/driver/sqlite \
-	github.com/golang-jwt/jwt/v4
+	github.com/golang-jwt/jwt/v4 \
+	github.com/joho/godotenv
 ```
 
 ## Mage build system Installation
