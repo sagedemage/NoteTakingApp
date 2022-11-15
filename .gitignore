@@ -5,5 +5,4 @@ build
 .env
 *~
 backend/cmd/app/tests/database/notebook.db 
-backend/database_password.txt
 
