@@ -15,7 +15,7 @@ docker-compose up
 ### Dependencies
 Install dependencies
 ```
-npm install react react-dom react-router-dom react-bootstrap
+npm install react react-dom react-router-dom react-bootstrap axios universal-cookie
 ```
 
 ### Run web app
