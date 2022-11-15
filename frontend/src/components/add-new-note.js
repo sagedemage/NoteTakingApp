@@ -1,8 +1,8 @@
 /* Add New Note Page */
 
 import axios from "axios";
-import { useState } from "react";
-import Cookies from 'universal-cookie';
+import { useState} from "react";
+import {getToken} from "./token";
 
 export const AddNoteForm = () => {
 	const [title, setTitle] = useState('');
@@ -23,19 +23,31 @@ export const AddNoteForm = () => {
 	const handleSubmit = async (e) => {
 		/* Add New Note Submission */
 		e.preventDefault();
-		const cookies = new Cookies();
-		const user_id = parseInt(cookies.get("user_id"));
-		axios.post(`http://localhost:8080/api/add-new-note`, {
-			title: title,
-			description: description,
-			user_id: user_id,
-		}).then((response) => {
-			// redirect to the dashboard
-            window.location.href = '/dashboard';
-            console.log(response);
-		}).catch(e => {
-            console.log(e);
-        })
+		const token = getToken();
+		let user_id = undefined;
+		console.log(token)
+		if (token !== undefined) {
+			axios.post(`http://localhost:8080/api/get-decoded-token`, {
+				token: token,
+			}).then((response) => {
+				if (response.data.user_id !== undefined) {
+					user_id = response.data.user_id;
+					axios.post(`http://localhost:8080/api/add-new-note`, {
+						title: title,
+						description: description,
+						user_id: user_id,
+					}).then((response) => {
+						// redirect to the dashboard
+						window.location.href = '/dashboard';
+						console.log(response);
+					}).catch(e => {
+						console.log(e);
+					})
+				}
+			}).catch(e => {
+				console.log(e);
+			})
+		}
 	};
 
 	return (		
@@ -58,9 +70,13 @@ export const AddNoteForm = () => {
 						onChange={handleDescriptionChange}
 						required> </textarea>
 				</div>
-
-				<button type="submit" className="btn btn-primary">Submit</button>
-				<button type="button" className="btn btn-secondary" onClick={ GoBack }>Back</button>
+				<button type="submit" className="btn btn-primary">
+					Submit
+				</button>
+				<button type="button" className="btn btn-secondary" 
+					onClick={ GoBack }>
+					Back
+				</button>
 			</form>
 		</div>
 	);

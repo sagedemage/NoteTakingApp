@@ -1,15 +1,9 @@
 package notes
 
 import (
-	
 	"github.com/gin-gonic/gin"
-
 	"gorm.io/gorm"
-
 	"notebook_app/cmd/app/notebook_db"
-
-	"notebook_app/cmd/app/data_types"
-
 	"notebook_app/cmd/app/request_bodies"
 )
 
@@ -28,7 +22,7 @@ func ViewNotes(db *gorm.DB) gin.HandlerFunc {
 			// entries of the notes database
 			notes := notebook_db.GetNoteEntries(db, body.UserID)
 
-			c.JSON(200, data_types.JSON{
+			c.JSON(200, gin.H{
 				"notes":  notes,
 			})
 		} 

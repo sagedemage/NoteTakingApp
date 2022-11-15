@@ -1,13 +1,10 @@
 /* Main App */
 
 import './app.css';
-
-import { React } from "react";
-
-import { Route, Routes } from "react-router-dom";
-
+import 'bootstrap/dist/css/bootstrap.min.css';
 import axios from "axios";
-
+import { React } from "react";
+import { Route, Routes } from "react-router-dom";
 import { Home } from "./components/home";
 import { About } from "./components/about";
 import { Login } from "./components/login";
@@ -20,12 +17,8 @@ import { EditNoteForm } from "./components/edit-note";
 import { PageNotFound } from "./components/page-not-found";
 import { MyNavBar } from "./components/navigation-bar";
 
-import 'bootstrap/dist/css/bootstrap.min.css';
-
 function App() {
-
     axios.defaults.withCredentials = true;
-
 	return (
 		<div id="body">
 			<MyNavBar />

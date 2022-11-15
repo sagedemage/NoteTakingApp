@@ -14,3 +14,7 @@ type LoginRequest struct {
 	Password string `json:"password"`
 }
 
+type TokenRequest struct {
+	Token string
+}
+

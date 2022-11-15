@@ -2,7 +2,6 @@ package server
 
 import (
 	"notebook_app/cmd/app/notebook_db"
-
 	"notebook_app/cmd/app/router_setup"
 )
 

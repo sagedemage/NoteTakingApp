@@ -18,11 +18,9 @@ export const EditNoteForm = () => {
 	const handleTitleChange = event => {
     	setTitle(event.target.value);
   	};
-
 	const handleDescriptionChange = event => {
     	setDescription(event.target.value);
   	};
-
 	const GoBack = () => {
 		window.location.href='/dashboard';
 	}
@@ -78,7 +76,10 @@ export const EditNoteForm = () => {
 				</div>
 
 				<button type="submit" className="btn btn-primary">Submit</button>
-				<button type="button" className="btn btn-secondary" onClick={ GoBack }>Back</button>
+				<button type="button" className="btn btn-secondary" 
+					onClick={ GoBack }>
+					Back
+				</button>
 			</form>
 		</div>
 	);

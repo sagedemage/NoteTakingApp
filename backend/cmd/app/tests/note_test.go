@@ -2,19 +2,12 @@ package tests
 
 import (
 	"bytes"
-
 	"net/http"
-
 	"net/http/httptest"
-
 	"encoding/json"
-
 	"io"
-	
 	"testing"
-
 	"github.com/stretchr/testify/assert"
-
 	"notebook_app/cmd/app/request_bodies"
 )
 

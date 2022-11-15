@@ -104,8 +104,6 @@ function ProgressForPasswordOnKeyPress(password_field, progress_bar) {
 	ProgressChangeOnPasswordLength(password_field, progress_bar);
 }
 
-// Export this Function
-
 export default function PasswordValidator() {
 	/* Password Validator */
 	let password_field = document.getElementById("password");

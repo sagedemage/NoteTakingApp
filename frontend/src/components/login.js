@@ -1,17 +1,16 @@
-/* Login Page */
+/* Login */
 
 import axios from "axios";
 import {useEffect, useState} from "react";
 import Cookies from 'universal-cookie';
 
 export const Login = () => {
-
+	/* Login Page */
 	let url = new URL(window.location.href);
 	let msg_success = url.searchParams.get("msg_success");
 
 	const [username, setUsername] = useState('');
 	const [password, setPassword] = useState('');
-
 	const [error_status, setErrorStatus] = useState(false);
 	const [success_status, setSuccessStatus] = useState(false);
 	const [msg_error, setMsgError] = useState('');
@@ -40,11 +39,12 @@ export const Login = () => {
 			username: username,
 			password: password,
 		}).then((response) => {
+			console.log("auth: " + response.data.auth)
+			console.log("token: " + response.data.token)
 			const cookies = new Cookies();
 			if (response.data.auth === true) {
 				// set cookie
-				cookies.set("auth", response.data.auth);
-				cookies.set("user_id", response.data.user_id);
+				cookies.set("token", response.data.token);
                 window.location.href = '/dashboard';
 			}
 			else {

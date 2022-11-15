@@ -2,13 +2,8 @@ package notes
 
 import (
 	"github.com/gin-gonic/gin"
-
 	"gorm.io/gorm"
-
-	"notebook_app/cmd/app/data_types"
-
 	"notebook_app/cmd/app/notebook_db"
-
 	"notebook_app/cmd/app/request_bodies"
 )
 
@@ -30,7 +25,7 @@ func FetchNote(db *gorm.DB) gin.HandlerFunc {
 		note := notebook_db.GetNoteEntry(db, body.NoteID)
 	
 		// return note data
-		c.JSON(200, data_types.JSON{
+		c.JSON(200, gin.H{
 			"title": note.Title,
 			"description": note.Description,
 		})
