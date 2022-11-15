@@ -31,6 +31,11 @@ docker-compose up
 * [facebook/react](https://github.com/facebook/react/)
 	* [reactjs.org](https://reactjs.org/)
 
+### Libraries:
+* [axios/axios](https://github.com/axios/axios)
+	* [axios-http.com](https://axios-http.com/)
+* [universal-cookie](https://github.com/reactivestack/cookies/tree/master/packages/universal-cookie)
+
 ## Backend:
 ### Frameworks:
 * [gin-gonic/gin](https://github.com/gin-gonic/gin)

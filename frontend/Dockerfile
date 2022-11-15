@@ -15,7 +15,7 @@ WORKDIR /app
 COPY . .
 
 # Install all dependencies
-RUN npm install react react-dom react-router-dom react-bootstrap
+RUN npm install react react-dom react-router-dom react-bootstrap axios universal-cookie
 
 # Install serve
 RUN npm install -g serve
