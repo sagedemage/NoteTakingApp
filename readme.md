@@ -33,6 +33,7 @@ docker-compose up
 
 ### Libraries:
 * [axios/axios](https://github.com/axios/axios)
+	* [axios-http.com](https://axios-http.com/)
 * [universal-cookie](https://github.com/reactivestack/cookies/tree/master/packages/universal-cookie)
 
 ## Backend:
