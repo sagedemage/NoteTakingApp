@@ -1,9 +1,9 @@
 package notebook_db
 
 import (
-	"strings"
 	"gorm.io/driver/mysql"
 	"gorm.io/driver/sqlite"
+	"github.com/joho/godotenv"
 	"os"
 	"gorm.io/gorm"
 )
@@ -15,19 +15,14 @@ const DB_PORT = "3306"
 
 func InitDB() *gorm.DB {
 	/* Setup the Database for MySQL */
-
-	var data []byte
-	var db_password string
-	data, err := os.ReadFile("database_password.txt")
+	err := godotenv.Load(".env")
 
 	if err != nil {
 		panic(err)
 	}
 
-	var string_data = string(data)
+	var db_password string = os.Getenv("DB_PASSWORD")
 
-	db_password = strings.TrimSuffix(string_data, "\n")
-	
 	// Open database
 	dsn := DB_USERNAME + ":" + db_password + "@tcp(" + DB_HOST + ")/" + DB_NAME + "?" + 
 	"charset=utf8mb4&parseTime=True&loc=Local"
