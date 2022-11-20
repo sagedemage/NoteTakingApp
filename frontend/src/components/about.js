@@ -6,9 +6,8 @@ export const About = () => {
 			<h2> About </h2>
 			<p> 
 				This is a note taking app called Notebook. 
-				I designed the app so I can I utilize it on
-				my home server when I want to take notes on my other devices. 
-				The home server is running on a Raspberry Pi.
+				You can take notes using this app for keeping up with things
+				you want to remember for doing work or entertainment.
 			</p>
 		</div>
 	);
