@@ -36,14 +36,13 @@ export const MyNavBar = () => {
 		<div className="mb">
 			<Navbar collapseOnSelect expand="lg" bg="myBlue" variant="dark" fixed="top">
 				<Container>
-					<Navbar.Brand>
+					<Navbar.Brand href="/">
 						<span className="indent"> Notebook </span>
 					</Navbar.Brand>
 			
 					<Navbar.Toggle aria-controls="responsive-navbar-nav"  />
 					<Navbar.Collapse id="responsive-navbar-nav">
 						<Nav className="me-auto">
-							<Nav.Link href="/"> Home </Nav.Link>
 							<Nav.Link href="/about"> About </Nav.Link>
 						</Nav>
 						{ isAuth === false &&
