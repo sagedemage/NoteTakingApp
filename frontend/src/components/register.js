@@ -70,7 +70,7 @@ export const Register = () => {
 			</div>
 			}
 			<h2> Register </h2>
-			<div id="rows" className="row">
+			<div className="row">
 				<div id="register_form" className="col col-lg-8">
 					<form method="post" onSubmit={handleSubmit}>
 						<div className="form-group">
