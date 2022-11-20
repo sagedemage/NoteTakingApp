@@ -1,0 +1,13 @@
+/* mobile portrait layout */
+@media only screen and (max-width: 479px) {
+    #register_form {
+        margin-bottom: 30px;
+    }
+}
+
+/* tablet portrait layout */
+@media only screen and (min-width: 481px) and (max-width: 768px)  { 
+	#register_form {
+        margin-bottom: 30px;
+    }
+}

@@ -7,6 +7,8 @@ import PasswordValidator from "./password-validator"
 import axios from "axios";
 import {useState} from "react";
 
+import "./register.css";
+
 export const Register = () => {
 	useEffect(() => {
 		// Start Password Validator
@@ -68,8 +70,8 @@ export const Register = () => {
 			</div>
 			}
 			<h2> Register </h2>
-			<div className="row">
-				<div className="col-7">
+			<div id="rows" className="row">
+				<div id="register_form" className="col col-lg-8">
 					<form method="post" onSubmit={handleSubmit}>
 						<div className="form-group">
 							<label htmlFor="exampleInputEmail1">Email address</label>
@@ -107,7 +109,7 @@ export const Register = () => {
 						<button type="submit" className="btn btn-primary">Submit</button>
 					</form>
 				</div>
-				<div id="message" className="col-5">
+				<div id="message" className="col-md-auto col-lg-4">
 					<div className="progress">
 						<div id="p-bar" className="progress-bar bg-success" role="progressbar" 
 							style={{ width: 0 + '%' }} aria-valuenow="25" 
