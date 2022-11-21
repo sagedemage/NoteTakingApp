@@ -1,11 +1,11 @@
 /* Navigation Bar */
 
-import "./navigation-bar.css";
+import "./navigation_bar.css";
 import { Nav, Navbar, Container } from 'react-bootstrap';
 import NavDropdown from 'react-bootstrap/NavDropdown';
 import axios from "axios";
-import {useEffect, useState} from "react";
-import {getToken} from "./token";
+import { useEffect, useState } from "react";
+import { getToken } from "components/token/token";
 import { Logout } from "./logout";
 
 export const MyNavBar = () => {

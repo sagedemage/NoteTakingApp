@@ -1,11 +1,9 @@
 /* Registration Page */
 
-import {useEffect} from "react";
-
+import { useEffect } from "react";
 import PasswordValidator from "./password-validator"
-
 import axios from "axios";
-import {useState} from "react";
+import { useState } from "react";
 
 import "./register.css";
 
