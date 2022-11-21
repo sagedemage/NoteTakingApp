@@ -1,9 +1,9 @@
 /* View Notes (Dashboard) */
 
-import {useEffect, useState} from "react";
-import {getToken} from "./token";
+import { useEffect, useState } from "react";
+import { getToken } from "components/token/token";
 import axios from "axios";
-import "./view-notes.css";
+import "./view_notes.css";
 
 export const Notes = () => {
 	/* View Notes Page (Dashboard Page) */

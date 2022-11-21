@@ -5,17 +5,17 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import axios from "axios";
 import { React } from "react";
 import { Route, Routes } from "react-router-dom";
-import { Home } from "./components/home";
-import { About } from "./components/about";
-import { Login } from "./components/login";
-import { Register } from "./components/register";
-import { Notes } from "./components/view-notes";
-import { AuthRoute } from "./components/auth-route";
-import { AddNoteForm } from "./components/add-new-note";
-import { DeleteNote } from "./components/delete-note";
-import { EditNoteForm } from "./components/edit-note";
-import { PageNotFound } from "./components/page-not-found";
-import { MyNavBar } from "./components/navigation-bar";
+import { Home } from "./components/simple_pages/home";
+import { About } from "./components/simple_pages/about";
+import { Login } from "./components/login/login";
+import { Register } from "./components/register/register";
+import { Notes } from "./components/view_notes/view_notes";
+import { AuthRoute } from "./components/auth_route/auth_route";
+import { AddNoteForm } from "./components/note_actions/add_new_note";
+import { DeleteNote } from "./components/note_actions/delete_note";
+import { EditNoteForm } from "./components/note_actions/edit_note";
+import { PageNotFound } from "./components/page_not_found/page_not_found";
+import { MyNavBar } from "./components/navigation_bar/navigation_bar";
 
 function App() {
     axios.defaults.withCredentials = true;
