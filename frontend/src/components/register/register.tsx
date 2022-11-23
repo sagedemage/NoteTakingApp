@@ -3,7 +3,7 @@
 import { useEffect } from "react";
 import { PasswordValidator } from "./password-validator"
 import axios from "axios";
-import { useState } from "react";
+import { useState, ChangeEventHandler, FormEventHandler } from "react";
 
 import "./register.css";
 
@@ -20,20 +20,20 @@ export const Register = () => {
 	const [error_status, setErrorStatus] = useState(false);
 	const [msg_error, setMsgError] = useState('');
 
-	const handleEmailChange = event => {
+	const handleEmailChange: ChangeEventHandler<HTMLInputElement> = event => {
     	setEmail(event.target.value);
   	};
-	const handleUsernameChange = event => {
+	const handleUsernameChange: ChangeEventHandler<HTMLInputElement> = event => {
     	setUsername(event.target.value);
   	};
-	const handlePasswordChange = event => {
+	const handlePasswordChange: ChangeEventHandler<HTMLInputElement> = event => {
     	setPassword(event.target.value);
   	};
-	const handleConfirmChange = event => {
+	const handleConfirmChange: ChangeEventHandler<HTMLInputElement> = event => {
     	setConfirm(event.target.value);
   	};
 
-	const handleSubmit = async (e) => {
+	const handleSubmit: FormEventHandler<HTMLFormElement> = async (e) => {
 		/* Registration Submission */
 		e.preventDefault();
 		console.log(email, username, password, confirm_pwd);

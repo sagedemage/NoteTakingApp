@@ -1,7 +1,7 @@
 /* Edit Note Page */
 
 import axios from "axios";
-import { useState, useEffect } from "react";
+import { useState, useEffect, ChangeEventHandler, FormEventHandler } from "react";
 
 export const EditNoteForm = () => {
 	
@@ -15,11 +15,13 @@ export const EditNoteForm = () => {
 	const [title, setTitle] = useState('');
 	const [description, setDescription] = useState('');
 
-	const handleTitleChange = event => {
-    	setTitle(event.target.value);
+	const handleTitleChange: ChangeEventHandler = e => {
+		const target = e.target as HTMLInputElement;
+    	setTitle(target.value);
   	};
-	const handleDescriptionChange = event => {
-    	setDescription(event.target.value);
+	const handleDescriptionChange: ChangeEventHandler = e => {
+		const target = e.target as HTMLInputElement;
+    	setDescription(target.value);
   	};
 	const GoBack = () => {
 		window.location.href='/dashboard';
@@ -39,7 +41,7 @@ export const EditNoteForm = () => {
         })
 	}, []);
 
-	const handleSubmit = async (e) => {
+	const handleSubmit: FormEventHandler<HTMLFormElement> = async (e) => {
 		e.preventDefault();
 		axios.post(`http://localhost:8080/api/edit-note`, {
 			note_id: note_id,

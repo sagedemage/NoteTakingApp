@@ -39,7 +39,7 @@ export const Notes = () => {
 		window.location.href='/add-new-note';
 	}
 
-	function DeleteNote(note_id) {
+	function DeleteNote(note_id: string) {
 		/* Delete Note Page Redirection */
 		// create new url of the delete note page
 		var url = new URL("/delete-note", "http://localhost:3000");
@@ -50,7 +50,7 @@ export const Notes = () => {
 		// redirect to that url
 		window.location.href = String(url);
 	}
-	function EditNote(note_id) {
+	function EditNote(note_id: string) {
 		/* Edit Note Page Redirection */
 		// create new url of the edit note page
 		var url = new URL("/edit-note", "http://localhost:3000");
