@@ -69,7 +69,7 @@ export const EditNoteForm = () => {
 				<div className="form-group">
 					<label htmlFor="exampleFormControlTextarea1">Description</label>
 					<textarea className="form-control" id="exampleFormControlTextarea1" 
-						name="description" rows="3" placeholder="Description"
+						name="description" rows={3} placeholder="Description"
 						value={description}
 						onChange={handleDescriptionChange}
 						required> </textarea>

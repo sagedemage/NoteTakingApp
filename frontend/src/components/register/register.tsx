@@ -1,7 +1,7 @@
 /* Registration Page */
 
 import { useEffect } from "react";
-import PasswordValidator from "./password-validator"
+import { PasswordValidator } from "./password-validator"
 import axios from "axios";
 import { useState } from "react";
 
@@ -49,7 +49,7 @@ export const Register = () => {
 				// add url parameter
 				url.searchParams.append("msg_success", response.data.msg_success);
 				// redirect to the login page
-				window.location.href = url;
+				window.location.href = String(url);
 			}
 			else {
 				setErrorStatus(true);
@@ -109,10 +109,7 @@ export const Register = () => {
 				</div>
 				<div id="message" className="col-md-auto col-lg-4">
 					<div className="progress">
-						<div id="p-bar" className="progress-bar bg-success" role="progressbar" 
-							style={{ width: 0 + '%' }} aria-valuenow="25" 
-							aria-valuemin="0" aria-valuemax="100">
-						</div>
+						<div id="p-bar" className="progress-bar bg-success" role="progressbar"></div>
 					</div>
 					<p id="has_lowercase"> contains a lowercase letter </p>
 					<p id="has_uppercase"> contains an uppercase letter </p>

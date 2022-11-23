@@ -48,7 +48,7 @@ export const Notes = () => {
 		url.searchParams.append("note_id", note_id);
 
 		// redirect to that url
-		window.location.href = url;
+		window.location.href = String(url);
 	}
 	function EditNote(note_id) {
 		/* Edit Note Page Redirection */
@@ -59,7 +59,7 @@ export const Notes = () => {
 		url.searchParams.append("note_id", note_id);
 
 		// redirect to that url
-		window.location.href = url;
+		window.location.href = String(url);
 	}
 
 	return (
