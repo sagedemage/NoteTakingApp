@@ -3,7 +3,7 @@
 import './app.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import axios from "axios";
-import { React } from "react";
+import React from 'react';
 import { Route, Routes } from "react-router-dom";
 import { Home } from "./components/simple_pages/home";
 import { About } from "./components/simple_pages/about";
