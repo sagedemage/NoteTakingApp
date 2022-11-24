@@ -6,7 +6,7 @@ import axios from "axios";
 
 export const DeleteNote = () => {
 	let url = new URL(window.location.href);
-	const note_id = parseInt(url.searchParams.get("note_id"));
+	const note_id = parseInt(url.searchParams.get("note_id")!);
 
 	if (note_id === null) {
 		window.location.href = '/';

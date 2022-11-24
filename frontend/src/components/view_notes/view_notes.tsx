@@ -73,16 +73,16 @@ export const Notes = () => {
 			{notes.map((note, i) => {
 				return (
 				<div className="container note-entry" key={i}>
-					<h2 className="note-title"> { note.Title } </h2>
-					<p> { note.Description } </p>
+					<h2 className="note-title"> { note["Title"] } </h2>
+					<p> { note["Description"] } </p>
 					<div className="row">
 						<div className="col col-md-auto">
 							<button className="btn btn-primary"
-								onClick={ () => EditNote(note.ID) }>Edit</button>
+								onClick={ () => EditNote(note["ID"]) }>Edit</button>
 						</div>
 						<div className="col col-md-auto">	
 							<button className="btn btn-danger" 
-							onClick={ () => DeleteNote(note.ID) }>Delete</button>
+							onClick={ () => DeleteNote(note["ID"]) }>Delete</button>
 						</div>
 					</div>
 				</div>

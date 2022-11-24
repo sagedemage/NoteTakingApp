@@ -2,6 +2,9 @@
     "compilerOptions": {
       "baseUrl": "src",
 	  "jsx": "react-jsx",
+	  "strict": true,
+	  "noUnusedLocals": true,
+	  "noUnusedParameters": true,
 	  "esModuleInterop": true,
 	  "allowSyntheticDefaultImports": true
     },
