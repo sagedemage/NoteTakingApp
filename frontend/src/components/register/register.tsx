@@ -1,9 +1,9 @@
 /* Registration Page */
 
 import { useEffect } from "react";
-import PasswordValidator from "./password-validator"
+import { PasswordValidator } from "./password-validator"
 import axios from "axios";
-import { useState } from "react";
+import { useState, ChangeEventHandler, FormEventHandler } from "react";
 
 import "./register.css";
 
@@ -20,20 +20,20 @@ export const Register = () => {
 	const [error_status, setErrorStatus] = useState(false);
 	const [msg_error, setMsgError] = useState('');
 
-	const handleEmailChange = event => {
+	const handleEmailChange: ChangeEventHandler<HTMLInputElement> = event => {
     	setEmail(event.target.value);
   	};
-	const handleUsernameChange = event => {
+	const handleUsernameChange: ChangeEventHandler<HTMLInputElement> = event => {
     	setUsername(event.target.value);
   	};
-	const handlePasswordChange = event => {
+	const handlePasswordChange: ChangeEventHandler<HTMLInputElement> = event => {
     	setPassword(event.target.value);
   	};
-	const handleConfirmChange = event => {
+	const handleConfirmChange: ChangeEventHandler<HTMLInputElement> = event => {
     	setConfirm(event.target.value);
   	};
 
-	const handleSubmit = async (e) => {
+	const handleSubmit: FormEventHandler<HTMLFormElement> = async (e) => {
 		/* Registration Submission */
 		e.preventDefault();
 		console.log(email, username, password, confirm_pwd);
@@ -49,7 +49,7 @@ export const Register = () => {
 				// add url parameter
 				url.searchParams.append("msg_success", response.data.msg_success);
 				// redirect to the login page
-				window.location.href = url;
+				window.location.href = String(url);
 			}
 			else {
 				setErrorStatus(true);
@@ -109,10 +109,7 @@ export const Register = () => {
 				</div>
 				<div id="message" className="col-md-auto col-lg-4">
 					<div className="progress">
-						<div id="p-bar" className="progress-bar bg-success" role="progressbar" 
-							style={{ width: 0 + '%' }} aria-valuenow="25" 
-							aria-valuemin="0" aria-valuemax="100">
-						</div>
+						<div id="p-bar" className="progress-bar bg-success" role="progressbar"></div>
 					</div>
 					<p id="has_lowercase"> contains a lowercase letter </p>
 					<p id="has_uppercase"> contains an uppercase letter </p>

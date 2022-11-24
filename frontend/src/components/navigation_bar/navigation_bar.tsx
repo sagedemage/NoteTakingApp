@@ -53,8 +53,7 @@ export const MyNavBar = () => {
 						}
 						{ isAuth === true &&
 						<Nav className="ms-auto">
-							<NavDropdown id="nav-dropdown" title="Account"
-								menuVariant="dark" variant="dark">
+							<NavDropdown id="nav-dropdown" title="Account" menuVariant="dark">
 								<NavDropdown.Item href="/dashboard">Notes</NavDropdown.Item>
 								<NavDropdown.Item onClick={() => Logout() }>
 									Logout

@@ -1,7 +1,7 @@
 /* Login */
 
 import axios from "axios";
-import {useEffect, useState} from "react";
+import { FormEventHandler, ChangeEventHandler, useEffect, useState } from "react";
 import Cookies from 'universal-cookie';
 
 export const Login = () => {
@@ -24,15 +24,17 @@ export const Login = () => {
 		}
 	});
 
-	const handleUsernameChange = event => {
-    	setUsername(event.target.value);
+	const handleUsernameChange: ChangeEventHandler<HTMLInputElement> = e => {
+		const target = e.target as HTMLInputElement;
+    	setUsername(target.value);
   	};
 
-	const handlePasswordChange = event => {
-    	setPassword(event.target.value);
+	const handlePasswordChange: ChangeEventHandler<HTMLInputElement> = e => {
+		const target = e.target as HTMLInputElement;
+    	setPassword(target.value);
   	};
 
-	const handleSubmit = async (e) => {
+	const handleSubmit: FormEventHandler<HTMLFormElement> = async e => {
 		e.preventDefault();
 		console.log(username, password);
 		axios.post(`http://localhost:8080/api/login`, {

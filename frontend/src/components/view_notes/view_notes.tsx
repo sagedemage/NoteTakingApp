@@ -39,7 +39,7 @@ export const Notes = () => {
 		window.location.href='/add-new-note';
 	}
 
-	function DeleteNote(note_id) {
+	function DeleteNote(note_id: string) {
 		/* Delete Note Page Redirection */
 		// create new url of the delete note page
 		var url = new URL("/delete-note", "http://localhost:3000");
@@ -48,9 +48,9 @@ export const Notes = () => {
 		url.searchParams.append("note_id", note_id);
 
 		// redirect to that url
-		window.location.href = url;
+		window.location.href = String(url);
 	}
-	function EditNote(note_id) {
+	function EditNote(note_id: string) {
 		/* Edit Note Page Redirection */
 		// create new url of the edit note page
 		var url = new URL("/edit-note", "http://localhost:3000");
@@ -59,7 +59,7 @@ export const Notes = () => {
 		url.searchParams.append("note_id", note_id);
 
 		// redirect to that url
-		window.location.href = url;
+		window.location.href = String(url);
 	}
 
 	return (
@@ -73,16 +73,16 @@ export const Notes = () => {
 			{notes.map((note, i) => {
 				return (
 				<div className="container note-entry" key={i}>
-					<h2 className="note-title"> { note.Title } </h2>
-					<p> { note.Description } </p>
+					<h2 className="note-title"> { note["Title"] } </h2>
+					<p> { note["Description"] } </p>
 					<div className="row">
 						<div className="col col-md-auto">
 							<button className="btn btn-primary"
-								onClick={ () => EditNote(note.ID) }>Edit</button>
+								onClick={ () => EditNote(note["ID"]) }>Edit</button>
 						</div>
 						<div className="col col-md-auto">	
 							<button className="btn btn-danger" 
-							onClick={ () => DeleteNote(note.ID) }>Delete</button>
+							onClick={ () => DeleteNote(note["ID"]) }>Delete</button>
 						</div>
 					</div>
 				</div>
