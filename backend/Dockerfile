@@ -1,7 +1,7 @@
 # syntax=docker/dockerfile:1
 
 # Use Debian as OS
-FROM golang:1.19-bullseye
+FROM golang:1.19.3-bullseye
 
 # Update and install gcc and make
 RUN apt update && \
@@ -17,12 +17,7 @@ ADD . ./
 ADD cmd/app/*.go ./
 
 # Install the go external packages
-RUN go get -u github.com/gin-gonic/gin \ 
-	gorm.io/gorm \ 
-	gorm.io/driver/mysql \ 
-	github.com/gin-contrib/cors \ 
-	github.com/golang-jwt/jwt/v4 \
-	github.com/joho/godotenv
+RUN go get -d -v ./...
 
 # Build the Go app
 RUN go build -o build/ -v ./cmd/app/...

@@ -1,26 +1,28 @@
 /* Add New Note Page */
 
 import axios from "axios";
-import { useState } from "react";
+import { ChangeEventHandler, FormEventHandler, useState } from "react";
 import { getToken } from "components/token/token";
 
 export const AddNoteForm = () => {
 	const [title, setTitle] = useState('');
 	const [description, setDescription] = useState('');
 
-	const handleTitleChange = event => {
-    	setTitle(event.target.value);
+	const handleTitleChange: ChangeEventHandler = e => {
+		const target = e.target as HTMLInputElement;
+    	setTitle(target.value);
   	};
 
-	const handleDescriptionChange = event => {
-    	setDescription(event.target.value);
+	const handleDescriptionChange: ChangeEventHandler = e => {
+		const target = e.target as HTMLInputElement;
+    	setDescription(target.value);
   	};
 
 	const GoBack = () => {
 		window.location.href='/dashboard';
 	}
 
-	const handleSubmit = async (e) => {
+	const handleSubmit: FormEventHandler<HTMLFormElement> = async (e) => {
 		/* Add New Note Submission */
 		e.preventDefault();
 		const token = getToken();
@@ -65,7 +67,7 @@ export const AddNoteForm = () => {
 				<div className="form-group">
 					<label htmlFor="exampleFormControlTextarea1">Description</label>
 					<textarea className="form-control" id="exampleFormControlTextarea1" 
-						name="description" rows="3" placeholder="Description" 
+						name="description" rows={3} placeholder="Description" 
 						value={description}
 						onChange={handleDescriptionChange}
 						required> </textarea>

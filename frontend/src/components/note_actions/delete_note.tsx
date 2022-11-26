@@ -1,10 +1,12 @@
 /* Delete Note Page */
 
+import { FormEventHandler } from "react";
+
 import axios from "axios";
 
 export const DeleteNote = () => {
 	let url = new URL(window.location.href);
-	const note_id = parseInt(url.searchParams.get("note_id"));
+	const note_id = parseInt(url.searchParams.get("note_id")!);
 
 	if (note_id === null) {
 		window.location.href = '/';
@@ -13,7 +15,7 @@ export const DeleteNote = () => {
 	const GoBack = () => {
 		window.location.href='/dashboard';
 	}
-	const handleSubmit = async (e) => {
+	const handleSubmit: FormEventHandler<HTMLFormElement> = async (e) => {
 		/* Delete Note Submission */
 		e.preventDefault();
 		axios.post(`http://localhost:8080/api/delete-note`, {
