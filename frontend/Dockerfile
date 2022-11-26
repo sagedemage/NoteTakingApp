@@ -1,12 +1,11 @@
 # syntax=docker/dockerfile:1
 
 # Use Alpine as OS
-FROM node:16-alpine
+FROM node:19-bullseye
 
 # Update and install gcc and make
-RUN apk update && \
-	apk add gcc && \
-	apk add --update nodejs npm
+RUN apt update && \
+	apt install -y build-essential nodejs npm
 
 # Set Working Directory of inside the container
 WORKDIR /app
