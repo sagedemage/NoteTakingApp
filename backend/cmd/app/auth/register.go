@@ -27,7 +27,7 @@ func register_new_user(db *gorm.DB, email string, username string, password stri
 		return errors.New("username already taken")
 	}
 
-	/* Check if the password is under 6 characters */
+	/* Check if the password is under 8 characters */
 	if len(password) < 8 {
 		return errors.New("must be at least 8 characters")
 	} 
