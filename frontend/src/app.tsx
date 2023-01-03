@@ -5,9 +5,6 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import axios from "axios";
 import { lazy, Suspense } from 'react';
 import { Route, Routes } from "react-router-dom";
-
-//import { PageNotFound } from "./components/page_not_found/page_not_found";
-
 import { AuthRoute } from "./components/auth_route/auth_route";
 import { MyNavBar } from "./components/navigation_bar/navigation_bar";
 
