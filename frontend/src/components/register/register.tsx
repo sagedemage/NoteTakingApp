@@ -7,7 +7,7 @@ import { useState, ChangeEventHandler, FormEventHandler } from "react";
 
 import "./register.css";
 
-export const Register = () => {
+export default function Register() {
 	useEffect(() => {
 		// Start Password Validator
 		PasswordValidator();

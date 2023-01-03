@@ -1,6 +1,6 @@
 /* Home Page */
 
-export const Home = () => {
+export default function Home() {
 	return (
 		<div>
 			<h2> Notebook </h2>

@@ -4,7 +4,7 @@ import axios from "axios";
 import { FormEventHandler, ChangeEventHandler, useEffect, useState } from "react";
 import Cookies from 'universal-cookie';
 
-export const Login = () => {
+export default function Login() {
 	/* Login Page */
 	let url = new URL(window.location.href);
 	let msg_success = url.searchParams.get("msg_success");

@@ -3,7 +3,7 @@
 import axios from "axios";
 import { useState, useEffect, ChangeEventHandler, FormEventHandler } from "react";
 
-export const EditNoteForm = () => {
+export default function EditNoteForm() {
 	
 	let url = new URL(window.location.href);
 	const note_id = parseInt(url.searchParams.get("note_id")!);

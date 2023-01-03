@@ -4,7 +4,7 @@ import { FormEventHandler } from "react";
 
 import axios from "axios";
 
-export const DeleteNote = () => {
+export default function DeleteNote() {
 	let url = new URL(window.location.href);
 	const note_id = parseInt(url.searchParams.get("note_id")!);
 

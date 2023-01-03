@@ -4,7 +4,7 @@ import axios from "axios";
 import { ChangeEventHandler, FormEventHandler, useState } from "react";
 import { getToken } from "components/token/token";
 
-export const AddNoteForm = () => {
+export default function AddNoteForm() {
 	const [title, setTitle] = useState('');
 	const [description, setDescription] = useState('');
 
