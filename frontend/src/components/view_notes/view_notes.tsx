@@ -5,7 +5,7 @@ import { getToken } from "components/token/token";
 import axios from "axios";
 import "./view_notes.css";
 
-export const Notes = () => {
+export default function Notes() {
 	/* View Notes Page (Dashboard Page) */
 	const [notes, setNotes] = useState([]);
 

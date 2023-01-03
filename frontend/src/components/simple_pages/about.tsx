@@ -1,6 +1,6 @@
 /* About Page */
 
-export const About = () => {
+export default function About() {
 	return (
 		<div>
 			<h2> About </h2>
