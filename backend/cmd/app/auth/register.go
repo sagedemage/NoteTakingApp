@@ -1,11 +1,12 @@
 package auth
 
 import (
-	"github.com/gin-gonic/gin"
-	"gorm.io/gorm"
 	"errors"
 	"notebook_app/cmd/app/notebook_db"
 	"notebook_app/cmd/app/request_bodies"
+
+	"github.com/gin-gonic/gin"
+	"gorm.io/gorm"
 )
 
 func register_new_user(db *gorm.DB, email string, username string, password string, confirm string) error {
@@ -27,19 +28,9 @@ func register_new_user(db *gorm.DB, email string, username string, password stri
 		return errors.New("username already taken")
 	}
 
-	/* Check if the password is under 8 characters */
-	if len(password) < 8 {
-		return errors.New("must be at least 8 characters")
-	} 
-
-	/* Checks if the passwords match */
-	if password != confirm {
-		return errors.New("passwords do not match")
-	}
-		
 	// Create user account
 	notebook_db.CreateNewUser(db, email, username, password)
-		
+
 	return nil
 }
 
@@ -69,11 +60,10 @@ func Register(db *gorm.DB) gin.HandlerFunc {
 		} else {
 			// Send error message
 			c.JSON(200, gin.H{
-				"registered": false, 
-				"msg_error": err.Error(),
+				"registered": false,
+				"msg_error":  err.Error(),
 			})
 		}
 	}
 	return gin.HandlerFunc(fn)
 }
-
