@@ -13,7 +13,6 @@ export const AuthRoute = () => {
 		/* Fetch all the Notes for the Current User */
 		const cookies = new Cookies();
 		const token = cookies.get("token");
-		console.log(token)
 		if (token !== undefined) {
 			axios.post(`http://localhost:8080/api/get-decoded-token`, {
 				token: token,
@@ -24,7 +23,6 @@ export const AuthRoute = () => {
 				else {
 					setAuth(false)
 				}
-				console.log("Response data " + response.data.auth);
 			}).catch(e => {
 				console.log(e);
 			})

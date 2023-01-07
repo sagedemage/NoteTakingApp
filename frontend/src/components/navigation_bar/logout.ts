@@ -14,7 +14,6 @@ export const Logout = async () => {
 			// redirect to the home page
             window.location.href = '/';
         }
-        console.log(response)
     }).catch(e => {
         console.log(e)
     })

@@ -27,7 +27,6 @@ export default function AddNoteForm() {
 		e.preventDefault();
 		const token = getToken();
 		let user_id = undefined;
-		console.log(token)
 		if (token !== undefined) {
 			axios.post(`http://localhost:8080/api/get-decoded-token`, {
 				token: token,
@@ -38,10 +37,9 @@ export default function AddNoteForm() {
 						title: title,
 						description: description,
 						user_id: user_id,
-					}).then((response) => {
+					}).then(() => {
 						// redirect to the dashboard
 						window.location.href = '/dashboard';
-						console.log(response);
 					}).catch(e => {
 						console.log(e);
 					})

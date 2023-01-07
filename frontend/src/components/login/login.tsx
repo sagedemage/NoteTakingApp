@@ -36,13 +36,10 @@ export default function Login() {
 
 	const handleSubmit: FormEventHandler<HTMLFormElement> = async e => {
 		e.preventDefault();
-		console.log(username, password);
 		axios.post(`http://localhost:8080/api/login`, {
 			username: username,
 			password: password,
 		}).then((response) => {
-			console.log("auth: " + response.data.auth)
-			console.log("token: " + response.data.token)
 			const cookies = new Cookies();
 			if (response.data.auth === true) {
 				// set cookie
@@ -54,7 +51,6 @@ export default function Login() {
 				setErrorStatus(true);
 				setMsgError(response.data.msg_error);
 			}
-            console.log(response);
 		}).catch(e => {
             console.log(e);
         })
