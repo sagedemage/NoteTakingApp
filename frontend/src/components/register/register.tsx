@@ -133,9 +133,9 @@ export default function Register() {
 					<div className="progress">
 						<div id="p-bar" className="progress-bar bg-success" role="progressbar"></div>
 					</div>
-					<p id="has_lowercase"> contains a lowercase letter </p>
-					<p id="has_uppercase"> contains an uppercase letter </p>
-					<p id="has_number"> contains a number </p>
+					<p id="has_lowercase" className="validator_info"> contains a lowercase letter </p>
+					<p id="has_uppercase" className="validator_info"> contains an uppercase letter </p>
+					<p id="has_number" className="validator_info"> contains a number </p>
 				</div>
 			</div>
 		</div>

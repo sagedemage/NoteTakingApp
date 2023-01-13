@@ -51,7 +51,6 @@ function ProgressChangeOnPattern(password_field: HTMLInputElement, progress_bar:
 		progress_bar.increase_bar(password_status, 33.33);
 		// show green text
 		document.getElementById(info_id)!.style.color="green";
-		document.getElementById(info_id)!.style.visibility="visible";
 	}
 
 	else {
@@ -59,7 +58,6 @@ function ProgressChangeOnPattern(password_field: HTMLInputElement, progress_bar:
 		progress_bar.decrease_bar(password_status, 33.33);
 		// show dark red text
 		document.getElementById(info_id)!.style.color="darkred";
-		document.getElementById(info_id)!.style.visibility="visible";
 	}
 }
 
