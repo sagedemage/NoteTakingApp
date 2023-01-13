@@ -47,10 +47,9 @@ export default function EditNoteForm() {
 			note_id: note_id,
 			title: title,
 			description: description,
-		}).then((response) => {
+		}).then(() => {
 			// redirect to the dashboard
             window.location.href = '/dashboard';
-            console.log(response);
 		}).catch(e => {
             console.log(e);
         })

@@ -48,37 +48,16 @@ function ProgressChangeOnPattern(password_field: HTMLInputElement, progress_bar:
 	/* Progress changes if the pattern matches */
 	if (password_field.value.match(pattern)) {
 		// Increase the progress bar if the pattern is met
-		progress_bar.increase_bar(password_status, 25);
+		progress_bar.increase_bar(password_status, 33.33);
 		// show green text
 		document.getElementById(info_id)!.style.color="green";
-		document.getElementById(info_id)!.style.visibility="visible";
 	}
 
 	else {
 		// Decrease the progress bar if the pattern is not met
-		progress_bar.decrease_bar(password_status, 25);
-		// show red text
-		document.getElementById(info_id)!.style.color="red";
-		document.getElementById(info_id)!.style.visibility="visible";
-	}
-}
-
-function ProgressChangeOnPasswordLength(password_field: HTMLInputElement, progress_bar: ProgressBar) {
-	/* Change progress bar on the required password length which is 8 charcter */
-	if (password_field.value.length >= 8) {
-		// Increase the progress bar if the password length is 8 characters or more
-		progress_bar.increase_bar("good_length", 25);
-		// show green text
-		document.getElementById("good_password_length")!.style.color="green";
-		document.getElementById("good_password_length")!.style.visibility="visible";
-	}
-
-	else {
-		// Decrease the progress bar if the password length is less than 8 characters
-		progress_bar.decrease_bar("good_length", 25);
-		// show red text
-		document.getElementById("good_password_length")!.style.color="red";
-		document.getElementById("good_password_length")!.style.visibility="visible";
+		progress_bar.decrease_bar(password_status, 33.33);
+		// show dark red text
+		document.getElementById(info_id)!.style.color="darkred";
 	}
 }
 
@@ -95,9 +74,6 @@ function ProgressForPasswordOnKeyPress(password_field: HTMLInputElement, progres
 	// contains number
 	ProgressChangeOnPattern(password_field, progress_bar, numeric,
 		"number", "has_number");
-
-	// password length is 8 or more characters
-	ProgressChangeOnPasswordLength(password_field, progress_bar);
 }
 
 export function PasswordValidator() {

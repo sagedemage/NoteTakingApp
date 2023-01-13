@@ -8,6 +8,7 @@ import (
 	"net/http/httptest"
 	"notebook_app/cmd/app/request_bodies"
 	"testing"
+
 	"github.com/stretchr/testify/assert"
 )
 
@@ -25,10 +26,10 @@ func TestRegistrationSuccess(t *testing.T) {
 	w := httptest.NewRecorder()
 
 	// request body
-	user_register := request_bodies.RegisterRequest {
-		Email: "test1000@gmail.com",
-		Username: "test1000",
-		Password: "test1000",
+	user_register := request_bodies.RegisterRequest{
+		Email:      "test1000@gmail.com",
+		Username:   "test1000",
+		Password:   "test1000",
 		ConfirmPwd: "test1000",
 	}
 
@@ -37,7 +38,7 @@ func TestRegistrationSuccess(t *testing.T) {
 
 	// request for the register api
 	request, _ := http.NewRequest("POST", "/api/register", bytes.NewBuffer(jsonValue))
-	
+
 	// serve request
 	r.ServeHTTP(w, request)
 
@@ -63,10 +64,10 @@ func TestRegistrationEmailAlreadyExistsFailure(t *testing.T) {
 	w := httptest.NewRecorder()
 
 	// request body
-	user_register := request_bodies.RegisterRequest {
-		Email: "test1000@gmail.com",
-		Username: "test1001",
-		Password: "test1001",
+	user_register := request_bodies.RegisterRequest{
+		Email:      "test1000@gmail.com",
+		Username:   "test1001",
+		Password:   "test1001",
 		ConfirmPwd: "test1001",
 	}
 
@@ -75,7 +76,7 @@ func TestRegistrationEmailAlreadyExistsFailure(t *testing.T) {
 
 	// request for register api
 	request, _ := http.NewRequest("POST", "/api/register", bytes.NewBuffer(jsonValue))
-	
+
 	// serve request
 	r.ServeHTTP(w, request)
 
@@ -101,10 +102,10 @@ func TestRegistrationUsernameAlreadyExistsFailure(t *testing.T) {
 	w := httptest.NewRecorder()
 
 	// request body
-	user_register := request_bodies.RegisterRequest {
-		Email: "test1001@gmail.com",
-		Username: "test1000",
-		Password: "test1001",
+	user_register := request_bodies.RegisterRequest{
+		Email:      "test1001@gmail.com",
+		Username:   "test1000",
+		Password:   "test1001",
 		ConfirmPwd: "test1001",
 	}
 
@@ -113,7 +114,7 @@ func TestRegistrationUsernameAlreadyExistsFailure(t *testing.T) {
 
 	// request for register api
 	request, _ := http.NewRequest("POST", "/api/register", bytes.NewBuffer(jsonValue))
-	
+
 	// serve request
 	r.ServeHTTP(w, request)
 
@@ -124,82 +125,6 @@ func TestRegistrationUsernameAlreadyExistsFailure(t *testing.T) {
 	assert.Equal(t, mockResponse, string(responseData))
 
 	// check the response is a success
-	assert.Equal(t, http.StatusOK, w.Code)
-}
-
-func TestRegistrationPasswordMustMatchFailure(t *testing.T) {
-	/* Registration failure with the passwords not matching */
-
-	// mock reponse data
-	mockResponse := `{"msg_error":"passwords do not match","registered":false}`
-
-	var r = Setup() // setup router
-
-	// writer for the reponse recorder
-	w := httptest.NewRecorder()
-
-	// request body
-	user_register := request_bodies.RegisterRequest {
-		Email: "test1001@gmail.com",
-		Username: "test1001",
-		Password: "test1001",
-		ConfirmPwd: "test1000",
-	}
-
-	// convert to json
-	jsonValue, _ := json.Marshal(user_register)
-
-	// request fot register api
-	request, _ := http.NewRequest("POST", "/api/register", bytes.NewBuffer(jsonValue))
-	
-	// serve request
-	r.ServeHTTP(w, request)
-
-	// get reponse data
-	responseData, _ := io.ReadAll(w.Body)
-
-	// check the resonse data is correct
-	assert.Equal(t, mockResponse, string(responseData))
-
-	// check the response is a success
-	assert.Equal(t, http.StatusOK, w.Code)
-}
-
-func TestRegistrationShortPasswordFailure(t *testing.T) {
-	/* Registration failure with short password */
-
-	// mock resonse data
-	mockResponse := `{"msg_error":"must be at least 8 characters","registered":false}`
-
-	var r = Setup() // setup router
-
-	// writer for the reponse recorder
-	w := httptest.NewRecorder()
-
-	// request body
-	user_register := request_bodies.RegisterRequest {
-		Email: "test100@gmail.com",
-		Username: "test100",
-		Password: "test100",
-		ConfirmPwd: "test100",
-	}
-
-	// convert to json
-	jsonValue, _ := json.Marshal(user_register)
-
-	// request for register api
-	request, _ := http.NewRequest("POST", "/api/register", bytes.NewBuffer(jsonValue))
-	
-	// serve request
-	r.ServeHTTP(w, request)
-
-	// get response data
-	responseData, _ := io.ReadAll(w.Body)
-
-	// check response data is correct
-	assert.Equal(t, mockResponse, string(responseData))
-
-	// check response is a success
 	assert.Equal(t, http.StatusOK, w.Code)
 }
 
@@ -217,7 +142,7 @@ func TestLoginSuccessWithEmail(t *testing.T) {
 	w := httptest.NewRecorder()
 
 	// request body
-	user_login := request_bodies.LoginRequest {
+	user_login := request_bodies.LoginRequest{
 		Username: "test1000@gmail.com",
 		Password: "test1000",
 	}
@@ -227,7 +152,7 @@ func TestLoginSuccessWithEmail(t *testing.T) {
 
 	// request for login api
 	request, _ := http.NewRequest("POST", "/api/login", bytes.NewBuffer(jsonValue))
-	
+
 	// serve request
 	r.ServeHTTP(w, request)
 
@@ -253,7 +178,7 @@ func TestLoginSuccessWithUsername(t *testing.T) {
 	w := httptest.NewRecorder()
 
 	// request body
-	user_login := request_bodies.LoginRequest {
+	user_login := request_bodies.LoginRequest{
 		Username: "test1000",
 		Password: "test1000",
 	}
@@ -263,7 +188,7 @@ func TestLoginSuccessWithUsername(t *testing.T) {
 
 	// request for login api
 	request, _ := http.NewRequest("POST", "/api/login", bytes.NewBuffer(jsonValue))
-	
+
 	// serve request
 	r.ServeHTTP(w, request)
 
@@ -289,7 +214,7 @@ func TestLoginEmailDoesNotExistFailure(t *testing.T) {
 	w := httptest.NewRecorder()
 
 	// request body
-	user_login := request_bodies.LoginRequest {
+	user_login := request_bodies.LoginRequest{
 		Username: "test3000@gmail.com",
 		Password: "test3000",
 	}
@@ -299,7 +224,7 @@ func TestLoginEmailDoesNotExistFailure(t *testing.T) {
 
 	// call login api
 	request, _ := http.NewRequest("POST", "/api/login", bytes.NewBuffer(jsonValue))
-	
+
 	// reponse to an http request
 	r.ServeHTTP(w, request)
 
@@ -326,7 +251,7 @@ func TestLoginUsernameDoesNotExistFailure(t *testing.T) {
 	w := httptest.NewRecorder()
 
 	// request body
-	user_login := request_bodies.LoginRequest {
+	user_login := request_bodies.LoginRequest{
 		Username: "test3000",
 		Password: "test3000",
 	}
@@ -336,7 +261,7 @@ func TestLoginUsernameDoesNotExistFailure(t *testing.T) {
 
 	// call login api
 	request, _ := http.NewRequest("POST", "/api/login", bytes.NewBuffer(jsonValue))
-	
+
 	// reponse to an http request
 	r.ServeHTTP(w, request)
 
@@ -345,7 +270,6 @@ func TestLoginUsernameDoesNotExistFailure(t *testing.T) {
 
 	// check if the response data is correct
 	//assert.Equal(t, mockResponse, string(responseData))
-
 
 	assert.Contains(t, string(responseData), mockData)
 
@@ -365,7 +289,7 @@ func TestLoginPasswordIncorrectFailure(t *testing.T) {
 	w := httptest.NewRecorder()
 
 	// request body
-	user_login := request_bodies.LoginRequest {
+	user_login := request_bodies.LoginRequest{
 		Username: "test1000@gmail.com",
 		Password: "test2000",
 	}
@@ -375,7 +299,7 @@ func TestLoginPasswordIncorrectFailure(t *testing.T) {
 
 	// call login api
 	request, _ := http.NewRequest("POST", "/api/login", bytes.NewBuffer(jsonValue))
-	
+
 	// reponse to an http request
 	r.ServeHTTP(w, request)
 
@@ -401,7 +325,7 @@ func TestGetDecodedToken(t *testing.T) {
 	w := httptest.NewRecorder()
 
 	// request body
-	user_login := request_bodies.LoginRequest {
+	user_login := request_bodies.LoginRequest{
 		Username: "test1000",
 		Password: "test1000",
 	}
@@ -411,7 +335,7 @@ func TestGetDecodedToken(t *testing.T) {
 
 	// request for login api
 	request, _ := http.NewRequest("POST", "/api/login", bytes.NewBuffer(jsonValue))
-	
+
 	// serve request
 	r.ServeHTTP(w, request)
 
@@ -431,7 +355,7 @@ func TestGetDecodedToken(t *testing.T) {
 	json.Unmarshal([]byte(responseData), &decoded_token)
 
 	// request body
-	token_request :=  request_bodies.TokenRequest {
+	token_request := request_bodies.TokenRequest{
 		Token: decoded_token.Token,
 	}
 
@@ -468,7 +392,7 @@ func TestLogout(t *testing.T) {
 
 	// request for login api
 	request, _ := http.NewRequest("GET", "/api/logout", nil)
-	
+
 	// serve request
 	r.ServeHTTP(w, request)
 

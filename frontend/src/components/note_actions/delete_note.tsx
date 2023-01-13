@@ -20,10 +20,9 @@ export default function DeleteNote() {
 		e.preventDefault();
 		axios.post(`http://localhost:8080/api/delete-note`, {
 			note_id: note_id,
-		}).then((response) => {
+		}).then(() => {
 			// redirect to the dashboard
             window.location.href = '/dashboard';
-            console.log(response);
 		}).catch(e => {
             console.log(e);
         })
