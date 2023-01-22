@@ -10,22 +10,27 @@ import "./view_notes.css";
 export default function Notes() {
 	/* View Notes Page (Dashboard Page) */
 	const [notes, setNotes] = useState([]);
-	const [open_edit, setOpenEdit] = useState(false);
+	const [open_edit_form_box, setOpenEditFormBox] = useState(false);
+	const [open_delete_confirm_box, setOpenDeleteConfirmBox] = useState(false);
 
 	const [title, setTitle] = useState('');
 	const [description, setDescription] = useState('');
 
 	const handleTitleChange: ChangeEventHandler = e => {
 		const target = e.target as HTMLInputElement;
-    	setTitle(target.value);
-  	};
+		setTitle(target.value);
+	};
 	const handleDescriptionChange: ChangeEventHandler = e => {
 		const target = e.target as HTMLInputElement;
-    	setDescription(target.value);
-  	};
+		setDescription(target.value);
+	};
 
-	const Close = () => {
-		setOpenEdit(false);
+	const CloseEditFormBox = () => {
+		setOpenEditFormBox(false);
+	}
+
+	const CloseDeleteConfirmBox = () => {
+		setOpenDeleteConfirmBox(false);
 	}
 
 	const handleEditSubmit: FormEventHandler<HTMLFormElement> = async (e) => {
@@ -41,6 +46,22 @@ export default function Notes() {
 		}).then(() => {
 			// redirect to the dashboard
 			window.location.reload();
+		}).catch(e => {
+			console.log(e);
+		})
+	};
+
+	const handleDeleteSubmit: FormEventHandler<HTMLFormElement> = async (e) => {
+		e.preventDefault();
+		let note_id_string: string = localStorage.getItem("note_id")!;
+		let note_id = parseInt(note_id_string);
+
+		console.log(typeof note_id);
+		axios.post(`http://localhost:8080/api/delete-note`, {
+			note_id: note_id,
+		}).then(() => {
+			// redirect to the dashboard
+            window.location.reload();
 		}).catch(e => {
             console.log(e);
         })
@@ -78,13 +99,17 @@ export default function Notes() {
 	function DeleteNote(note_id: string) {
 		/* Delete Note Page Redirection */
 		// create new url of the delete note page
-		var url = new URL("/delete-note", "http://localhost:3000");
+		//var url = new URL("/delete-note", "http://localhost:3000");
 
 		// add url parameter
-		url.searchParams.append("note_id", note_id);
+		//url.searchParams.append("note_id", note_id);
 
 		// redirect to that url
-		window.location.href = String(url);
+		//window.location.href = String(url);
+
+		localStorage.setItem("note_id", note_id);
+
+		setOpenDeleteConfirmBox(true);
 	}
 	function EditNote(note_id: string) {
 		/* Edit Note Page Redirection */
@@ -103,15 +128,15 @@ export default function Notes() {
 				setDescription(response.data.description);
 			}
 		}).catch(e => {
-            console.log(e);
-        })
+			console.log(e);
+		})
 
 		localStorage.setItem("note_id", note_id);
 
 		// redirect to that url
 		//window.location.href = String(url);
 
-		setOpenEdit(true);
+		setOpenEditFormBox(true);
 	}
 
 	return (
@@ -140,7 +165,7 @@ export default function Notes() {
 					</div>
 				)
 			})}
-			{open_edit === true &&
+			{open_edit_form_box === true &&
 				<div className="box">
 					<h2> Edit Note </h2>
 					<form method="post" onSubmit={handleEditSubmit}>
@@ -163,8 +188,23 @@ export default function Notes() {
 
 						<button type="submit" className="btn btn-primary">Submit</button>
 						<button type="button" className="btn btn-secondary"
-							onClick={Close}>
+							onClick={CloseEditFormBox}>
 							Close
+						</button>
+					</form>
+				</div>
+			}
+			{open_delete_confirm_box === true &&
+				<div className="box">
+					<h2> Delete Note </h2>
+					<p> You sure you want to delete the note? </p>
+					<form method="post" onSubmit={handleDeleteSubmit}>
+						<button type="submit" className="btn btn-danger">
+							Delete
+						</button>
+						<button type="button" className="btn btn-secondary"
+							onClick={CloseDeleteConfirmBox}>
+							Back
 						</button>
 					</form>
 				</div>
