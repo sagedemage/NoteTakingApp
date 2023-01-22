@@ -5,8 +5,6 @@ import { getToken } from "components/token/token";
 import axios from "axios";
 import "./view_notes.css";
 
-//import EditNoteForm from "components/note_actions/edit_note";
-
 export default function Notes() {
 	/* View Notes Page (Dashboard Page) */
 	const [notes, setNotes] = useState([]);
@@ -21,6 +19,10 @@ export default function Notes() {
 	const [title_add, setTitleAdd] = useState('');
 	const [description_add, setDescriptionAdd] = useState('');
 
+	/*	
+	Handle title and description changes
+	for the edit and add note forms 
+	*/
 	const handleTitleEditChange: ChangeEventHandler = e => {
 		const target = e.target as HTMLInputElement;
 		setTitleEdit(target.value);
@@ -37,63 +39,6 @@ export default function Notes() {
 	const handleDescriptionAddChange: ChangeEventHandler = e => {
 		const target = e.target as HTMLInputElement;
 		setDescriptionAdd(target.value);
-	};
-
-
-
-	const handleEditSubmit: FormEventHandler<HTMLFormElement> = async (e) => {
-		e.preventDefault();
-		console.log(typeof note_id);
-		axios.post(`http://localhost:8080/api/edit-note`, {
-			note_id: note_id,
-			title: title_edit,
-			description: description_edit,
-		}).then(() => {
-			// redirect to the dashboard
-			window.location.reload();
-		}).catch(e => {
-			console.log(e);
-		})
-	};
-
-	const handleDeleteSubmit: FormEventHandler<HTMLFormElement> = async (e) => {
-		e.preventDefault();
-		axios.post(`http://localhost:8080/api/delete-note`, {
-			note_id: note_id,
-		}).then(() => {
-			// redirect to the dashboard
-			window.location.reload();
-		}).catch(e => {
-			console.log(e);
-		})
-	};
-
-	const handleAddSubmit: FormEventHandler<HTMLFormElement> = async (e) => {
-		/* Add New Note Submission */
-		e.preventDefault();
-		const token = getToken();
-		let user_id = undefined;
-		if (token !== undefined) {
-			axios.post(`http://localhost:8080/api/get-decoded-token`, {
-				token: token,
-			}).then((response) => {
-				if (response.data.user_id !== undefined) {
-					user_id = response.data.user_id;
-					axios.post(`http://localhost:8080/api/add-new-note`, {
-						title: title_add,
-						description: description_add,
-						user_id: user_id,
-					}).then(() => {
-						// redirect to the dashboard
-						window.location.href = '/dashboard';
-					}).catch(e => {
-						console.log(e);
-					})
-				}
-			}).catch(e => {
-				console.log(e);
-			})
-		}
 	};
 
 	useEffect(() => {
@@ -121,20 +66,62 @@ export default function Notes() {
 		}
 	}, []);
 
+	/* Add Note */
+	const handleAddSubmit: FormEventHandler<HTMLFormElement> = async (e) => {
+		/* Add New Note Submission */
+		e.preventDefault();
+		const token = getToken();
+		let user_id = undefined;
+		if (token !== undefined) {
+			axios.post(`http://localhost:8080/api/get-decoded-token`, {
+				token: token,
+			}).then((response) => {
+				if (response.data.user_id !== undefined) {
+					user_id = response.data.user_id;
+					axios.post(`http://localhost:8080/api/add-new-note`, {
+						title: title_add,
+						description: description_add,
+						user_id: user_id,
+					}).then(() => {
+						// redirect to the dashboard
+						window.location.href = '/dashboard';
+					}).catch(e => {
+						console.log(e);
+					})
+				}
+			}).catch(e => {
+				console.log(e);
+			})
+		}
+	};
+	
 	const OpenAddFormBox = () => {
-		/* Add Confirm Popup Window */
+		/* Open Add Confirm Popup Window */
 		setOpenAddFormBox(true);
 	}
 
-	function OpenDeleteConfirmBox(note_id: string) {
-		/* Open Delete Confirm Popup Window */
-		setNoteId(parseInt(note_id));
-
-		setOpenDeleteConfirmBox(true);
+	const CloseAddFormBox= () => {
+		setOpenAddFormBox(false);
 	}
+
+	/* Edit Note */
+	const handleEditSubmit: FormEventHandler<HTMLFormElement> = async (e) => {
+		e.preventDefault();
+		console.log(typeof note_id);
+		axios.post(`http://localhost:8080/api/edit-note`, {
+			note_id: note_id,
+			title: title_edit,
+			description: description_edit,
+		}).then(() => {
+			// redirect to the dashboard
+			window.location.reload();
+		}).catch(e => {
+			console.log(e);
+		})
+	};
+
 	function OpenEditFormBox(note_id: string) {
 		/* Open Edit Note Form Popup Window */
-
 		// Fetch Note
 		axios.post(`http://localhost:8080/api/fetch-note`, {
 			note_id: note_id,
@@ -155,15 +142,32 @@ export default function Notes() {
 	}
 
 	const CloseEditFormBox = () => {
+		/* Close Edit Form Popup Window */
 		setOpenEditFormBox(false);
+	}
+
+	/* Delete Note */
+	const handleDeleteSubmit: FormEventHandler<HTMLFormElement> = async (e) => {
+		e.preventDefault();
+		axios.post(`http://localhost:8080/api/delete-note`, {
+			note_id: note_id,
+		}).then(() => {
+			// redirect to the dashboard
+			window.location.reload();
+		}).catch(e => {
+			console.log(e);
+		})
+	};
+
+	function OpenDeleteConfirmBox(note_id: string) {
+		/* Open Delete Confirm Popup Window */
+		setNoteId(parseInt(note_id));
+
+		setOpenDeleteConfirmBox(true);
 	}
 
 	const CloseDeleteConfirmBox = () => {
 		setOpenDeleteConfirmBox(false);
-	}
-
-	const CloseAddFormBox= () => {
-		setOpenAddFormBox(false);
 	}
 
 	return (
