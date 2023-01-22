@@ -15,16 +15,28 @@ export default function Notes() {
 	const [open_delete_confirm_box, setOpenDeleteConfirmBox] = useState(false);
 	const [note_id, setNoteId] = useState<number | undefined>(undefined);
 
-	const [title, setTitle] = useState('');
-	const [description, setDescription] = useState('');
+	const [title_edit, setTitleEdit] = useState('');
+	const [description_edit, setDescriptionEdit] = useState('');
 
-	const handleTitleChange: ChangeEventHandler = e => {
+	const [title_add, setTitleAdd] = useState('');
+	const [description_add, setDescriptionAdd] = useState('');
+
+	const handleTitleEditChange: ChangeEventHandler = e => {
 		const target = e.target as HTMLInputElement;
-		setTitle(target.value);
+		setTitleEdit(target.value);
 	};
-	const handleDescriptionChange: ChangeEventHandler = e => {
+	const handleDescriptionEditChange: ChangeEventHandler = e => {
 		const target = e.target as HTMLInputElement;
-		setDescription(target.value);
+		setDescriptionEdit(target.value);
+	};
+
+	const handleTitleAddChange: ChangeEventHandler = e => {
+		const target = e.target as HTMLInputElement;
+		setTitleAdd(target.value);
+	};
+	const handleDescriptionAddChange: ChangeEventHandler = e => {
+		const target = e.target as HTMLInputElement;
+		setDescriptionAdd(target.value);
 	};
 
 
@@ -34,8 +46,8 @@ export default function Notes() {
 		console.log(typeof note_id);
 		axios.post(`http://localhost:8080/api/edit-note`, {
 			note_id: note_id,
-			title: title,
-			description: description,
+			title: title_edit,
+			description: description_edit,
 		}).then(() => {
 			// redirect to the dashboard
 			window.location.reload();
@@ -68,8 +80,8 @@ export default function Notes() {
 				if (response.data.user_id !== undefined) {
 					user_id = response.data.user_id;
 					axios.post(`http://localhost:8080/api/add-new-note`, {
-						title: title,
-						description: description,
+						title: title_add,
+						description: description_add,
 						user_id: user_id,
 					}).then(() => {
 						// redirect to the dashboard
@@ -128,8 +140,8 @@ export default function Notes() {
 			note_id: note_id,
 		}).then((response) => {
 			if (note_id !== undefined) {
-				setTitle(response.data.title);
-				setDescription(response.data.description);
+				setTitleEdit(response.data.title);
+				setDescriptionEdit(response.data.description);
 			}
 		}).catch(e => {
 			console.log(e);
@@ -188,16 +200,16 @@ export default function Notes() {
 							<label htmlFor="exampleFormControlInput1">Title</label>
 							<input className="form-control" id="exampleFormControlInput1"
 								name="title" placeholder="Title"
-								value={title}
-								onChange={handleTitleChange}
+								value={title_edit}
+								onChange={handleTitleEditChange}
 								required />
 						</div>
 						<div className="form-group">
 							<label htmlFor="exampleFormControlTextarea1">Description</label>
 							<textarea className="form-control" id="exampleFormControlTextarea1"
 								name="description" rows={3} placeholder="Description"
-								value={description}
-								onChange={handleDescriptionChange}
+								value={description_edit}
+								onChange={handleDescriptionEditChange}
 								required> </textarea>
 						</div>
 
@@ -232,16 +244,16 @@ export default function Notes() {
 							<label htmlFor="exampleFormControlInput1">Title</label>
 							<input className="form-control" id="exampleFormControlInput1"
 								name="title" placeholder="Title"
-								value={title}
-								onChange={handleTitleChange}
+								value={title_add}
+								onChange={handleTitleAddChange}
 								required />
 						</div>
 						<div className="form-group">
 							<label htmlFor="exampleFormControlTextarea1">Description</label>
 							<textarea className="form-control" id="exampleFormControlTextarea1"
 								name="description" rows={3} placeholder="Description"
-								value={description}
-								onChange={handleDescriptionChange}
+								value={description_add}
+								onChange={handleDescriptionAddChange}
 								required> </textarea>
 						</div>
 						<button type="submit" className="btn btn-primary">

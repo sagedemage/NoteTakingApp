@@ -10,16 +10,16 @@
 
 .box {
 	top: 25vh;
-	left: 40vw;
+	left: 37.5vw;
 	right: auto;
 	bottom: auto;
 	padding: 40px;
 	position: fixed;
 	background-color: white;
-	padding-bottom: 100px;
 	border: 1px gray solid;
 	border-radius: 25px;
-	z-index: 3;
+	box-shadow: 5px 10px #888888;
+	width: 50vh;
 }
 
 /* mobile portrait layout */
