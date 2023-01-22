@@ -11,7 +11,9 @@ export default function Notes() {
 	/* View Notes Page (Dashboard Page) */
 	const [notes, setNotes] = useState([]);
 	const [open_edit_form_box, setOpenEditFormBox] = useState(false);
+	const [open_add_form_box, setOpenAddFormBox] = useState(false);
 	const [open_delete_confirm_box, setOpenDeleteConfirmBox] = useState(false);
+	const [note_id, setNoteId] = useState<number | undefined>(undefined);
 
 	const [title, setTitle] = useState('');
 	const [description, setDescription] = useState('');
@@ -25,19 +27,10 @@ export default function Notes() {
 		setDescription(target.value);
 	};
 
-	const CloseEditFormBox = () => {
-		setOpenEditFormBox(false);
-	}
 
-	const CloseDeleteConfirmBox = () => {
-		setOpenDeleteConfirmBox(false);
-	}
 
 	const handleEditSubmit: FormEventHandler<HTMLFormElement> = async (e) => {
 		e.preventDefault();
-		let note_id_string: string = localStorage.getItem("note_id")!;
-		let note_id = parseInt(note_id_string);
-
 		console.log(typeof note_id);
 		axios.post(`http://localhost:8080/api/edit-note`, {
 			note_id: note_id,
@@ -53,18 +46,42 @@ export default function Notes() {
 
 	const handleDeleteSubmit: FormEventHandler<HTMLFormElement> = async (e) => {
 		e.preventDefault();
-		let note_id_string: string = localStorage.getItem("note_id")!;
-		let note_id = parseInt(note_id_string);
-
-		console.log(typeof note_id);
 		axios.post(`http://localhost:8080/api/delete-note`, {
 			note_id: note_id,
 		}).then(() => {
 			// redirect to the dashboard
-            window.location.reload();
+			window.location.reload();
 		}).catch(e => {
-            console.log(e);
-        })
+			console.log(e);
+		})
+	};
+
+	const handleAddSubmit: FormEventHandler<HTMLFormElement> = async (e) => {
+		/* Add New Note Submission */
+		e.preventDefault();
+		const token = getToken();
+		let user_id = undefined;
+		if (token !== undefined) {
+			axios.post(`http://localhost:8080/api/get-decoded-token`, {
+				token: token,
+			}).then((response) => {
+				if (response.data.user_id !== undefined) {
+					user_id = response.data.user_id;
+					axios.post(`http://localhost:8080/api/add-new-note`, {
+						title: title,
+						description: description,
+						user_id: user_id,
+					}).then(() => {
+						// redirect to the dashboard
+						window.location.href = '/dashboard';
+					}).catch(e => {
+						console.log(e);
+					})
+				}
+			}).catch(e => {
+				console.log(e);
+			})
+		}
 	};
 
 	useEffect(() => {
@@ -92,34 +109,21 @@ export default function Notes() {
 		}
 	}, []);
 
-	const AddNewNote = () => {
-		window.location.href = '/add-new-note';
+	const OpenAddFormBox = () => {
+		/* Add Confirm Popup Window */
+		setOpenAddFormBox(true);
 	}
 
-	function DeleteNote(note_id: string) {
-		/* Delete Note Page Redirection */
-		// create new url of the delete note page
-		//var url = new URL("/delete-note", "http://localhost:3000");
-
-		// add url parameter
-		//url.searchParams.append("note_id", note_id);
-
-		// redirect to that url
-		//window.location.href = String(url);
-
-		localStorage.setItem("note_id", note_id);
+	function OpenDeleteConfirmBox(note_id: string) {
+		/* Open Delete Confirm Popup Window */
+		setNoteId(parseInt(note_id));
 
 		setOpenDeleteConfirmBox(true);
 	}
-	function EditNote(note_id: string) {
-		/* Edit Note Page Redirection */
-		// create new url of the edit note page
-		//var url = new URL("/edit-note", "http://localhost:3000");
+	function OpenEditFormBox(note_id: string) {
+		/* Open Edit Note Form Popup Window */
 
-		// add url parameter
-		//url.searchParams.append("note_id", note_id);
-
-		/* Fetch Note */
+		// Fetch Note
 		axios.post(`http://localhost:8080/api/fetch-note`, {
 			note_id: note_id,
 		}).then((response) => {
@@ -131,19 +135,30 @@ export default function Notes() {
 			console.log(e);
 		})
 
-		localStorage.setItem("note_id", note_id);
+		// set note id
+		setNoteId(parseInt(note_id));
 
-		// redirect to that url
-		//window.location.href = String(url);
-
+		// open edit form box
 		setOpenEditFormBox(true);
+	}
+
+	const CloseEditFormBox = () => {
+		setOpenEditFormBox(false);
+	}
+
+	const CloseDeleteConfirmBox = () => {
+		setOpenDeleteConfirmBox(false);
+	}
+
+	const CloseAddFormBox= () => {
+		setOpenAddFormBox(false);
 	}
 
 	return (
 		<div>
 			<h2> Notes </h2>
 			<form method="post">
-				<button type="button" className="btn btn-primary" onClick={AddNewNote}>
+				<button type="button" className="btn btn-primary" onClick={OpenAddFormBox}>
 					Add New Note
 				</button>
 			</form>
@@ -155,11 +170,11 @@ export default function Notes() {
 						<div className="row">
 							<div className="col col-md-auto">
 								<button className="btn btn-primary"
-									onClick={() => EditNote(note["ID"])}>Edit</button>
+									onClick={() => OpenEditFormBox(note["ID"])}>Edit</button>
 							</div>
 							<div className="col col-md-auto">
 								<button className="btn btn-danger"
-									onClick={() => DeleteNote(note["ID"])}>Delete</button>
+									onClick={() => OpenDeleteConfirmBox(note["ID"])}>Delete</button>
 							</div>
 						</div>
 					</div>
@@ -204,6 +219,36 @@ export default function Notes() {
 						</button>
 						<button type="button" className="btn btn-secondary"
 							onClick={CloseDeleteConfirmBox}>
+							Back
+						</button>
+					</form>
+				</div>
+			}
+			{open_add_form_box === true &&
+				<div className="box">
+					<h2> Add Note </h2>
+					<form method="post" onSubmit={handleAddSubmit}>
+						<div className="form-group">
+							<label htmlFor="exampleFormControlInput1">Title</label>
+							<input className="form-control" id="exampleFormControlInput1"
+								name="title" placeholder="Title"
+								value={title}
+								onChange={handleTitleChange}
+								required />
+						</div>
+						<div className="form-group">
+							<label htmlFor="exampleFormControlTextarea1">Description</label>
+							<textarea className="form-control" id="exampleFormControlTextarea1"
+								name="description" rows={3} placeholder="Description"
+								value={description}
+								onChange={handleDescriptionChange}
+								required> </textarea>
+						</div>
+						<button type="submit" className="btn btn-primary">
+							Submit
+						</button>
+						<button type="button" className="btn btn-secondary"
+							onClick={CloseAddFormBox}>
 							Back
 						</button>
 					</form>
