@@ -8,4 +8,27 @@
 	margin-bottom: 20px;
 }
 
+.box {
+	top: 25vh;
+	left: 40vw;
+	right: auto;
+	bottom: auto;
+	padding: 40px;
+	position: fixed;
+	background-color: white;
+	padding-bottom: 100px;
+	border: 1px gray solid;
+	border-radius: 25px;
+	z-index: 3;
+}
+
+/* mobile portrait layout */
+@media only screen and (max-width: 479px) {
+	.box {
+		left: 15vw;
+		right: 15vw;
+	}
+}
+
+
 
