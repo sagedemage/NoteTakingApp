@@ -201,7 +201,7 @@ export default function Notes() {
 			<h2> Notes </h2>
 			<form method="post">
 				<button id="add-note" type="button" className="btn btn-primary" onClick={OpenAddFormBox}>
-					Add New Note
+					Add
 				</button>
 			</form>
 			{notes.map((note, i) => {
