@@ -66,6 +66,18 @@ export default function Notes() {
 		}
 	}, []);
 
+	function DisableButtons() {
+		document.getElementById("add-note")!.style.pointerEvents! = "none";
+		document.getElementById("edit-note")!.style.pointerEvents! = "none";
+		document.getElementById("delete-note")!.style.pointerEvents! = "none";
+	}
+
+	function EnableButtons() {
+		document.getElementById("add-note")!.style.pointerEvents! = "auto";
+		document.getElementById("edit-note")!.style.pointerEvents! = "auto";
+		document.getElementById("delete-note")!.style.pointerEvents! = "auto";
+	}
+
 	/* Add Note */
 	const handleAddSubmit: FormEventHandler<HTMLFormElement> = async (e) => {
 		/* Add New Note Submission */
@@ -98,10 +110,14 @@ export default function Notes() {
 	const OpenAddFormBox = () => {
 		/* Open Add Confirm Popup Window */
 		setOpenAddFormBox(true);
+
+		DisableButtons();
 	}
 
 	const CloseAddFormBox= () => {
 		setOpenAddFormBox(false);
+
+		EnableButtons();
 	}
 
 	/* Edit Note */
@@ -139,11 +155,15 @@ export default function Notes() {
 
 		// open edit form box
 		setOpenEditFormBox(true);
+
+		DisableButtons();
 	}
 
 	const CloseEditFormBox = () => {
 		/* Close Edit Form Popup Window */
 		setOpenEditFormBox(false);
+
+		EnableButtons();
 	}
 
 	/* Delete Note */
@@ -159,22 +179,28 @@ export default function Notes() {
 		})
 	};
 
+	
+
 	function OpenDeleteConfirmBox(note_id: string) {
 		/* Open Delete Confirm Popup Window */
 		setNoteId(parseInt(note_id));
 
 		setOpenDeleteConfirmBox(true);
+
+		DisableButtons();
 	}
 
 	const CloseDeleteConfirmBox = () => {
 		setOpenDeleteConfirmBox(false);
+
+		EnableButtons();
 	}
 
 	return (
 		<div>
 			<h2> Notes </h2>
 			<form method="post">
-				<button type="button" className="btn btn-primary" onClick={OpenAddFormBox}>
+				<button id="add-note" type="button" className="btn btn-primary" onClick={OpenAddFormBox}>
 					Add New Note
 				</button>
 			</form>
@@ -185,11 +211,11 @@ export default function Notes() {
 						<p> {note["Description"]} </p>
 						<div className="row">
 							<div className="col col-md-auto">
-								<button className="btn btn-primary"
+								<button id="edit-note" className="btn btn-primary"
 									onClick={() => OpenEditFormBox(note["ID"])}>Edit</button>
 							</div>
 							<div className="col col-md-auto">
-								<button className="btn btn-danger"
+								<button id="delete-note" className="btn btn-danger"
 									onClick={() => OpenDeleteConfirmBox(note["ID"])}>Delete</button>
 							</div>
 						</div>
