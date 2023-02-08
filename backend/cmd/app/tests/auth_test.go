@@ -376,32 +376,3 @@ func TestGetDecodedToken(t *testing.T) {
 	// check if the response is a success
 	assert.Equal(t, http.StatusOK, w.Code)
 }
-
-// Logout
-
-func TestLogout(t *testing.T) {
-	/* Logout success */
-
-	// mock response data
-	mockResponse := `{"auth":false}`
-
-	var r = Setup() // setup router
-
-	// writer for the reponse recorder
-	w := httptest.NewRecorder()
-
-	// request for login api
-	request, _ := http.NewRequest("GET", "/api/logout", nil)
-
-	// serve request
-	r.ServeHTTP(w, request)
-
-	// get response data
-	responseData, _ := io.ReadAll(w.Body)
-
-	// check if the reponse data is correct
-	assert.Equal(t, mockResponse, string(responseData))
-
-	// check if the response is a success
-	assert.Equal(t, http.StatusOK, w.Code)
-}

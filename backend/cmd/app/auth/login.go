@@ -1,12 +1,13 @@
 package auth
 
 import (
-	"gorm.io/gorm"
 	"errors"
-	"github.com/gin-gonic/gin"
-	"golang.org/x/crypto/bcrypt"
 	"notebook_app/cmd/app/notebook_db"
 	"notebook_app/cmd/app/request_bodies"
+
+	"github.com/gin-gonic/gin"
+	"golang.org/x/crypto/bcrypt"
+	"gorm.io/gorm"
 )
 
 func is_user_valid(db *gorm.DB, username string, password string) (uint, error) {
@@ -59,25 +60,16 @@ func Login(db *gorm.DB) gin.HandlerFunc {
 			}
 
 			c.JSON(200, gin.H{
-				"auth": true,
+				"auth":  true,
 				"token": token,
 			})
 		} else {
 			// json message
 			c.JSON(200, gin.H{
-				"auth": false, 
+				"auth":      false,
 				"msg_error": err.Error(),
 			})
 		}
 	}
 	return gin.HandlerFunc(fn)
 }
-
-func Logout(c *gin.Context) {
-	/* Logout */
-
-	c.JSON(200, gin.H{
-		"auth": false,
-	})
-}
-

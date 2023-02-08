@@ -1,11 +1,12 @@
 package router_setup
 
 import (
-	"github.com/gin-gonic/gin"
-	"github.com/gin-contrib/cors"
-	"gorm.io/gorm"
-	"notebook_app/cmd/app/notes"
 	"notebook_app/cmd/app/auth"
+	"notebook_app/cmd/app/notes"
+
+	"github.com/gin-contrib/cors"
+	"github.com/gin-gonic/gin"
+	"gorm.io/gorm"
 )
 
 func InitializeRouter(db *gorm.DB) *gin.Engine {
@@ -31,9 +32,6 @@ func InitializeRouter(db *gorm.DB) *gin.Engine {
 
 	// login user
 	api.POST("/login", auth.Login(db))
-
-	// logout user
-	api.GET("/logout", auth.Logout)
 
 	// fetch user's notes
 	api.POST("/view-notes", notes.ViewNotes(db))
