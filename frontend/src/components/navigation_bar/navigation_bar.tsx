@@ -6,7 +6,7 @@ import NavDropdown from 'react-bootstrap/NavDropdown';
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { getToken } from "components/token/token";
-import { Logout } from "./logout";
+import { Logout } from "components/logout/logout";
 
 export const MyNavBar = () => {
 	const [isAuth, setAuth] = useState(false);
