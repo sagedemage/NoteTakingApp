@@ -6,3 +6,7 @@
 	margin-bottom: 35px;
 }
 
+.navbar {
+    z-index: 1;
+}
+

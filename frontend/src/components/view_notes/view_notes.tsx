@@ -66,18 +66,6 @@ export default function Notes() {
 		}
 	}, []);
 
-	function DisableButtons() {
-		document.getElementById("add-note")!.style.pointerEvents! = "none";
-		document.getElementById("edit-note")!.style.pointerEvents! = "none";
-		document.getElementById("delete-note")!.style.pointerEvents! = "none";
-	}
-
-	function EnableButtons() {
-		document.getElementById("add-note")!.style.pointerEvents! = "auto";
-		document.getElementById("edit-note")!.style.pointerEvents! = "auto";
-		document.getElementById("delete-note")!.style.pointerEvents! = "auto";
-	}
-
 	/* Add Note */
 	const handleAddSubmit: FormEventHandler<HTMLFormElement> = async (e) => {
 		/* Add New Note Submission */
@@ -106,18 +94,14 @@ export default function Notes() {
 			})
 		}
 	};
-	
+
 	const OpenAddFormBox = () => {
 		/* Open Add Confirm Popup Window */
 		setOpenAddFormBox(true);
-
-		DisableButtons();
 	}
 
-	const CloseAddFormBox= () => {
+	const CloseAddFormBox = () => {
 		setOpenAddFormBox(false);
-
-		EnableButtons();
 	}
 
 	/* Edit Note */
@@ -155,15 +139,11 @@ export default function Notes() {
 
 		// open edit form box
 		setOpenEditFormBox(true);
-
-		DisableButtons();
 	}
 
 	const CloseEditFormBox = () => {
 		/* Close Edit Form Popup Window */
 		setOpenEditFormBox(false);
-
-		EnableButtons();
 	}
 
 	/* Delete Note */
@@ -179,21 +159,17 @@ export default function Notes() {
 		})
 	};
 
-	
+
 
 	function OpenDeleteConfirmBox(note_id: string) {
 		/* Open Delete Confirm Popup Window */
 		setNoteId(parseInt(note_id));
 
 		setOpenDeleteConfirmBox(true);
-
-		DisableButtons();
 	}
 
 	const CloseDeleteConfirmBox = () => {
 		setOpenDeleteConfirmBox(false);
-
-		EnableButtons();
 	}
 
 	return (
@@ -223,77 +199,83 @@ export default function Notes() {
 				)
 			})}
 			{open_edit_form_box === true &&
-				<div className="box">
-					<h2> Edit Note </h2>
-					<form method="post" onSubmit={handleEditSubmit}>
-						<div className="form-group">
-							<label htmlFor="exampleFormControlInput1">Title</label>
-							<input className="form-control" id="exampleFormControlInput1"
-								name="title" placeholder="Title"
-								value={title_edit}
-								onChange={handleTitleEditChange}
-								required />
-						</div>
-						<div className="form-group">
-							<label htmlFor="exampleFormControlTextarea1">Description</label>
-							<textarea className="form-control" id="exampleFormControlTextarea1"
-								name="description" rows={3} placeholder="Description"
-								value={description_edit}
-								onChange={handleDescriptionEditChange}
-								required> </textarea>
-						</div>
+				<div className="inactive_area">
+					<div className="box">
+						<h2> Edit Note </h2>
+						<form method="post" onSubmit={handleEditSubmit}>
+							<div className="form-group">
+								<label htmlFor="exampleFormControlInput1">Title</label>
+								<input className="form-control" id="exampleFormControlInput1"
+									name="title" placeholder="Title"
+									value={title_edit}
+									onChange={handleTitleEditChange}
+									required />
+							</div>
+							<div className="form-group">
+								<label htmlFor="exampleFormControlTextarea1">Description</label>
+								<textarea className="form-control" id="exampleFormControlTextarea1"
+									name="description" rows={3} placeholder="Description"
+									value={description_edit}
+									onChange={handleDescriptionEditChange}
+									required> </textarea>
+							</div>
 
-						<button type="submit" className="btn btn-primary">Submit</button>
-						<button type="button" className="btn btn-secondary"
-							onClick={CloseEditFormBox}>
-							Close
-						</button>
-					</form>
+							<button type="submit" className="btn btn-primary">Submit</button>
+							<button type="button" className="btn btn-secondary"
+								onClick={CloseEditFormBox}>
+								Close
+							</button>
+						</form>
+					</div>
 				</div>
 			}
 			{open_delete_confirm_box === true &&
-				<div className="box">
-					<h2> Delete Note </h2>
-					<p> You sure you want to delete the note? </p>
-					<form method="post" onSubmit={handleDeleteSubmit}>
-						<button type="submit" className="btn btn-danger">
-							Delete
-						</button>
-						<button type="button" className="btn btn-secondary"
-							onClick={CloseDeleteConfirmBox}>
-							Back
-						</button>
-					</form>
+				<div className="inactive_area">
+					<div className="box">
+						<h2> Delete Note </h2>
+						<p> You sure you want to delete the note? </p>
+						<form method="post" onSubmit={handleDeleteSubmit}>
+							<button type="submit" className="btn btn-danger">
+								Delete
+							</button>
+							<button type="button" className="btn btn-secondary"
+								onClick={CloseDeleteConfirmBox}>
+								Back
+							</button>
+						</form>
+					</div>
 				</div>
 			}
 			{open_add_form_box === true &&
-				<div className="box">
-					<h2> Add Note </h2>
-					<form method="post" onSubmit={handleAddSubmit}>
-						<div className="form-group">
-							<label htmlFor="exampleFormControlInput1">Title</label>
-							<input className="form-control" id="exampleFormControlInput1"
-								name="title" placeholder="Title"
-								value={title_add}
-								onChange={handleTitleAddChange}
-								required />
-						</div>
-						<div className="form-group">
-							<label htmlFor="exampleFormControlTextarea1">Description</label>
-							<textarea className="form-control" id="exampleFormControlTextarea1"
-								name="description" rows={3} placeholder="Description"
-								value={description_add}
-								onChange={handleDescriptionAddChange}
-								required> </textarea>
-						</div>
-						<button type="submit" className="btn btn-primary">
-							Submit
-						</button>
-						<button type="button" className="btn btn-secondary"
-							onClick={CloseAddFormBox}>
-							Back
-						</button>
-					</form>
+				<div className="inactive_area">
+					<div className="box">
+						<h2> Add Note </h2>
+						<form method="post" onSubmit={handleAddSubmit}>
+							<div className="form-group">
+								<label htmlFor="exampleFormControlInput1">Title</label>
+								<input className="form-control" id="exampleFormControlInput1"
+									name="title" placeholder="Title"
+									value={title_add}
+									onChange={handleTitleAddChange}
+									required />
+							</div>
+							<div className="form-group">
+								<label htmlFor="exampleFormControlTextarea1">Description</label>
+								<textarea className="form-control" id="exampleFormControlTextarea1"
+									name="description" rows={3} placeholder="Description"
+									value={description_add}
+									onChange={handleDescriptionAddChange}
+									required> </textarea>
+							</div>
+							<button type="submit" className="btn btn-primary">
+								Submit
+							</button>
+							<button type="button" className="btn btn-secondary"
+								onClick={CloseAddFormBox}>
+								Back
+							</button>
+						</form>
+					</div>
 				</div>
 			}
 		</div>
