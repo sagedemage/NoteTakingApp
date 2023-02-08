@@ -34,7 +34,7 @@ export const MyNavBar = () => {
 
 	return (
 		<div className="mb">
-			<Navbar collapseOnSelect expand="lg" bg="myBlue" variant="dark" fixed="top">
+			<Navbar collapseOnSelect id="navbar" expand="lg" bg="myBlue" variant="dark" fixed="top">
 				<Container>
 					<Navbar.Brand href="/">
 						<span className="indent"> Notebook </span>

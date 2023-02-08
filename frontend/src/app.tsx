@@ -14,9 +14,6 @@ const About = lazy(() => import('./components/simple_pages/about'));
 const Login = lazy(() => import('./components/login/login'));
 const Register = lazy(() => import('./components/register/register'));
 const Notes = lazy(()=> import('./components/view_notes/view_notes'));
-const AddNoteForm = lazy(()=> import('./components/note_actions/add_new_note'));
-const DeleteNote = lazy(()=> import('./components/note_actions/delete_note'));
-const EditNoteForm = lazy(() => import('./components/note_actions/edit_note'));
 const PageNotFound = lazy(() => import('./components/page_not_found/page_not_found'));
 
 
@@ -36,9 +33,6 @@ function App() {
 
 						<Route element={<AuthRoute />}>
 							<Route path="dashboard" element={<Notes />}> </Route>
-							<Route path="add-new-note" element={<AddNoteForm />}> </Route>
-							<Route path="delete-note" element={<DeleteNote />}> </Route>
-							<Route path="edit-note" element={<EditNoteForm />}> </Route>
 						</Route>
 					</Routes>
 				</Suspense>

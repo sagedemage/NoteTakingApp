@@ -8,4 +8,43 @@
 	margin-bottom: 20px;
 }
 
+.box {
+	top: 25vh;
+	left: 37.5vw;
+	right: auto;
+	bottom: auto;
+	padding: 40px;
+	position: fixed;
+	background-color: white;
+	border: 1px rgb(49, 49, 49) solid;
+	border-radius: 25px;
+	box-shadow: 5px 5px #494949;
+	width: 50vh;
+}
+
+.inactive_area {
+	top: 0;
+	left: 0;
+	right: auto;
+	bottom: auto;
+	padding: 100%;
+	position: fixed;
+	background-color: rgba(50, 50, 50, 0.7);
+	width: 100%;
+	z-index: 2;
+}
+
+.inactive {
+	pointer-events: none;
+}
+
+/* mobile portrait layout */
+@media only screen and (max-width: 479px) {
+	.box {
+		left: 15vw;
+		right: 15vw;
+	}
+}
+
+
 
