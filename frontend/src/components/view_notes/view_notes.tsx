@@ -8,7 +8,7 @@ import "./view_notes.css";
 export default function Notes() {
 	/* View Notes Page (Dashboard Page) */
 	const [notes, setNotes] = useState([]);
-	const [open_edit_form_box, setOpenEditFormBox] = useState(false);
+	//const [open_edit_form_box, setOpenEditFormBox] = useState(false);
 	const [open_add_form_box, setOpenAddFormBox] = useState(false);
 	const [open_delete_confirm_box, setOpenDeleteConfirmBox] = useState(false);
 	const [note_id, setNoteId] = useState<number | undefined>(undefined);
@@ -18,6 +18,9 @@ export default function Notes() {
 
 	const [title_add, setTitleAdd] = useState('');
 	const [description_add, setDescriptionAdd] = useState('');
+
+	const edit_note_dialog = (document.getElementById("EditNoteDialog") as HTMLDialogElement) 
+	const inactive_area_dialog = (document.getElementById("InactiveAreaDialog") as HTMLDialogElement) 
 
 	/*	
 	Handle title and description changes
@@ -138,12 +141,19 @@ export default function Notes() {
 		setNoteId(parseInt(note_id));
 
 		// open edit form box
-		setOpenEditFormBox(true);
+		//setOpenEditFormBox(true);
+
+		inactive_area_dialog.show();
+		edit_note_dialog.show();
+
+
 	}
 
 	const CloseEditFormBox = () => {
 		/* Close Edit Form Popup Window */
-		setOpenEditFormBox(false);
+		//setOpenEditFormBox(false);
+		edit_note_dialog.close()
+		inactive_area_dialog.close();
 	}
 
 	/* Delete Note */
@@ -172,6 +182,7 @@ export default function Notes() {
 		setOpenDeleteConfirmBox(false);
 	}
 
+
 	return (
 		<div>
 			<h2> Notes </h2>
@@ -198,37 +209,38 @@ export default function Notes() {
 					</div>
 				)
 			})}
-			{open_edit_form_box === true &&
-				<div className="inactive_area">
-					<div className="box">
-						<h2> Edit Note </h2>
-						<form method="post" onSubmit={handleEditSubmit}>
-							<div className="form-group">
-								<label htmlFor="exampleFormControlInput1">Title</label>
-								<input className="form-control" id="exampleFormControlInput1"
-									name="title" placeholder="Title"
-									value={title_edit}
-									onChange={handleTitleEditChange}
-									required />
-							</div>
-							<div className="form-group">
-								<label htmlFor="exampleFormControlTextarea1">Description</label>
-								<textarea className="form-control" id="exampleFormControlTextarea1"
-									name="description" rows={3} placeholder="Description"
-									value={description_edit}
-									onChange={handleDescriptionEditChange}
-									required> </textarea>
-							</div>
 
-							<button type="submit" className="btn btn-primary">Submit</button>
-							<button type="button" className="btn btn-secondary"
-								onClick={CloseEditFormBox}>
-								Close
-							</button>
-						</form>
+			<dialog id="InactiveAreaDialog" className="inactive_area">
+			</dialog>
+
+			<dialog id="EditNoteDialog" className="dialog">
+				<h2> Edit Note </h2>
+				<form method="post" onSubmit={handleEditSubmit}>
+					<div className="form-group">
+						<label htmlFor="exampleFormControlInput1">Title</label>
+						<input className="form-control" id="exampleFormControlInput1"
+							name="title" placeholder="Title"
+							value={title_edit}
+							onChange={handleTitleEditChange}
+							required />
 					</div>
-				</div>
-			}
+					<div className="form-group">
+						<label htmlFor="exampleFormControlTextarea1">Description</label>
+						<textarea className="form-control" id="exampleFormControlTextarea1"
+							name="description" rows={3} placeholder="Description"
+							value={description_edit}
+							onChange={handleDescriptionEditChange}
+							required> </textarea>
+					</div>
+
+					<button type="submit" className="btn btn-primary">Submit</button>
+					<button type="button" className="btn btn-secondary"
+						onClick={CloseEditFormBox}>
+						Close
+					</button>
+				</form>
+			</dialog>
+
 			{open_delete_confirm_box === true &&
 				<div className="inactive_area">
 					<div className="box">
