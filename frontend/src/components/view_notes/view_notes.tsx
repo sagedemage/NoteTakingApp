@@ -199,7 +199,7 @@ export default function Notes() {
 			})}
 
 			{/* Add Note */}
-			<Modal show={show_add_note} onHide={handleCloseAddNote}>
+			<Modal className="modal" show={show_add_note} onHide={handleCloseAddNote}>
 				<Modal.Header closeButton>
 					<Modal.Title>Add Note</Modal.Title>
 				</Modal.Header>
