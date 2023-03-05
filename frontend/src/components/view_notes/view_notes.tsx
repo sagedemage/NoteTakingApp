@@ -4,6 +4,8 @@ import { useEffect, useState, ChangeEventHandler, FormEventHandler } from "react
 import { getToken } from "components/token/token";
 import axios from "axios";
 import "./view_notes.css";
+import Modal from 'react-bootstrap/Modal';
+import Button from 'react-bootstrap/Button';
 
 export default function Notes() {
 	/* View Notes Page (Dashboard Page) */
@@ -19,8 +21,13 @@ export default function Notes() {
 	const [title_add, setTitleAdd] = useState('');
 	const [description_add, setDescriptionAdd] = useState('');
 
-	const edit_note_dialog = (document.getElementById("EditNoteDialog") as HTMLDialogElement) 
-	const inactive_area_dialog = (document.getElementById("InactiveAreaDialog") as HTMLDialogElement) 
+	const edit_note_dialog = (document.getElementById("EditNoteDialog") as HTMLDialogElement);
+	const inactive_area_dialog = (document.getElementById("InactiveAreaDialog") as HTMLDialogElement); 
+
+	const [show, setShow] = useState(false);
+
+  	const handleClose = () => setShow(false);
+  	const handleShow = () => setShow(true);
 
 	/*	
 	Handle title and description changes
@@ -290,6 +297,25 @@ export default function Notes() {
 					</div>
 				</div>
 			}
+
+<Button variant="primary" onClick={handleShow}>
+        Launch demo modal
+      </Button>
+
+      <Modal show={show} onHide={handleClose}>
+        <Modal.Header closeButton>
+          <Modal.Title>Modal heading</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>Woohoo, you're reading this text in a modal!</Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleClose}>
+            Close
+          </Button>
+          <Button variant="primary" onClick={handleClose}>
+            Save Changes
+          </Button>
+        </Modal.Footer>
+      </Modal>
 		</div>
 	);
 }
