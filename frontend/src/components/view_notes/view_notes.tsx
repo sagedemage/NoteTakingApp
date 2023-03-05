@@ -6,6 +6,7 @@ import axios from "axios";
 import "./view_notes.css";
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
+import Form from 'react-bootstrap/Form';
 
 export default function Notes() {
 	/* View Notes Page (Dashboard Page) */
@@ -22,12 +23,12 @@ export default function Notes() {
 	const [description_add, setDescriptionAdd] = useState('');
 
 	const edit_note_dialog = (document.getElementById("EditNoteDialog") as HTMLDialogElement);
-	const inactive_area_dialog = (document.getElementById("InactiveAreaDialog") as HTMLDialogElement); 
+	const inactive_area_dialog = (document.getElementById("InactiveAreaDialog") as HTMLDialogElement);
 
-	const [show, setShow] = useState(false);
+	const [show_add_note, setShowAddNote] = useState(false);
 
-  	const handleClose = () => setShow(false);
-  	const handleShow = () => setShow(true);
+	const handleCloseAddNote = () => setShowAddNote(false);
+	const handleShowAddNote = () => setShowAddNote(true);
 
 	/*	
 	Handle title and description changes
@@ -104,11 +105,6 @@ export default function Notes() {
 			})
 		}
 	};
-
-	const OpenAddFormBox = () => {
-		/* Open Add Confirm Popup Window */
-		setOpenAddFormBox(true);
-	}
 
 	const CloseAddFormBox = () => {
 		setOpenAddFormBox(false);
@@ -193,11 +189,9 @@ export default function Notes() {
 	return (
 		<div>
 			<h2> Notes </h2>
-			<form method="post">
-				<button id="add-note" type="button" className="btn btn-primary" onClick={OpenAddFormBox}>
-					Add
-				</button>
-			</form>
+			<Button variant="primary" onClick={handleShowAddNote}>
+				Add
+			</Button>
 			{notes.map((note, i) => {
 				return (
 					<div className="container note-entry" key={i}>
@@ -298,24 +292,39 @@ export default function Notes() {
 				</div>
 			}
 
-<Button variant="primary" onClick={handleShow}>
-        Launch demo modal
-      </Button>
-
-      <Modal show={show} onHide={handleClose}>
-        <Modal.Header closeButton>
-          <Modal.Title>Modal heading</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>Woohoo, you're reading this text in a modal!</Modal.Body>
-        <Modal.Footer>
-          <Button variant="secondary" onClick={handleClose}>
-            Close
-          </Button>
-          <Button variant="primary" onClick={handleClose}>
-            Save Changes
-          </Button>
-        </Modal.Footer>
-      </Modal>
+			<Modal show={show_add_note} onHide={handleCloseAddNote}>
+				<Modal.Header closeButton>
+					<Modal.Title>Add Note</Modal.Title>
+				</Modal.Header>
+				<Modal.Body>
+					<Form id="myform" method="post" onSubmit={handleAddSubmit}>
+						<Form.Group className="mb-3">
+							<Form.Label>Title</Form.Label>
+							<Form.Control name="title" placeholder="Title" 
+								value={title_add}
+								onChange={handleTitleAddChange}
+								required/>
+						</Form.Group>
+						<Form.Group className="mb-3">
+							<Form.Label>Description</Form.Label>
+							<Form.Control name="description" rows={3}
+								as="textarea" 
+								placeholder="Description"
+								value={description_add}
+								onChange={handleDescriptionAddChange}
+								required/>
+						</Form.Group>
+					</Form>
+				</Modal.Body>
+				<Modal.Footer>
+					<Button variant="primary" type="submit" form="myform">
+						Submit
+					</Button>
+					<Button variant="secondary" onClick={handleCloseAddNote}>
+						Close
+					</Button>
+				</Modal.Footer>
+			</Modal>
 		</div>
 	);
 }
