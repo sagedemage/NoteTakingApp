@@ -12,7 +12,7 @@ export default function Notes() {
 	/* View Notes Page (Dashboard Page) */
 	const [notes, setNotes] = useState([]);
 	//const [open_edit_form_box, setOpenEditFormBox] = useState(false);
-	const [open_add_form_box, setOpenAddFormBox] = useState(false);
+	//const [open_add_form_box, setOpenAddFormBox] = useState(false);
 	const [open_delete_confirm_box, setOpenDeleteConfirmBox] = useState(false);
 	const [note_id, setNoteId] = useState<number | undefined>(undefined);
 
@@ -26,9 +26,40 @@ export default function Notes() {
 	const inactive_area_dialog = (document.getElementById("InactiveAreaDialog") as HTMLDialogElement);
 
 	const [show_add_note, setShowAddNote] = useState(false);
+	const [show_edit_note, setShowEditNote] = useState(false);
 
-	const handleCloseAddNote = () => setShowAddNote(false);
+	const handleCloseAddNote = () => {
+		setShowAddNote(false);
+		setTitleAdd("");
+		setDescriptionAdd("");
+	};
+
+	const handleCloseEditNote = () => {
+		setShowEditNote(false);
+		setTitleEdit("");
+		setDescriptionEdit("");
+	};
+
 	const handleShowAddNote = () => setShowAddNote(true);
+
+	function handleShowEditNote(note_id: string) {
+		/* Open Edit Note Form Popup Window */
+		// Fetch Note
+		axios.post(`http://localhost:8080/api/fetch-note`, {
+			note_id: note_id,
+		}).then((response) => {
+			if (note_id !== undefined) {
+				setTitleEdit(response.data.title);
+				setDescriptionEdit(response.data.description);
+			}
+		}).catch(e => {
+			console.log(e);
+		})
+
+		// set note id
+		setNoteId(parseInt(note_id));
+		setShowEditNote(true)
+	};
 
 	/*	
 	Handle title and description changes
@@ -106,10 +137,6 @@ export default function Notes() {
 		}
 	};
 
-	const CloseAddFormBox = () => {
-		setOpenAddFormBox(false);
-	}
-
 	/* Edit Note */
 	const handleEditSubmit: FormEventHandler<HTMLFormElement> = async (e) => {
 		e.preventDefault();
@@ -126,31 +153,7 @@ export default function Notes() {
 		})
 	};
 
-	function OpenEditFormBox(note_id: string) {
-		/* Open Edit Note Form Popup Window */
-		// Fetch Note
-		axios.post(`http://localhost:8080/api/fetch-note`, {
-			note_id: note_id,
-		}).then((response) => {
-			if (note_id !== undefined) {
-				setTitleEdit(response.data.title);
-				setDescriptionEdit(response.data.description);
-			}
-		}).catch(e => {
-			console.log(e);
-		})
-
-		// set note id
-		setNoteId(parseInt(note_id));
-
-		// open edit form box
-		//setOpenEditFormBox(true);
-
-		inactive_area_dialog.show();
-		edit_note_dialog.show();
-
-
-	}
+	
 
 	const CloseEditFormBox = () => {
 		/* Close Edit Form Popup Window */
@@ -199,8 +202,9 @@ export default function Notes() {
 						<p> {note["Description"]} </p>
 						<div className="row">
 							<div className="col col-md-auto">
-								<button id="edit-note" className="btn btn-primary"
-									onClick={() => OpenEditFormBox(note["ID"])}>Edit</button>
+								<Button variant="primary" onClick={() => handleShowEditNote(note["ID"])}>
+									Edit
+								</Button>
 							</div>
 							<div className="col col-md-auto">
 								<button id="delete-note" className="btn btn-danger"
@@ -259,39 +263,8 @@ export default function Notes() {
 					</div>
 				</div>
 			}
-			{open_add_form_box === true &&
-				<div className="inactive_area">
-					<div className="box">
-						<h2> Add Note </h2>
-						<form method="post" onSubmit={handleAddSubmit}>
-							<div className="form-group">
-								<label htmlFor="exampleFormControlInput1">Title</label>
-								<input className="form-control" id="exampleFormControlInput1"
-									name="title" placeholder="Title"
-									value={title_add}
-									onChange={handleTitleAddChange}
-									required />
-							</div>
-							<div className="form-group">
-								<label htmlFor="exampleFormControlTextarea1">Description</label>
-								<textarea className="form-control" id="exampleFormControlTextarea1"
-									name="description" rows={3} placeholder="Description"
-									value={description_add}
-									onChange={handleDescriptionAddChange}
-									required> </textarea>
-							</div>
-							<button type="submit" className="btn btn-primary">
-								Submit
-							</button>
-							<button type="button" className="btn btn-secondary"
-								onClick={CloseAddFormBox}>
-								Back
-							</button>
-						</form>
-					</div>
-				</div>
-			}
 
+			{/* Add Note */}
 			<Modal show={show_add_note} onHide={handleCloseAddNote}>
 				<Modal.Header closeButton>
 					<Modal.Title>Add Note</Modal.Title>
@@ -321,6 +294,43 @@ export default function Notes() {
 						Submit
 					</Button>
 					<Button variant="secondary" onClick={handleCloseAddNote}>
+						Close
+					</Button>
+				</Modal.Footer>
+			</Modal>
+
+			
+
+			{/* Edit Note */}
+			<Modal show={show_edit_note} onHide={handleCloseEditNote}>
+				<Modal.Header closeButton>
+					<Modal.Title>Edit Note</Modal.Title>
+				</Modal.Header>
+				<Modal.Body>
+					<Form id="myform" method="post" onSubmit={handleEditSubmit}>
+						<Form.Group className="mb-3">
+							<Form.Label>Title</Form.Label>
+							<Form.Control name="title" placeholder="Title" 
+								value={title_edit}
+								onChange={handleTitleEditChange}
+								required/>
+						</Form.Group>
+						<Form.Group className="mb-3">
+							<Form.Label>Description</Form.Label>
+							<Form.Control name="description" rows={3}
+								as="textarea" 
+								placeholder="Description"
+								value={description_edit}
+								onChange={handleDescriptionEditChange}
+								required/>
+						</Form.Group>
+					</Form>
+				</Modal.Body>
+				<Modal.Footer>
+					<Button variant="primary" type="submit" form="myform">
+						Submit
+					</Button>
+					<Button variant="secondary" onClick={handleCloseEditNote}>
 						Close
 					</Button>
 				</Modal.Footer>
