@@ -1,6 +1,6 @@
 /* View Notes (Dashboard) */
 
-import { useEffect, useState, ChangeEventHandler, FormEventHandler } from "react";
+import { useEffect, useState, ChangeEventHandler, FormEventHandler, MouseEventHandler } from "react";
 import { getToken } from "components/token/token";
 import axios from "axios";
 import "./view_notes.css";
@@ -11,9 +11,6 @@ import Form from 'react-bootstrap/Form';
 export default function Notes() {
 	/* View Notes Page (Dashboard Page) */
 	const [notes, setNotes] = useState([]);
-	//const [open_edit_form_box, setOpenEditFormBox] = useState(false);
-	//const [open_add_form_box, setOpenAddFormBox] = useState(false);
-	const [open_delete_confirm_box, setOpenDeleteConfirmBox] = useState(false);
 	const [note_id, setNoteId] = useState<number | undefined>(undefined);
 
 	const [title_edit, setTitleEdit] = useState('');
@@ -22,11 +19,9 @@ export default function Notes() {
 	const [title_add, setTitleAdd] = useState('');
 	const [description_add, setDescriptionAdd] = useState('');
 
-	const edit_note_dialog = (document.getElementById("EditNoteDialog") as HTMLDialogElement);
-	const inactive_area_dialog = (document.getElementById("InactiveAreaDialog") as HTMLDialogElement);
-
 	const [show_add_note, setShowAddNote] = useState(false);
 	const [show_edit_note, setShowEditNote] = useState(false);
+	const [show_delete_note_confirm, setShowDeleteNoteConfirm] = useState(false);
 
 	const handleCloseAddNote = () => {
 		setShowAddNote(false);
@@ -40,7 +35,17 @@ export default function Notes() {
 		setDescriptionEdit("");
 	};
 
+	const handleCloseDeleteNoteConfirm = () => {
+		setShowDeleteNoteConfirm(false);
+	};
+
 	const handleShowAddNote = () => setShowAddNote(true);
+
+	function handleShowDeleteNoteConfirm(note_id: string) {
+		/* Open Delete Confirm Popup Window */
+		setNoteId(parseInt(note_id));
+		setShowDeleteNoteConfirm(true);
+	};
 
 	function handleShowEditNote(note_id: string) {
 		/* Open Edit Note Form Popup Window */
@@ -138,7 +143,7 @@ export default function Notes() {
 	};
 
 	/* Edit Note */
-	const handleEditSubmit: FormEventHandler<HTMLFormElement> = async (e) => {
+	const handleEditSubmit: MouseEventHandler<HTMLFormElement> = async (e) => {
 		e.preventDefault();
 		console.log(typeof note_id);
 		axios.post(`http://localhost:8080/api/edit-note`, {
@@ -153,17 +158,8 @@ export default function Notes() {
 		})
 	};
 
-	
-
-	const CloseEditFormBox = () => {
-		/* Close Edit Form Popup Window */
-		//setOpenEditFormBox(false);
-		edit_note_dialog.close()
-		inactive_area_dialog.close();
-	}
-
 	/* Delete Note */
-	const handleDeleteSubmit: FormEventHandler<HTMLFormElement> = async (e) => {
+	const handleDeleteNote: FormEventHandler<HTMLButtonElement> = async (e) => {
 		e.preventDefault();
 		axios.post(`http://localhost:8080/api/delete-note`, {
 			note_id: note_id,
@@ -174,20 +170,6 @@ export default function Notes() {
 			console.log(e);
 		})
 	};
-
-
-
-	function OpenDeleteConfirmBox(note_id: string) {
-		/* Open Delete Confirm Popup Window */
-		setNoteId(parseInt(note_id));
-
-		setOpenDeleteConfirmBox(true);
-	}
-
-	const CloseDeleteConfirmBox = () => {
-		setOpenDeleteConfirmBox(false);
-	}
-
 
 	return (
 		<div>
@@ -207,62 +189,14 @@ export default function Notes() {
 								</Button>
 							</div>
 							<div className="col col-md-auto">
-								<button id="delete-note" className="btn btn-danger"
-									onClick={() => OpenDeleteConfirmBox(note["ID"])}>Delete</button>
+								<Button variant="danger" onClick={() => handleShowDeleteNoteConfirm(note["ID"])}>
+									Delete
+								</Button>
 							</div>
 						</div>
 					</div>
 				)
 			})}
-
-			<dialog id="InactiveAreaDialog" className="inactive_area">
-			</dialog>
-
-			<dialog id="EditNoteDialog" className="dialog">
-				<h2> Edit Note </h2>
-				<form method="post" onSubmit={handleEditSubmit}>
-					<div className="form-group">
-						<label htmlFor="exampleFormControlInput1">Title</label>
-						<input className="form-control" id="exampleFormControlInput1"
-							name="title" placeholder="Title"
-							value={title_edit}
-							onChange={handleTitleEditChange}
-							required />
-					</div>
-					<div className="form-group">
-						<label htmlFor="exampleFormControlTextarea1">Description</label>
-						<textarea className="form-control" id="exampleFormControlTextarea1"
-							name="description" rows={3} placeholder="Description"
-							value={description_edit}
-							onChange={handleDescriptionEditChange}
-							required> </textarea>
-					</div>
-
-					<button type="submit" className="btn btn-primary">Submit</button>
-					<button type="button" className="btn btn-secondary"
-						onClick={CloseEditFormBox}>
-						Close
-					</button>
-				</form>
-			</dialog>
-
-			{open_delete_confirm_box === true &&
-				<div className="inactive_area">
-					<div className="box">
-						<h2> Delete Note </h2>
-						<p> You sure you want to delete the note? </p>
-						<form method="post" onSubmit={handleDeleteSubmit}>
-							<button type="submit" className="btn btn-danger">
-								Delete
-							</button>
-							<button type="button" className="btn btn-secondary"
-								onClick={CloseDeleteConfirmBox}>
-								Back
-							</button>
-						</form>
-					</div>
-				</div>
-			}
 
 			{/* Add Note */}
 			<Modal show={show_add_note} onHide={handleCloseAddNote}>
@@ -299,8 +233,6 @@ export default function Notes() {
 				</Modal.Footer>
 			</Modal>
 
-			
-
 			{/* Edit Note */}
 			<Modal show={show_edit_note} onHide={handleCloseEditNote}>
 				<Modal.Header closeButton>
@@ -331,6 +263,24 @@ export default function Notes() {
 						Submit
 					</Button>
 					<Button variant="secondary" onClick={handleCloseEditNote}>
+						Close
+					</Button>
+				</Modal.Footer>
+			</Modal>
+
+			{/* Delete Note */}
+			<Modal show={show_delete_note_confirm} onHide={handleCloseDeleteNoteConfirm}>
+				<Modal.Header closeButton>
+					<Modal.Title>Delete Note</Modal.Title>
+				</Modal.Header>
+				<Modal.Body>
+					<p> You sure you want to delete the note? </p>
+				</Modal.Body>
+				<Modal.Footer>
+					<Button variant="danger" onClick={handleDeleteNote}>
+						Delete
+					</Button>
+					<Button variant="secondary" onClick={handleCloseDeleteNoteConfirm}>
 						Close
 					</Button>
 				</Modal.Footer>
