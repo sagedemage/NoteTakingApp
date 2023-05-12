@@ -2,13 +2,14 @@ package tests
 
 import (
 	"bytes"
-	"net/http"
-	"net/http/httptest"
 	"encoding/json"
 	"io"
-	"testing"
-	"github.com/stretchr/testify/assert"
+	"net/http"
+	"net/http/httptest"
 	"notebook_app/cmd/app/request_bodies"
+	"testing"
+
+	"github.com/stretchr/testify/assert"
 )
 
 func TestAddNote(t *testing.T) {
@@ -19,18 +20,18 @@ func TestAddNote(t *testing.T) {
 	w := httptest.NewRecorder()
 
 	// request body
-	add_note := request_bodies.AddNoteRequest {
-		UserID: 1,
-		Title: "title",
+	add_note := request_bodies.AddNoteRequest{
+		UserID:      1,
+		Title:       "title",
 		Description: "description",
 	}
 
 	// convert to json
-	jsonValue, _ := json.Marshal(add_note) 
+	jsonValue, _ := json.Marshal(add_note)
 
 	// request for add new note api
 	request, _ := http.NewRequest("POST", "/api/add-new-note", bytes.NewBuffer(jsonValue))
-	
+
 	// serve request
 	r.ServeHTTP(w, request)
 
@@ -50,7 +51,7 @@ func TestFetchNote(t *testing.T) {
 	w := httptest.NewRecorder()
 
 	// request body
-	add_note := request_bodies.DeleteorFetchNoteRequest {
+	add_note := request_bodies.DeleteorFetchNoteRequest{
 		NoteID: 1,
 	}
 
@@ -59,7 +60,7 @@ func TestFetchNote(t *testing.T) {
 
 	// request for fetch note api
 	request, _ := http.NewRequest("POST", "/api/fetch-note", bytes.NewBuffer(jsonValue))
-	
+
 	// serve request
 	r.ServeHTTP(w, request)
 
@@ -82,7 +83,7 @@ func TestViewNotes(t *testing.T) {
 	w := httptest.NewRecorder()
 
 	// request body
-	add_note := request_bodies.ViewNotesRequest {
+	add_note := request_bodies.ViewNotesRequest{
 		UserID: 1,
 	}
 
@@ -91,7 +92,7 @@ func TestViewNotes(t *testing.T) {
 
 	// request for view notes api
 	request, _ := http.NewRequest("POST", "/api/view-notes", bytes.NewBuffer(jsonValue))
-	
+
 	// serve request
 	r.ServeHTTP(w, request)
 
@@ -114,9 +115,9 @@ func TestEditNote(t *testing.T) {
 	w := httptest.NewRecorder()
 
 	// request body
-	edit_note := request_bodies.EditNoteRequest {
-		NoteID: 1,
-		Title: "title2",
+	edit_note := request_bodies.EditNoteRequest{
+		NoteID:      1,
+		Title:       "title2",
 		Description: "description2",
 	}
 
@@ -124,8 +125,8 @@ func TestEditNote(t *testing.T) {
 	jsonValue, _ := json.Marshal(edit_note)
 
 	// request for edit note api
-	request, _ := http.NewRequest("POST", "/api/edit-note", bytes.NewBuffer(jsonValue))
-	
+	request, _ := http.NewRequest("PATCH", "/api/edit-note", bytes.NewBuffer(jsonValue))
+
 	// serve request
 	r.ServeHTTP(w, request)
 
@@ -141,21 +142,19 @@ func TestDeleteNote(t *testing.T) {
 	w := httptest.NewRecorder()
 
 	// request body
-	delete_note := request_bodies.DeleteorFetchNoteRequest {
+	delete_note := request_bodies.DeleteorFetchNoteRequest{
 		NoteID: 1,
 	}
 
 	// convert to json
 	jsonValue, _ := json.Marshal(delete_note)
 
-	
 	// request for delete note api
-	request, _ := http.NewRequest("POST", "/api/delete-note", bytes.NewBuffer(jsonValue))
-	
+	request, _ := http.NewRequest("DELETE", "/api/delete-note", bytes.NewBuffer(jsonValue))
+
 	// serve request
 	r.ServeHTTP(w, request)
 
 	// check if the response is a success
 	assert.Equal(t, 200, w.Code)
 }
-
