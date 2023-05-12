@@ -47,4 +47,7 @@ docker-compose up
 * [golang-jwt/jwt](https://github.com/golang-jwt/jwt)
 * [joho/godotenv](https://github.com/joho/godotenv)
 
+## Branch Naming Scheme
+[Branch Naming Scheme](docs/branch_naming_scheme.md)
+
 
