@@ -145,7 +145,6 @@ export default function Notes() {
 	/* Edit Note */
 	const handleEditSubmit: MouseEventHandler<HTMLFormElement> = async (e) => {
 		e.preventDefault();
-		console.log(typeof note_id);
 		axios.patch(`http://localhost:8080/api/edit-note`, {
 			note_id: note_id,
 			title: title_edit,
