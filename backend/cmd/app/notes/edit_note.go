@@ -1,37 +1,12 @@
 package notes
 
 import (
-	"github.com/gin-gonic/gin"
-	"gorm.io/gorm"
 	"notebook_app/cmd/app/notebook_db"
 	"notebook_app/cmd/app/request_bodies"
+
+	"github.com/gin-gonic/gin"
+	"gorm.io/gorm"
 )
-
-func FetchNote(db *gorm.DB) gin.HandlerFunc {
-	fn := func(c *gin.Context) {
-		/* Fetch the note data in order to 
-		easily edit note quickly */
-		var body request_bodies.DeleteorFetchNoteRequest
-
-		// Get JSON Request Body
-		err := c.BindJSON(&body)
-
-		if err != nil {
-			println(err)
-			return
-		}
-
-		// get entry note values
-		note := notebook_db.GetNoteEntry(db, body.NoteID)
-	
-		// return note data
-		c.JSON(200, gin.H{
-			"title": note.Title,
-			"description": note.Description,
-		})
-	}
-	return gin.HandlerFunc(fn)
-}
 
 func EditNote(db *gorm.DB) gin.HandlerFunc {
 	fn := func(c *gin.Context) {
@@ -51,4 +26,3 @@ func EditNote(db *gorm.DB) gin.HandlerFunc {
 	}
 	return gin.HandlerFunc(fn)
 }
-

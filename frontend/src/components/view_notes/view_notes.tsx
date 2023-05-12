@@ -50,9 +50,8 @@ export default function Notes() {
 	function handleShowEditNote(note_id: string) {
 		/* Open Edit Note Form Popup Window */
 		// Fetch Note
-		axios.post(`http://localhost:8080/api/fetch-note`, {
-			note_id: note_id,
-		}).then((response) => {
+		axios.get(`http://localhost:8080/api/fetch-note?id=` + note_id)
+		.then((response) => {
 			if (note_id !== undefined) {
 				setTitleEdit(response.data.title);
 				setDescriptionEdit(response.data.description);
