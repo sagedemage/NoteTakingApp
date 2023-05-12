@@ -14,3 +14,8 @@ bugfix-NameOfBug
 ```
 enhance-NameOfEnhancement
 ```
+
+## Documentation Request
+```
+docs-NameOfDocumentation
+```
