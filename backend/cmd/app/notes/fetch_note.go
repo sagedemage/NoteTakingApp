@@ -22,7 +22,7 @@ func FetchNote(db *gorm.DB) gin.HandlerFunc {
 		}
 
 		// get entry note values
-		note := notebook_db.GetNoteEntry(db, note_id)
+		note := notebook_db.GetNoteEntry(db, uint(note_id))
 
 		// return note data
 		c.JSON(200, gin.H{

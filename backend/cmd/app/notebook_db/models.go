@@ -46,7 +46,7 @@ func CreateNewNoteEntry(db *gorm.DB, title string, description string, user_id u
 	db.Create(&Note{Title: title, Description: description, UserID: user_id})
 }
 
-func GetNoteEntry(db *gorm.DB, note_id int) *Note {
+func GetNoteEntry(db *gorm.DB, note_id uint) *Note {
 	/* Get the entry by id */
 	var note = &Note{}
 	db.First(&note, note_id)
