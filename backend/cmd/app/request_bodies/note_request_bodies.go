@@ -3,22 +3,21 @@ package request_bodies
 /* Note Request Bodies */
 
 type AddNoteRequest struct {
-	UserID uint `json:"user_id"`
-	Title string `json:"title"`
+	UserID      uint   `json:"user_id"`
+	Title       string `json:"title"`
 	Description string `json:"description"`
 }
 
 type EditNoteRequest struct {
-	NoteID uint `json:"note_id"`
-	Title string `json:"title"`
+	NoteID      uint   `json:"note_id"`
+	Title       string `json:"title"`
 	Description string `json:"description"`
 }
 
-type DeleteorFetchNoteRequest struct {
+type DeleteNoteRequest struct {
 	NoteID uint `json:"note_id"`
 }
 
 type ViewNotesRequest struct {
 	UserID uint `json:"user_id"`
 }
-

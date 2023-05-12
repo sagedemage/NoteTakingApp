@@ -134,7 +134,7 @@ func TestDeleteNote(t *testing.T) {
 	w := httptest.NewRecorder()
 
 	// request body
-	delete_note := request_bodies.DeleteorFetchNoteRequest{
+	delete_note := request_bodies.DeleteNoteRequest{
 		NoteID: 1,
 	}
 
