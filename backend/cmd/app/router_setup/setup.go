@@ -40,13 +40,13 @@ func InitializeRouter(db *gorm.DB) *gin.Engine {
 	api.POST("/add-new-note", notes.AddNewNote(db))
 
 	// Delete Note from POST request
-	api.POST("/delete-note", notes.DeleteNote(db))
+	api.DELETE("/delete-note", notes.DeleteNote(db))
 
 	// Fetch Note
 	api.POST("/fetch-note", notes.FetchNote(db))
 
 	// Edit Note from POST request
-	api.POST("/edit-note", notes.EditNote(db))
+	api.PATCH("/edit-note", notes.EditNote(db))
 
 	// Get Decoded Token from POST request
 	api.POST("/get-decoded-token", auth.GetDecodedToken)

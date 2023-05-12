@@ -146,7 +146,7 @@ export default function Notes() {
 	const handleEditSubmit: MouseEventHandler<HTMLFormElement> = async (e) => {
 		e.preventDefault();
 		console.log(typeof note_id);
-		axios.post(`http://localhost:8080/api/edit-note`, {
+		axios.patch(`http://localhost:8080/api/edit-note`, {
 			note_id: note_id,
 			title: title_edit,
 			description: description_edit,
@@ -161,8 +161,8 @@ export default function Notes() {
 	/* Delete Note */
 	const handleDeleteNote: FormEventHandler<HTMLButtonElement> = async (e) => {
 		e.preventDefault();
-		axios.post(`http://localhost:8080/api/delete-note`, {
-			note_id: note_id,
+		axios.delete(`http://localhost:8080/api/delete-note`, {
+			data: {note_id: note_id},
 		}).then(() => {
 			// redirect to the dashboard
 			window.location.reload();
