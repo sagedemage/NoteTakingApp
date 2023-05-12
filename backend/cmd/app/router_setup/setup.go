@@ -43,7 +43,8 @@ func InitializeRouter(db *gorm.DB) *gin.Engine {
 	api.DELETE("/delete-note", notes.DeleteNote(db))
 
 	// Fetch Note
-	api.POST("/fetch-note", notes.FetchNote(db))
+	// url = /api/fetch-note?id={number}
+	api.GET("/fetch-note", notes.FetchNote(db))
 
 	// Edit Note from POST request
 	api.PATCH("/edit-note", notes.EditNote(db))

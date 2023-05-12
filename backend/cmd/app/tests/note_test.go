@@ -50,16 +50,8 @@ func TestFetchNote(t *testing.T) {
 	// writer for the reponse recorder
 	w := httptest.NewRecorder()
 
-	// request body
-	add_note := request_bodies.DeleteorFetchNoteRequest{
-		NoteID: 1,
-	}
-
-	// convert to json
-	jsonValue, _ := json.Marshal(add_note)
-
 	// request for fetch note api
-	request, _ := http.NewRequest("POST", "/api/fetch-note", bytes.NewBuffer(jsonValue))
+	request, _ := http.NewRequest("GET", "/api/fetch-note?id=1", nil)
 
 	// serve request
 	r.ServeHTTP(w, request)

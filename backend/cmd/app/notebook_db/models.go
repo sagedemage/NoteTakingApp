@@ -1,23 +1,23 @@
 package notebook_db
 
 import (
-	"gorm.io/gorm"
 	"golang.org/x/crypto/bcrypt"
+	"gorm.io/gorm"
 )
 
 type User struct {
 	gorm.Model
-	Email		string
-	Username	string
-	Password	[]byte
-	Note		[]Note
+	Email    string
+	Username string
+	Password []byte
+	Note     []Note
 }
 
 type Note struct {
 	gorm.Model
 	Title       string
 	Description string
-	UserID		uint
+	UserID      uint
 }
 
 /* User functions */
@@ -46,7 +46,7 @@ func CreateNewNoteEntry(db *gorm.DB, title string, description string, user_id u
 	db.Create(&Note{Title: title, Description: description, UserID: user_id})
 }
 
-func GetNoteEntry(db *gorm.DB, note_id uint) *Note {
+func GetNoteEntry(db *gorm.DB, note_id int) *Note {
 	/* Get the entry by id */
 	var note = &Note{}
 	db.First(&note, note_id)
