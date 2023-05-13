@@ -22,7 +22,8 @@ jobs:
         run: CI=false npm run build
       - name: Serve React App
         working-directory: ./frontend
-        run: npx serve -s build
+        run: |
+          npx serve -s build
       - name: Run Lighthouse CI
         working-directory: ./frontend
         run: | 
