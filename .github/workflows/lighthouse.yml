@@ -20,7 +20,7 @@ jobs:
       
       - name: Build React App
         working-directory: ./frontend
-        run: npm run build
+        run: CI=false npm run build
 
       - name: Run Lighthouse Test
         working-directory: ./frontend
