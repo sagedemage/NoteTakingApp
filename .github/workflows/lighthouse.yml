@@ -1,0 +1,28 @@
+name: Lighthouse (Front-end)
+
+on:
+  pull_request:
+    branches: [ 'main' ]
+  push:
+    branches: [ '*' ]
+
+jobs:
+  lighthouseci:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 'lts/*'
+      - name: Install Dependencies and Build React App
+        working-directory: ./frontend
+        run: npm install
+      - name: Build React App
+        working-directory: ./frontend
+        run: npm run build
+      - name: Run Lighthouse CI
+        working-directory: ./frontend
+        run: | 
+          npm install -g @lhci/cli@0.11.x
+          lhci autorun
+    

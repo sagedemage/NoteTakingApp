@@ -78,7 +78,7 @@ function ProgressForPasswordOnKeyPress(password_field: HTMLInputElement, progres
 
 export function PasswordValidator() {
 	/* Password Validator */
-	let password_field: HTMLInputElement = (<HTMLInputElement>document.getElementById("password"));
+	let password_field: HTMLInputElement = (document.getElementById("password") as HTMLInputElement);
 	let progress_bar = new ProgressBar();
 
 	password_field!.onkeyup = function() {

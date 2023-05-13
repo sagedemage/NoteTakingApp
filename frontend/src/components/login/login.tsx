@@ -22,7 +22,7 @@ export default function Login() {
 		if (error_status === true) {
 			setSuccessStatus(false);
 		}
-	});
+	}, [msg_success, error_status]);
 
 	const handleUsernameChange: ChangeEventHandler<HTMLInputElement> = e => {
 		const target = e.target as HTMLInputElement;

@@ -1,8 +1,10 @@
-name: Development Workflow
+name: Unit Test (Back-end)
 
 on:
   pull_request:
     branches: [ 'main' ]
+  push:
+    branches: [ '*' ]
 
 jobs:
   run_go_test:

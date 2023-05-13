@@ -2,7 +2,7 @@ build
 *.kra
 *.png
 *.xcf
-.env
+backend/.env
 *~
 backend/cmd/app/tests/database/notebook.db 
 
