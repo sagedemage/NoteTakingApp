@@ -14,15 +14,15 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: 'lts/*'
-      - name: word
+      - name: Install lighthouse ci
         working-directory: ./frontend
         run: npm install && npm install -g @lhci/cli@0.11.x
       
-      - name: word 2
+      - name: Build React App
         working-directory: ./frontend
         run: npm run build
 
-      - name: word 3
+      - name: Run Lighthouse Test
         working-directory: ./frontend
         run: lhci autorun
     
