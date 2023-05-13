@@ -1,7 +1,6 @@
 /* Main App */
 
 import './app.css';
-import 'bootstrap/dist/css/bootstrap.min.css';
 import axios from "axios";
 import { lazy, Suspense } from 'react';
 import { Route, Routes } from "react-router-dom";
