@@ -7,7 +7,7 @@ module.exports = {
           'http://localhost:3000/login',
           'http://localhost:3000/register',
         ],
-        startServerCommand: 'npm run build && npm start',
+        startServerCommand: 'npm run build && npm run serve',
       },
       assert: {
         assertions: {
