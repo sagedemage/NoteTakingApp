@@ -1,0 +1,28 @@
+name: Lighthouse (Front-end)
+
+on:
+  pull_request:
+    branches: [ 'main' ]
+  push:
+    branches: [ '*' ]
+
+jobs:
+  lighthouseci:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 'lts/*'
+      - name: word
+        working-directory: ./frontend
+        run: npm install && npm install -g @lhci/cli@0.11.x
+      
+      - name: word 2
+        working-directory: ./frontend
+        run: npm run build
+
+      - name: word 3
+        working-directory: ./frontend
+        run: lhci autorun
+    
