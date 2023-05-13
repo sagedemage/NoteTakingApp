@@ -18,8 +18,10 @@ jobs:
         working-directory: ./frontend
         run: npm install
       - name: Build React App
+        working-directory: ./frontend
         run: CI=false npm run build
       - name: Serve React App
+        working-directory: ./frontend
         run: npx serve -s build
       - name: Run Lighthouse CI
         working-directory: ./frontend
