@@ -19,6 +19,7 @@ jobs:
         run: | 
           npm install
           CI=false npm run build
+          npx serve -s build
 
       - name: Run Lighthouse CI
         working-directory: ./frontend
