@@ -1,4 +1,4 @@
-name: Unit Test (Back-end)
+name: Back-end
 
 on:
   pull_request:
