@@ -59,7 +59,7 @@ export default function Register() {
 			}).then((response) => {
 				if (response.data.registered === true) {
 					// create new url of the login page
-					var url = new URL("/login", "http://localhost:3000");
+					const url = new URL("/login", "http://localhost:3000");
 					// add url parameter
 					url.searchParams.append("msg_success", response.data.msg_success);
 					// redirect to the login page

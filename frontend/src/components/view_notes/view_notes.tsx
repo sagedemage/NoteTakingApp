@@ -45,7 +45,7 @@ export default function Notes() {
 		/* Open Delete Confirm Popup Window */
 		setNoteId(parseInt(note_id));
 		setShowDeleteNoteConfirm(true);
-	};
+	}
 
 	function handleShowEditNote(note_id: string) {
 		/* Open Edit Note Form Popup Window */
@@ -63,7 +63,7 @@ export default function Notes() {
 		// set note id
 		setNoteId(parseInt(note_id));
 		setShowEditNote(true)
-	};
+	}
 
 	/*	
 	Handle title and description changes

@@ -6,8 +6,8 @@ import Cookies from 'universal-cookie';
 
 export default function Login() {
 	/* Login Page */
-	let url = new URL(window.location.href);
-	let msg_success = url.searchParams.get("msg_success");
+	const url = new URL(window.location.href);
+	const msg_success = url.searchParams.get("msg_success");
 
 	const [username, setUsername] = useState('');
 	const [password, setPassword] = useState('');
@@ -26,13 +26,13 @@ export default function Login() {
 
 	const handleUsernameChange: ChangeEventHandler<HTMLInputElement> = e => {
 		const target = e.target as HTMLInputElement;
-    	setUsername(target.value);
-  	};
+		setUsername(target.value);
+	};
 
 	const handlePasswordChange: ChangeEventHandler<HTMLInputElement> = e => {
 		const target = e.target as HTMLInputElement;
-    	setPassword(target.value);
-  	};
+		setPassword(target.value);
+	};
 
 	const handleSubmit: FormEventHandler<HTMLFormElement> = async e => {
 		e.preventDefault();
