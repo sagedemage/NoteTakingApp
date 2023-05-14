@@ -1,4 +1,4 @@
-name: Lighthouse (Front-end)
+name: Front-end
 
 on:
   pull_request:
@@ -16,13 +16,14 @@ jobs:
           node-version: 'lts/*'
       - name: Install Dependencies and Build React App
         working-directory: ./frontend
-        run: npm install
+        run: npm install && npm install -g @lhci/cli@0.11.x
+      - name: Run ESLint
+        working-directory: ./frontend
+        run: npm run lint
       - name: Build React App
         working-directory: ./frontend
         run: npm run build
       - name: Run Lighthouse CI
         working-directory: ./frontend
-        run: | 
-          npm install -g @lhci/cli@0.11.x
-          lhci autorun
+        run: lhci autorun
     
