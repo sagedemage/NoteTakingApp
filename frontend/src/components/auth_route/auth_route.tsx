@@ -1,6 +1,6 @@
 /* Authorization Routes */
 
-import { Navigate, Outlet, useLocation } from 'react-router-dom';
+import { Navigate, Outlet, useLocation } from "react-router-dom";
 import axios from "axios";
 import {useEffect, useState} from "react";
 import Cookies from "universal-cookie";
@@ -14,7 +14,7 @@ export const AuthRoute = () => {
 		const cookies = new Cookies();
 		const token = cookies.get("token");
 		if (token !== undefined) {
-			axios.post(`http://localhost:8080/api/get-decoded-token`, {
+			axios.post("http://localhost:8080/api/get-decoded-token", {
 				token: token,
 			}).then((response) => {
 				if (response.data.auth === true) {

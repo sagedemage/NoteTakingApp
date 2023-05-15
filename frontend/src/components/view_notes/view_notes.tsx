@@ -4,20 +4,20 @@ import { useEffect, useState, ChangeEventHandler, FormEventHandler, MouseEventHa
 import { getToken } from "components/token/token";
 import axios from "axios";
 import "./view_notes.css";
-import Modal from 'react-bootstrap/Modal';
-import Button from 'react-bootstrap/Button';
-import Form from 'react-bootstrap/Form';
+import Modal from "react-bootstrap/Modal";
+import Button from "react-bootstrap/Button";
+import Form from "react-bootstrap/Form";
 
 export default function Notes() {
 	/* View Notes Page (Dashboard Page) */
 	const [notes, setNotes] = useState([]);
 	const [note_id, setNoteId] = useState<number | undefined>(undefined);
 
-	const [title_edit, setTitleEdit] = useState('');
-	const [description_edit, setDescriptionEdit] = useState('');
+	const [title_edit, setTitleEdit] = useState("");
+	const [description_edit, setDescriptionEdit] = useState("");
 
-	const [title_add, setTitleAdd] = useState('');
-	const [description_add, setDescriptionAdd] = useState('');
+	const [title_add, setTitleAdd] = useState("");
+	const [description_add, setDescriptionAdd] = useState("");
 
 	const [show_add_note, setShowAddNote] = useState(false);
 	const [show_edit_note, setShowEditNote] = useState(false);
@@ -50,7 +50,7 @@ export default function Notes() {
 	function handleShowEditNote(note_id: string) {
 		/* Open Edit Note Form Popup Window */
 		// Fetch Note
-		axios.get(`http://localhost:8080/api/fetch-note?id=` + note_id)
+		axios.get("http://localhost:8080/api/fetch-note?id=" + note_id)
 		.then((response) => {
 			if (note_id !== undefined) {
 				setTitleEdit(response.data.title);
@@ -92,12 +92,12 @@ export default function Notes() {
 		const token = getToken();
 		let user_id = undefined;
 		if (token !== undefined) {
-			axios.post(`http://localhost:8080/api/get-decoded-token`, {
+			axios.post("http://localhost:8080/api/get-decoded-token", {
 				token: token,
 			}).then((response) => {
 				if (response.data.user_id !== undefined) {
 					user_id = response.data.user_id;
-					axios.post(`http://localhost:8080/api/view-notes`, {
+					axios.post("http://localhost:8080/api/view-notes", {
 						user_id: user_id,
 					}).then((response) => {
 						setNotes(response.data.notes);
@@ -119,18 +119,18 @@ export default function Notes() {
 		const token = getToken();
 		let user_id = undefined;
 		if (token !== undefined) {
-			axios.post(`http://localhost:8080/api/get-decoded-token`, {
+			axios.post("http://localhost:8080/api/get-decoded-token", {
 				token: token,
 			}).then((response) => {
 				if (response.data.user_id !== undefined) {
 					user_id = response.data.user_id;
-					axios.post(`http://localhost:8080/api/add-new-note`, {
+					axios.post("http://localhost:8080/api/add-new-note", {
 						title: title_add,
 						description: description_add,
 						user_id: user_id,
 					}).then(() => {
 						// redirect to the dashboard
-						window.location.href = '/dashboard';
+						window.location.href = "/dashboard";
 					}).catch(e => {
 						console.log(e);
 					})
@@ -144,7 +144,7 @@ export default function Notes() {
 	/* Edit Note */
 	const handleEditSubmit: MouseEventHandler<HTMLFormElement> = async (e) => {
 		e.preventDefault();
-		axios.patch(`http://localhost:8080/api/edit-note`, {
+		axios.patch("http://localhost:8080/api/edit-note", {
 			note_id: note_id,
 			title: title_edit,
 			description: description_edit,
@@ -159,7 +159,7 @@ export default function Notes() {
 	/* Delete Note */
 	const handleDeleteNote: FormEventHandler<HTMLButtonElement> = async (e) => {
 		e.preventDefault();
-		axios.delete(`http://localhost:8080/api/delete-note`, {
+		axios.delete("http://localhost:8080/api/delete-note", {
 			data: {note_id: note_id},
 		}).then(() => {
 			// redirect to the dashboard

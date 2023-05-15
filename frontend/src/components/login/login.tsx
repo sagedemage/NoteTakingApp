@@ -2,18 +2,18 @@
 
 import axios from "axios";
 import { FormEventHandler, ChangeEventHandler, useEffect, useState } from "react";
-import Cookies from 'universal-cookie';
+import Cookies from "universal-cookie";
 
 export default function Login() {
 	/* Login Page */
 	const url = new URL(window.location.href);
 	const msg_success = url.searchParams.get("msg_success");
 
-	const [username, setUsername] = useState('');
-	const [password, setPassword] = useState('');
+	const [username, setUsername] = useState("");
+	const [password, setPassword] = useState("");
 	const [error_status, setErrorStatus] = useState(false);
 	const [success_status, setSuccessStatus] = useState(false);
-	const [msg_error, setMsgError] = useState('');
+	const [msg_error, setMsgError] = useState("");
 
 	useEffect(() => {
 		if (msg_success !== null) {
@@ -36,7 +36,7 @@ export default function Login() {
 
 	const handleSubmit: FormEventHandler<HTMLFormElement> = async e => {
 		e.preventDefault();
-		axios.post(`http://localhost:8080/api/login`, {
+		axios.post("http://localhost:8080/api/login", {
 			username: username,
 			password: password,
 		}).then((response) => {
@@ -44,7 +44,7 @@ export default function Login() {
 			if (response.data.auth === true) {
 				// set cookie
 				cookies.set("token", response.data.token);
-                window.location.href = '/dashboard';
+                window.location.href = "/dashboard";
 			}
 			else {
 				// display error message

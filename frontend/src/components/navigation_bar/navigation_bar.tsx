@@ -1,8 +1,8 @@
 /* Navigation Bar */
 
 import "./navigation_bar.css";
-import { Nav, Navbar, Container } from 'react-bootstrap';
-import NavDropdown from 'react-bootstrap/NavDropdown';
+import { Nav, Navbar, Container } from "react-bootstrap";
+import NavDropdown from "react-bootstrap/NavDropdown";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { getToken } from "components/token/token";
@@ -14,7 +14,7 @@ export const MyNavBar = () => {
 		/* Fetch all the Notes for the Current User */
 		const token = getToken();
 		if (token !== undefined) {
-			axios.post(`http://localhost:8080/api/get-decoded-token`, {
+			axios.post("http://localhost:8080/api/get-decoded-token", {
 				token: token,
 			}).then((response) => {
 				if (response.data.auth === true) {

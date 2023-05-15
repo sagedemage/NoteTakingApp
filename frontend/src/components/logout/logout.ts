@@ -1,5 +1,5 @@
 /* Logout */
-import Cookies from 'universal-cookie';
+import Cookies from "universal-cookie";
 
 export const Logout = () => {
     /* Logout Action */
@@ -8,5 +8,5 @@ export const Logout = () => {
     cookies.remove("token");
 
     // redirect to the home page
-    window.location.href = '/';
+    window.location.href = "/";
 };
