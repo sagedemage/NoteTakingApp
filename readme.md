@@ -1,7 +1,7 @@
 # Notebook
-[![Production Workflow](https://github.com/sagedemage/NotebookApp/actions/workflows/prod.yml/badge.svg)](https://github.com/sagedemage/NotebookApp/actions/workflows/prod.yml)
+[![Backend Workflow](https://github.com/sagedemage/NotebookApp/actions/workflows/backend.yml/badge.svg)](https://github.com/sagedemage/NotebookApp/actions/workflows/backend.yml)
 
-[![Development Workflow](https://github.com/sagedemage/NotebookApp/actions/workflows/dev.yml/badge.svg)](https://github.com/sagedemage/NotebookApp/actions/workflows/dev.yml)
+[![Frontend Workflow](https://github.com/sagedemage/NotebookApp/actions/workflows/frontend.yml/badge.svg)](https://github.com/sagedemage/NotebookApp/actions/workflows/frontend.yml)
 
 ![](images/dashboard-page.webp)
 
