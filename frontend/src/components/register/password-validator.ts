@@ -26,7 +26,7 @@ class ProgressBar {
 		this.password_statuses.set("upper_case", false);
 		this.password_statuses.set("number", false);
 		this.password_statuses.set("good_length", false);
-		this.progress_bar_element = document.getElementById("p-bar")!;
+		this.progress_bar_element = document.getElementById("p-bar") as HTMLElement;
 	}
 
 	increase_bar(name: string, value: number) {
@@ -48,7 +48,7 @@ class ProgressBar {
 
 function ProgressChangeOnPattern(password_field: HTMLInputElement, progress_bar: ProgressBar, pattern: RegExp, password_status: string, info_id: string) {
 	/* Progress changes if the pattern matches */
-	const info_element: HTMLElement =  document.getElementById(info_id)!;
+	const info_element: HTMLElement =  document.getElementById(info_id) as HTMLElement;
 	if (password_field.value.match(pattern)) {
 		// Increase the progress bar if the pattern is met
 		progress_bar.increase_bar(password_status, 33.33);
@@ -81,10 +81,10 @@ function ProgressForPasswordOnKeyPress(password_field: HTMLInputElement, progres
 
 export function PasswordValidator() {
 	/* Password Validator */
-	const password_field: HTMLInputElement = (document.getElementById("password") as HTMLInputElement);
+	const password_field: HTMLInputElement = document.getElementById("password") as HTMLInputElement;
 	const progress_bar = new ProgressBar();
 
-	password_field!.onkeyup = function() {
+	password_field.onkeyup = function() {
 		ProgressForPasswordOnKeyPress(password_field, progress_bar);
 	};
 }
