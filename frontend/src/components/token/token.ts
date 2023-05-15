@@ -1,6 +1,6 @@
 /* Token */
 
-import Cookies from 'universal-cookie';
+import Cookies from "universal-cookie";
 
 export function getToken() {
 	/* Get token */

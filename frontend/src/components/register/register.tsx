@@ -13,13 +13,13 @@ export default function Register() {
 		PasswordValidator();
 	}, []);
 
-	const [email, setEmail] = useState('');
-	const [username, setUsername] = useState('');
-	const [password, setPassword] = useState('');
-	const [confirm_pwd, setConfirm] = useState('');
+	const [email, setEmail] = useState("");
+	const [username, setUsername] = useState("");
+	const [password, setPassword] = useState("");
+	const [confirm_pwd, setConfirm] = useState("");
 	const [error_status, setErrorStatus] = useState(false);
 	const [pwd_error_status, setPwdErrorStatus] = useState(false);
-	const [msg_error, setMsgError] = useState('');
+	const [msg_error, setMsgError] = useState("");
 
 	const handleEmailChange: ChangeEventHandler<HTMLInputElement> = event => {
 		setEmail(event.target.value);
@@ -51,7 +51,7 @@ export default function Register() {
 			setMsgError("passwords do not match");
 		}
 		else {
-			axios.post(`http://localhost:8080/api/register`, {
+			axios.post("http://localhost:8080/api/register", {
 				email: email,
 				username: username,
 				password: password,

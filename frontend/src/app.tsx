@@ -1,19 +1,19 @@
 /* Main App */
 
-import './app.css';
+import "./app.css";
 import axios from "axios";
-import { lazy, Suspense } from 'react';
+import { lazy, Suspense } from "react";
 import { Route, Routes } from "react-router-dom";
 import { AuthRoute } from "./components/auth_route/auth_route";
 import { MyNavBar } from "./components/navigation_bar/navigation_bar";
 
 /* Page Components */
-const Home = lazy(() => import('./components/simple_pages/home'));
-const About = lazy(() => import('./components/simple_pages/about'));
-const Login = lazy(() => import('./components/login/login'));
-const Register = lazy(() => import('./components/register/register'));
-const Notes = lazy(()=> import('./components/view_notes/view_notes'));
-const PageNotFound = lazy(() => import('./components/page_not_found/page_not_found'));
+const Home = lazy(() => import("./components/simple_pages/home"));
+const About = lazy(() => import("./components/simple_pages/about"));
+const Login = lazy(() => import("./components/login/login"));
+const Register = lazy(() => import("./components/register/register"));
+const Notes = lazy(()=> import("./components/view_notes/view_notes"));
+const PageNotFound = lazy(() => import("./components/page_not_found/page_not_found"));
 
 
 function App() {
