@@ -5,10 +5,10 @@ import { Nav, Navbar, Container } from "react-bootstrap";
 import NavDropdown from "react-bootstrap/NavDropdown";
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { getToken } from "components/token/token";
-import { Logout } from "components/logout/logout";
+import { getToken } from "components/auth/token/token";
+import { Logout } from "components/auth/logout/logout";
 
-export const MyNavBar = () => {
+export default function MyNavBar() {
 	const [isAuth, setAuth] = useState(false);
 	useEffect(() => {
 		/* Fetch all the Notes for the Current User */

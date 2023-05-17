@@ -1,7 +1,7 @@
 /* View Notes (Dashboard) */
 
 import { useEffect, useState, ChangeEventHandler, FormEventHandler, MouseEventHandler } from "react";
-import { getToken } from "components/token/token";
+import { getToken } from "components/auth/token/token";
 import axios from "axios";
 import "./view_notes.css";
 import Modal from "react-bootstrap/Modal";
