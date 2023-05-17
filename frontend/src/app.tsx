@@ -5,15 +5,18 @@ import axios from "axios";
 import { lazy, Suspense } from "react";
 import { Route, Routes } from "react-router-dom";
 
+/* Auth Components */
 const AuthRoute = lazy(() => import("./components/auth/auth_route/auth_route"));
+const Login = lazy(() => import("./components/auth/login/login"));
+const Register = lazy(() => import("./components/auth/register/register"));
+
+/* UI Components */
 const MyNavBar = lazy(() => import("./components/ui/navigation_bar/navigation_bar"));
 const Footer = lazy(() => import("components/ui/footer/footer"));
 
 /* Page Components */
 const Home = lazy(() => import("./components/pages/home"));
 const About = lazy(() => import("./components/pages/about"));
-const Login = lazy(() => import("./components/auth/login/login"));
-const Register = lazy(() => import("./components/auth/register/register"));
 const Notes = lazy(()=> import("./components/pages/view_notes/view_notes"));
 const PageNotFound = lazy(() => import("./components/pages/page_not_found"));
 
