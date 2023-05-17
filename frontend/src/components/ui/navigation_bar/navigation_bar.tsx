@@ -8,7 +8,7 @@ import { useEffect, useState } from "react";
 import { getToken } from "components/auth/token/token";
 import { Logout } from "components/auth/logout/logout";
 
-export default function MyNavBar() {
+export default function NavBar() {
 	const [isAuth, setAuth] = useState(false);
 	useEffect(() => {
 		/* Fetch all the Notes for the Current User */

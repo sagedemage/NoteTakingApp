@@ -11,7 +11,7 @@ const Login = lazy(() => import("./components/auth/login/login"));
 const Register = lazy(() => import("./components/auth/register/register"));
 
 /* UI Components */
-const MyNavBar = lazy(() => import("./components/ui/navigation_bar/navigation_bar"));
+const NavBar = lazy(() => import("./components/ui/navigation_bar/navigation_bar"));
 const Footer = lazy(() => import("components/ui/footer/footer"));
 
 /* Page Components */
@@ -25,7 +25,7 @@ function App() {
 	axios.defaults.withCredentials = true;
 	return (
 		<div id="body">
-			<MyNavBar />
+			<NavBar />
 			<div className="gaps" id="content">
 				<Suspense fallback={<h1>Still Loading...</h1>}>
 					<Routes>
