@@ -5,7 +5,7 @@ import axios from "axios";
 import {useEffect, useState} from "react";
 import Cookies from "universal-cookie";
 
-export const AuthRoute = () => {
+export default function AuthRoute() {
 	const origin = useLocation();
 	const [isAuth, setAuth] = useState(false);
 

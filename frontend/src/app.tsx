@@ -4,23 +4,28 @@ import "./app.css";
 import axios from "axios";
 import { lazy, Suspense } from "react";
 import { Route, Routes } from "react-router-dom";
-import { AuthRoute } from "./components/auth_route/auth_route";
-import { MyNavBar } from "./components/navigation_bar/navigation_bar";
+
+/* Auth Components */
+const AuthRoute = lazy(() => import("./components/auth/auth_route/auth_route"));
+const Login = lazy(() => import("./components/auth/login/login"));
+const Register = lazy(() => import("./components/auth/register/register"));
+
+/* UI Components */
+const NavBar = lazy(() => import("./components/ui/navigation_bar/navigation_bar"));
+const Footer = lazy(() => import("components/ui/footer/footer"));
 
 /* Page Components */
-const Home = lazy(() => import("./components/simple_pages/home"));
-const About = lazy(() => import("./components/simple_pages/about"));
-const Login = lazy(() => import("./components/login/login"));
-const Register = lazy(() => import("./components/register/register"));
-const Notes = lazy(()=> import("./components/view_notes/view_notes"));
-const PageNotFound = lazy(() => import("./components/page_not_found/page_not_found"));
+const Home = lazy(() => import("./components/pages/home"));
+const About = lazy(() => import("./components/pages/about"));
+const Notes = lazy(()=> import("./components/pages/view_notes/view_notes"));
+const PageNotFound = lazy(() => import("./components/pages/page_not_found"));
 
 
 function App() {
 	axios.defaults.withCredentials = true;
 	return (
 		<div id="body">
-			<MyNavBar />
+			<NavBar />
 			<div className="gaps" id="content">
 				<Suspense fallback={<h1>Still Loading...</h1>}>
 					<Routes>
@@ -36,9 +41,7 @@ function App() {
 					</Routes>
 				</Suspense>
 			</div>
-			<footer id="copyright">
-				<p> &copy; {(new Date().getFullYear())} Salmaan Saeed </p>
-			</footer>
+			<Footer />
 		</div>
 	);
 }
